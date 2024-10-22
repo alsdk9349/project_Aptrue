@@ -17,12 +17,12 @@ public class SuperUserEntity {
     private long superuserId;
 
     @NotNull
-    @Column(name = "aptname", unique = true)
-    private String aptName;
-
-    @NotNull
     @Column(name = "email", unique = true, length = 100)
     private String email;
+
+    @NotNull
+    @Column(name = "issuperuser")
+    private boolean issuperuser;
 
     @NotNull
     @Column(name = "password")

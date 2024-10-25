@@ -25,4 +25,8 @@ public class AdminController {
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.LOGIN_OK, loginResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
+
+    public void test() {
+
+    }
 }

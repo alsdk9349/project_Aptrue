@@ -10,10 +10,6 @@ COPY gradle ./gradle
 COPY build.gradle ./build.gradle
 COPY settings.gradle ./settings.gradle
 
-# 환경 변수 설정 (Java 21의 올바른 경로)
-ENV JAVA_HOME /usr/lib/jvm/java-21-openjdk-amd64
-ENV PATH $JAVA_HOME/bin:$PATH
-
 # gradlew 파일에 실행 권한 부여
 RUN chmod +x gradlew
 

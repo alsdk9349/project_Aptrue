@@ -1,4 +1,5 @@
-@import 'reset.css';
+// @forward './constants/colors.scss';
+@use 'reset.scss';
 
 @font-face {
   font-family: 'regular';

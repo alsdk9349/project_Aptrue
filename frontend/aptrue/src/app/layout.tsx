@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 import RecoilRootProvider from "@/utils/RecoilRootProvider";
 
 export const metadata: Metadata = {

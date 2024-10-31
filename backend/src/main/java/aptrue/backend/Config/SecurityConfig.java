@@ -15,6 +15,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/public/**").permitAll() // 특정 경로에 대한 접근 허용
                         .requestMatchers("/picture/upload").permitAll() // 업로드 경로 허용
+                        .requestMatchers("/video/upload").permitAll() // 업로드 경로 허용
                         .anyRequest().authenticated() // 그 외 경로는 인증 필요
                 )
                 .formLogin(form -> form.permitAll()); // 기본 로그인 폼 사용 및 접근 허용

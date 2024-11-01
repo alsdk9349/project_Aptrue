@@ -12,3 +12,11 @@ type ButtonSize =
 
 // button variant style 타입 정의
 type ButtonColor = 'blue' | 'gray' | 'red' | 'white';
+
+interface Apartment {
+  aptname: string;
+  aptImg: string;
+  location: string;
+  block: number;
+  household: number;
+}

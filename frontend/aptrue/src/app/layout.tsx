@@ -17,9 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <RecoilRootProvider>{children}</RecoilRootProvider>
-        <div>
-          <WebNav />
-        </div>
+        <div></div>
       </body>
     </html>
   );

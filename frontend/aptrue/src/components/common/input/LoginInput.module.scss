@@ -1,0 +1,35 @@
+@use './../../../styles/constants/colors.scss' as colors;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    font-family: 'bold';
+    width: fit-content;
+    
+    .label {
+        font-family: 'bold';
+        font-size: 24px;
+        padding-left: 5px;
+        color: colors.$gray7;
+    }
+
+    input {
+        height: 50px;
+        width: 415px;
+        background-color: colors.$white;     
+        border: solid 3px colors.$gray4;
+        border-radius: 10px;
+        font-size: 20px; 
+        font-family: 'medium';
+        padding-left: 20px;
+
+        &::placeholder {
+            color: colors.$gray4;
+        }
+
+        &:hover {
+            border-color: colors.$blue4;
+        }
+    }
+}

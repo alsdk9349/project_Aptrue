@@ -1,0 +1,14 @@
+// button
+// button size 타입 정의
+type ButtonSize =
+  | 'webBig'
+  | 'webMid'
+  | 'webRegular'
+  | 'webSmall'
+  | 'webTiny'
+  | 'appBig'
+  | 'appMid'
+  | 'appRegular';
+
+// button variant style 타입 정의
+type ButtonColor = 'blue' | 'gray' | 'red' | 'white';

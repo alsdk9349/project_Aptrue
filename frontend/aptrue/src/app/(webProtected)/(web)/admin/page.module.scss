@@ -2,6 +2,7 @@
 
 .container {
     margin-left: 210px;
+    margin-top: 50px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -13,7 +14,7 @@
         font-size: 18px;
         color: colors.$gray8;
         box-sizing: border-box;
-        width: 100%;
-        padding: 20px 90px;
+        width: 1009px;
+        padding: 20px 5px;
     }
 }

@@ -1,0 +1,16 @@
+@use '@/styles/constants/colors.scss' as colors;
+
+.container {
+  width: 279px;
+  height: 100vh;
+  box-shadow: inset 1px 0 0 0 colors.$gray2;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: 'medium';
+  font-size: 18px;
+  margin-top: 22px;
+  margin-left: 24px;
+}

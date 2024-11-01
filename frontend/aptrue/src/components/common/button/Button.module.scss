@@ -1,6 +1,6 @@
-@use "@/styles/constants/colors.scss" as colors;
+@use '@/styles/constants/colors.scss' as colors;
 
-.base-button-style{
+.base-button-style {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,14 +47,14 @@
   font-size: 16px;
 }
 
-.appBig{
+.appBig {
   width: 300px;
   height: 65px;
   font-family: 'bold';
   font-size: 24px;
 }
 
-.appMid{
+.appMid {
   width: 150px;
   height: 40px;
   font-size: 16px;
@@ -64,24 +64,23 @@
   width: 345px;
   height: 25px;
   font-size: 12px;
-
 }
 
 .blue {
-  background-color: colors.$blue4 ;
+  background-color: colors.$blue4;
   color: colors.$white;
 }
 .gray {
-  background-color: colors.$gray5 ;
+  background-color: colors.$gray5;
   color: colors.$white;
 }
 .red {
-  background-color: colors.$redDelte ;
+  background-color: colors.$redDelte;
   color: colors.$white;
 }
 
-.white{
-  background-color: colors.$white ;
+.white {
+  background-color: colors.$white;
   border: 1px solid colors.$gray5;
   color: colors.$gray6;
 }

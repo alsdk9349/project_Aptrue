@@ -1,5 +1,26 @@
 @use '@/styles/constants/colors.scss' as colors;
 
 .container {
-  margin-left: 220px;
+  margin-left: 210px;
+  width: 687px;
+}
+
+.content {
+  margin-top: 15px;
+  margin-left: 40px;
+}
+
+.title {
+  font-family: 'medium';
+  font-size: 18px;
+}
+
+.button {
+  margin: 13px 0;
+}
+
+.notification {
+  position: fixed;
+  top: 0;
+  right: 0;
 }

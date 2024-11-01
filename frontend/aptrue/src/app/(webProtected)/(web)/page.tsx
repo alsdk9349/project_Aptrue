@@ -6,6 +6,7 @@ import Button from '@/components/common/button/Button';
 import GeneralInput from '@/components/common/input/GeneralInput';
 import TimeInput from '@/components/common/input/TimeInput';
 import LoginInput from '@/components/common/input/LoginInput';
+import Pagination from '@/components/common/pagination/Pagination';
 import Headerbar from '@/components/common/header/Headerbar';
 
 export default function Home() {
@@ -27,7 +28,8 @@ export default function Home() {
 
   return (
     <div className={style.container}>
-      <Button color="white" size="webBig" clickedColor="blue">
+      <Pagination pageProps=""></Pagination>
+      <Button color="lightBlue" size="webSmall">
         하이
       </Button>
       <div>Home</div>

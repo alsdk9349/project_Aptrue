@@ -11,7 +11,7 @@ type ButtonSize =
   | 'appRegular';
 
 // button variant style 타입 정의
-type ButtonColor = 'blue' | 'gray' | 'red' | 'white';
+type ButtonColor = 'lightBlue' | 'blue' | 'gray' | 'red' | 'white';
 
 interface Apartment {
   aptname: string;

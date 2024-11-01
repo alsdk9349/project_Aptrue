@@ -17,7 +17,7 @@ COPY .. .
 RUN npm run build
 
 # 프로덕션 이미지 설정
-FROM node:16 AS runner
+FROM node:18.20.4 AS runner
 
 # 작업 디렉토리 설정
 WORKDIR /app

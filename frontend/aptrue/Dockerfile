@@ -1,5 +1,5 @@
 # 베이스 이미지로 Node.js 사용
-FROM node:18 AS builder
+FROM node:18.20.4 AS builder
 
 # 작업 디렉토리 설정
 WORKDIR /app

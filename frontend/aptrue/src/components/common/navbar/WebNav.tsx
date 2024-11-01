@@ -86,6 +86,12 @@ export default function WebNav() {
             <span className={style.text}>관리자 계정</span>
           </Link>
         </div>
+        <div className={style.logout}>
+          <div className={style.iconWrapper}>
+            <img src="/icons/logout.png" alt="" className={style.icon} />
+          </div>
+          <span className={style.text}>로그아웃</span>
+        </div>
       </div>
     </div>
   );

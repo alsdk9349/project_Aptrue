@@ -1,0 +1,6 @@
+@use "@/styles/constants/colors.scss" as colors; *
+
+.container {
+  margin-top: 100px;
+  color: colors.$blue5;
+}

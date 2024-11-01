@@ -18,10 +18,10 @@ export default function ApartCard() {
       <img src={data.aptImg} alt={data.aptname} className={style.image} />
       <div className={style.textContainer}>
         <p className={style.title}>{data.aptname}</p>
-        <p className={style.location}>
+        <div className={style.location}>
           <p className={style.city}>{city}</p>{' '}
           <p className={style.restLocation}>{restLocation}</p>
-        </p>
+        </div>
         <p className={style.details}>
           <span>총 {data.household}세대</span>, <span>{data.block}동</span>
         </p>

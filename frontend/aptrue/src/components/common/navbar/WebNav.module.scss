@@ -1,7 +1,7 @@
 @use '@/styles/constants/colors.scss' as colors;
 
 .navbar {
-  width: 200px;
+  width: 210px;
   height: 100vh;
   background-color: white;
   box-shadow: inset -1px 0 0 0 colors.$gray2; /* 안쪽에 stroke */
@@ -11,7 +11,7 @@
 }
 
 .container {
-  padding-left: 10px;
+  padding: 0 15px;
   font-family: 'medium';
 
   .title {
@@ -58,4 +58,13 @@
 .active {
   background-color: colors.$blue5;
   color: white;
+}
+
+.logout {
+  @extend .commonItem; /* .commonItem의 스타일을 상속 */
+  background-color: colors.$gray2; /* 로그아웃 버튼만 다른 배경색 적용 */
+  display: flex; /* Flexbox 레이아웃 적용 */
+  align-items: center; /* 수직 중앙 정렬 */
+  position: fixed;
+  bottom: 18px;
 }

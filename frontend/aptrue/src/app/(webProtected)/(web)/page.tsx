@@ -7,6 +7,7 @@ import GeneralInput from '@/components/common/input/GeneralInput';
 import TimeInput from '@/components/common/input/TimeInput';
 import LoginInput from '@/components/common/input/LoginInput';
 import Pagination from '@/components/common/pagination/Pagination';
+import Headerbar from '@/components/common/header/Headerbar';
 
 export default function Home() {
   const changeName = (name: string) => {

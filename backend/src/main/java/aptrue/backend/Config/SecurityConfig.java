@@ -18,8 +18,7 @@ public class SecurityConfig {
                         .requestMatchers("/video/upload").permitAll() // 업로드 경로 허용
                         .anyRequest().authenticated() // 그 외 경로는 인증 필요
                 )
-                .formLogin(form -> form.disable()) // 기본 로그인 폼 비활성화
-                .httpBasic(httpBasic -> httpBasic.disable()); // HTTP Basic 인증 비활성화
+                .formLogin(form -> form.permitAll()); // 기본 로그인 폼 사용 및 접근 허용
 
         return http.build();
     }

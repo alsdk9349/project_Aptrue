@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'; // App Router용 훅
 import style from './WebNav.module.scss';
+import ApartCard from './ApartCard';
 
 export default function WebNav() {
   const pathname = usePathname(); // 현재 경로 가져오기
@@ -21,6 +22,9 @@ export default function WebNav() {
     <div className={style.navbar}>
       <div className={style.container}>
         <div className={style.title}>APTrue.</div>
+        <div className={style.card}>
+          <ApartCard />
+        </div>
         <div className={style.select}>
           <Link
             href="/"

@@ -8,10 +8,19 @@
   flex-direction: column;
 }
 
-.title {
-  font-family: 'medium';
-  font-size: 18px;
+.titlecontainer {
+  display: flex;
+  gap: 135px;
   margin-top: 22px;
   margin-left: 24px;
   margin-bottom: 18px;
+}
+
+.title {
+  font-family: 'medium';
+  font-size: 18px;
+}
+
+.count {
+  color: colors.$blue2;
 }

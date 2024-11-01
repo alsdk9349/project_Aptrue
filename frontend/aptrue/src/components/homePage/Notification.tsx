@@ -1,7 +1,11 @@
+'use client';
+
+import { useState } from 'react';
 import AlarmCard from './AlarmCard';
+import Dropdown from './Dropdown';
 import style from './Notification.module.scss';
 
-const data = [
+const data: Alarm[] = [
   {
     notificationId: 1,
     message: '101동 주변 화재 발생',
@@ -32,10 +36,28 @@ const data = [
 ];
 
 export default function Notification() {
+  const [selectedFilter, setSelectedFilter] = useState<string>('전체');
+
+  // 필터링된 데이터를 반환하는 함수
+  const filteredData = data.filter((alarm) => {
+    if (selectedFilter === '전체') return true;
+    if (selectedFilter === '미완료') return !alarm.isCompleted;
+    if (selectedFilter === '완료') return alarm.isCompleted;
+    if (selectedFilter === '긴급') return alarm.emergency;
+    return true;
+  });
+
   return (
     <div className={style.container}>
-      <div className={style.title}>알림</div>
-      {data.map((alarm) => (
+      <div className={style.titlecontainer}>
+        <div className={style.title}>
+          알림
+          <span className={style.count}> {filteredData.length}</span>
+        </div>
+        {/* setSelectedFilter를 Dropdown에 전달 */}
+        <Dropdown setSelectedFilter={setSelectedFilter} />
+      </div>
+      {filteredData.map((alarm) => (
         <AlarmCard key={alarm.notificationId} {...alarm} />
       ))}
     </div>

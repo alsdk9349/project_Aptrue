@@ -4,7 +4,9 @@ import style from '@/app/page.module.scss';
 import GeneralInput from '@/components/common/input/GeneralInput';
 import TimeInput from '@/components/common/input/TimeInput';
 import LoginInput from '@/components/common/input/LoginInput';
-
+import TableColumn from '@/components/admin/TableColumn';
+import TableInput from '@/components/admin/TableInput';
+import TableItem from '@/components/admin/TableItem';
 export default function Home() {
 
   const changeName = (name:string) => {
@@ -31,6 +33,16 @@ export default function Home() {
     <TimeInput onChange={handleTime} isWeb={true} />
     <TimeInput onChange={handleTime} isWeb={false} />
     <LoginInput label='아이디' onChange={handleId} placeholder='아이디를 입력하세요'/>
+    <TableColumn/>
+    <TableInput />
+    <TableItem 
+      adminId={1}
+      name='강두홍'
+      account='dhkang0912'
+      password='a1234'
+      phone='010-1234-5678'
+      createdAt='2024-10-02T11:33:22'
+    />
     </>
   );
 }

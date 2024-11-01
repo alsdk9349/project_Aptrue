@@ -12,7 +12,7 @@ export default function WebNav() {
   const getActiveItem = () => {
     if (pathname === '/') return 'home';
     if (pathname === '/cctv') return 'cctv';
-    if (pathname === '/account') return 'account';
+    if (pathname === '/admin') return 'admin';
     return '';
   };
 
@@ -67,15 +67,15 @@ export default function WebNav() {
           </Link>
 
           <Link
-            href="/account"
+            href="/admin"
             className={`${style.account} ${style.commonItem} ${
-              activeItem === 'account' ? style.active : ''
+              activeItem === 'admin' ? style.active : ''
             }`}
           >
             <div className={style.iconWrapper}>
               <img
                 src={
-                  activeItem === 'account'
+                  activeItem === 'admin'
                     ? '/icons/manager_white.png'
                     : '/icons/manager_black.png'
                 }

@@ -1,8 +1,11 @@
+"use client"
+
 import styles from './Table.module.scss';
 import classNames from 'classnames';
 import {format} from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useState } from 'react';
+import Button from '../common/button/Button';
 
 export default function TableInput() {
 
@@ -73,7 +76,11 @@ export default function TableInput() {
                 readOnly
                 />
             </div>
-            <div className={styles.blank}><span></span></div>
+            <div className={styles.blank}>
+                <Button size='webTiny' color='blue'>
+                    등록
+                </Button>
+            </div>
         </div>
     )
 }

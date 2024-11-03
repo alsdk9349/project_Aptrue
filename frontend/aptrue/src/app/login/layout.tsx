@@ -13,7 +13,8 @@ export default function Layout({
         <div className={styles.container}>
             <LoginBackground />
             <div className={styles.ch}>
-            {children}
+                <div className={styles.title}>APTrue.</div>
+                {children}
             </div>
         </div>
     )

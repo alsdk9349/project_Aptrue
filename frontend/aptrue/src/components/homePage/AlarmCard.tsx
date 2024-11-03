@@ -1,5 +1,9 @@
 import style from './AlarmCard.module.scss';
 
+interface AlarmCardProps extends Alarm {
+  onClick?: () => void;
+}
+
 export default function AlarmCard({
   notificationId,
   message,
@@ -8,7 +12,8 @@ export default function AlarmCard({
   isCompleted,
   date,
   image,
-}: Alarm) {
+  onClick,
+}: AlarmCardProps) {
   const categoryClass =
     category === '화재'
       ? style.fire
@@ -19,7 +24,7 @@ export default function AlarmCard({
           : '';
 
   return (
-    <div className={`${style.container} ${categoryClass}`}>
+    <div className={`${style.container} ${categoryClass}`} onClick={onClick}>
       <div className={`${style.textContainer} ${!image ? style.full : ''}`}>
         <div className={style.message}>{message}</div>
         <p className={style.date}>{new Date(date).toLocaleString()}</p>

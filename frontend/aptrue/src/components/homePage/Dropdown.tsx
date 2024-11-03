@@ -35,7 +35,9 @@ export default function Dropdown({ setSelectedFilter }: DropdownProps) {
             <li
               key={option}
               onClick={() => selectOption(option)}
-              className={style.dropdownItem}
+              className={`${style.dropdownItem} ${
+                selectedOption === option ? style.selected : ''
+              }`}
             >
               {option}
             </li>

@@ -4,7 +4,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: row;
-  width: 250px;
+  width: 300px;
   padding: 10px 17px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 10px;
@@ -29,32 +29,32 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-width: 110px;
+  max-width: 175px;
   font-family: 'regular';
   height: 80px;
   justify-content: space-between; /* message와 status를 위아래로 배치 */
 
   /* 이미지가 없을 때 줄바꿈 방지 */
   &.full {
-    max-width: 250px;
+    max-width: 300px;
     white-space: nowrap;
   }
 }
 
 .message {
-  font-size: 12px;
+  font-size: 14px;
   color: black;
   margin-bottom: 5px; /* message와 date 사이의 간격을 5px로 설정 */
 }
 
 .date {
-  font-size: 8px;
+  font-size: 10px;
   color: colors.$gray6;
   margin-bottom: auto; /* date 아래에 자동 여백을 추가해 status를 아래로 밀어냄 */
 }
 
 .status {
-  font-size: 8px;
+  font-size: 10px;
   color: black;
 
   &.completed {

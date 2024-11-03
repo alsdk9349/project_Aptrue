@@ -4,7 +4,7 @@ import Notification from '@/components/homePage/Notification';
 
 export default function Home() {
   return (
-    <>
+    <div className={style.page}>
       <div className={style.container}>
         <div className={style.content}>
           <div className={style.title}>CCTV</div>
@@ -16,6 +16,6 @@ export default function Home() {
       <div className={style.notification}>
         <Notification />
       </div>
-    </>
+    </div>
   );
 }

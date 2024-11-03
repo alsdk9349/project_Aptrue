@@ -4,6 +4,7 @@ import { useState } from 'react';
 import AlarmCard from './AlarmCard';
 import Dropdown from './Dropdown';
 import style from './Notification.module.scss';
+import Emergency from './Emergency';
 
 const data: Alarm[] = [
   {
@@ -13,7 +14,7 @@ const data: Alarm[] = [
     emergency: true,
     isCompleted: true,
     date: '2024-11-01T10:00:00',
-    image: '/images/cctv_ex.png',
+    image: '/images/cctv_fire.png',
   },
   {
     notificationId: 2,
@@ -37,8 +38,10 @@ const data: Alarm[] = [
 
 export default function Notification() {
   const [selectedFilter, setSelectedFilter] = useState<string>('전체');
+  const [isEmergencyModalOpen, setIsEmergencyModalOpen] =
+    useState<boolean>(false);
+  const [selectedAlarm, setSelectedAlarm] = useState<Alarm | null>(null);
 
-  // 필터링된 데이터를 반환하는 함수
   const filteredData = data.filter((alarm) => {
     if (selectedFilter === '전체') return true;
     if (selectedFilter === '미완료') return !alarm.isCompleted;
@@ -47,6 +50,48 @@ export default function Notification() {
     return true;
   });
 
+  const handleAlarmClick = (alarm: Alarm) => {
+    if (alarm.emergency) {
+      setSelectedAlarm(alarm);
+      setIsEmergencyModalOpen(true);
+    } else {
+      console.log(`${alarm.message} 클릭됨`);
+    }
+  };
+
+  const closeModal = () => {
+    setIsEmergencyModalOpen(false);
+    setSelectedAlarm(null);
+  };
+
+  function EmergencyModal({
+    children,
+    onClose,
+  }: {
+    children: React.ReactNode;
+    onClose: () => void;
+  }) {
+    const handleBackdropClick = (event: React.MouseEvent) => {
+      if (event.target === event.currentTarget) {
+        onClose();
+      }
+    };
+
+    return (
+      <div className={style.modalBackdrop} onClick={handleBackdropClick}>
+        <div className={style.modalContent}>
+          <img
+            src="/icons/xbutton.png"
+            alt="닫기 버튼"
+            onClick={onClose}
+            className={style.xbutton} // 스타일 적용
+          />
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={style.container}>
       <div className={style.titlecontainer}>
@@ -54,12 +99,21 @@ export default function Notification() {
           알림
           <span className={style.count}> {filteredData.length}</span>
         </div>
-        {/* setSelectedFilter를 Dropdown에 전달 */}
         <Dropdown setSelectedFilter={setSelectedFilter} />
       </div>
       {filteredData.map((alarm) => (
-        <AlarmCard key={alarm.notificationId} {...alarm} />
+        <AlarmCard
+          key={alarm.notificationId}
+          {...alarm}
+          onClick={() => handleAlarmClick(alarm)}
+        />
       ))}
+
+      {isEmergencyModalOpen && selectedAlarm && (
+        <EmergencyModal onClose={closeModal}>
+          <Emergency alarm={selectedAlarm} />
+        </EmergencyModal>
+      )}
     </div>
   );
 }

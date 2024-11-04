@@ -27,13 +27,23 @@ const videoUrls = [
 export default function CCTVHome() {
   const [activeZone, setActiveZone] = useState<string>('101동 주변');
   const [randomVideos, setRandomVideos] = useState<string[]>(videoUrls);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
 
   const handleZoneChange = (zone: string) => {
     setActiveZone(zone);
-
-    // videoUrls 배열을 랜덤하게 섞음
     const shuffledVideos = [...videoUrls].sort(() => Math.random() - 0.5);
     setRandomVideos(shuffledVideos);
+  };
+
+  const openModal = (videoUrl: string) => {
+    setCurrentVideoUrl(videoUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentVideoUrl('');
   };
 
   return (
@@ -46,27 +56,26 @@ export default function CCTVHome() {
         />
       </div>
       <div className={style.cctvContainer}>
-        <CCTVScreen
-          activeZone={activeZone}
-          camNumber={1}
-          videoUrl={randomVideos[0]}
-        />
-        <CCTVScreen
-          activeZone={activeZone}
-          camNumber={2}
-          videoUrl={randomVideos[1]}
-        />
-        <CCTVScreen
-          activeZone={activeZone}
-          camNumber={3}
-          videoUrl={randomVideos[2]}
-        />
-        <CCTVScreen
-          activeZone={activeZone}
-          camNumber={4}
-          videoUrl={randomVideos[3]}
-        />
+        {randomVideos.map((videoUrl, index) => (
+          <CCTVScreen
+            key={index}
+            activeZone={activeZone}
+            camNumber={index + 1}
+            videoUrl={videoUrl}
+            onClick={() => openModal(videoUrl)} // 클릭 핸들러 추가
+          />
+        ))}
       </div>
+      {isModalOpen && (
+        <div className={style.modal} onClick={closeModal}>
+          <div
+            className={style.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video src={currentVideoUrl} controls={false} autoPlay loop muted />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

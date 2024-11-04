@@ -1,0 +1,14 @@
+.button {
+  margin: 13px 0;
+}
+
+.cctvContainer {
+  display: flex;
+  flex-wrap: wrap; // 줄바꿈을 허용
+  gap: 20px; // 컴포넌트 간 간격
+}
+
+.cctvContainer > * {
+  flex: 0 0 calc(50% - 10px);
+  box-sizing: border-box;
+}

@@ -1,11 +1,8 @@
 package aptrue.backend.Admin.Service;
 
-import aptrue.backend.Admin.Dto.SignupRequestDto;
-import aptrue.backend.Admin.Dto.SignupResponseDto;
+import aptrue.backend.Admin.Dto.*;
 import aptrue.backend.Global.BusinessException;
 import aptrue.backend.Global.Code.ErrorCode;
-import aptrue.backend.Admin.Dto.LoginRequestDto;
-import aptrue.backend.Admin.Dto.LoginResponseDto;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
 import aptrue.backend.Global.Security.CustomAdminDetails;
@@ -27,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -140,5 +139,31 @@ public class AdminServiceImpl implements AdminService {
                 .name(signupRequestDto.getName())
                 .build();
         return signupResponseDto;
+    }
+
+    @Transactional
+    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest) {
+        int superAdminId = cookieUtil.getAdminId(httpServletRequest);
+
+        Admin superAdmin = adminRepository.findByAdminId(superAdminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
+
+        if (!superAdmin.isSuperAdmin()) {
+            throw new BusinessException(ErrorCode.NOT_SUPER_ADMIN);
+        }
+
+        List<Admin> adminAll = adminRepository.findAll();
+        List<AdminListResponseDto> adminList = new ArrayList<>();
+        for (Admin admin : adminAll) {
+            AdminListResponseDto adminListResponseDto = AdminListResponseDto.builder()
+                    .account(admin.getAccount())
+                    .adminID(admin.getAdminId())
+                    .createdAt(admin.getCreatedAt())
+                    .name(admin.getName())
+                    .phone(admin.getPhone())
+                    .build();
+            adminList.add(adminListResponseDto);
+        }
+        return adminList;
     }
 }

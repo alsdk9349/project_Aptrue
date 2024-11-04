@@ -1,8 +1,6 @@
 package aptrue.backend.Admin.Controller;
 
-import aptrue.backend.Admin.Dto.LoginRequestDto;
-import aptrue.backend.Admin.Dto.SignupRequestDto;
-import aptrue.backend.Admin.Dto.SignupResponseDto;
+import aptrue.backend.Admin.Dto.*;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
 import aptrue.backend.Admin.Service.AdminService;
@@ -11,7 +9,6 @@ import aptrue.backend.Global.Code.ErrorCode;
 import aptrue.backend.Global.ResultResponse;
 import aptrue.backend.Global.Security.CustomAdminDetails;
 import aptrue.backend.Global.Code.SuccessCode;
-import aptrue.backend.Admin.Dto.LoginResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +18,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -50,6 +46,14 @@ public class AdminController {
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
+    @GetMapping("/adminList")
+    public ResponseEntity<?> adminList(HttpServletRequest httpServletRequest) {
+        List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminList(httpServletRequest);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_ADMIN_LIST, adminListResponseDtos);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
+
+
     @PostMapping("/superAdmin")
     public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -67,10 +71,7 @@ public class AdminController {
                 .account(admin.getAccount())
                 .name(admin.getName())
                 .build();
-        ResultResponse resultResponse = ResultResponse.of(SuccessCode.LOGIN_OK, signupResponseDto);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.SIGN_UP_SUPERUSER, signupResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
-
-
-
 }

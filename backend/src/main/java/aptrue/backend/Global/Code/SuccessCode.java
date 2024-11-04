@@ -14,7 +14,9 @@ public enum SuccessCode {
     // 관리자
     LOGIN_OK(HttpStatus.OK, "A001", "로그인 성공했습니다."),
     SUPER_ADMIN_CHECK(HttpStatus.OK, "A002", "Super User 확인했습니다."),
-    SIGN_UP_OK(HttpStatus.OK, "A003", "새로운 관리자를 등록했습니다.");
+    GET_ADMIN_LIST(HttpStatus.OK, "A003", "관리자 목록을 조회했습니다."),
+    SIGN_UP_SUPERUSER(HttpStatus.OK, "A004", "슈퍼 유저를 등록했습니다."),
+    SIGN_UP_OK(HttpStatus.OK, "A005", "새로운 관리자를 등록했습니다.");
 
 
     private final HttpStatus status;

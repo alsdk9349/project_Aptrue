@@ -28,7 +28,6 @@ export default function Home() {
 
   return (
     <div className={style.container}>
-      <Pagination pageProps=""></Pagination>
       <Button color="lightBlue" size="webSmall">
         하이
       </Button>

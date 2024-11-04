@@ -4,7 +4,7 @@ import RecoilRootProvider from '@/utils/RecoilRootProvider';
 import WebNav from '@/components/common/navbar/WebNav';
 
 export const metadata: Metadata = {
-  title: 'APtrue',
+  title: 'APTrue',
   description: '아파트의 진실을 알고 싶다면, 아파트루(APTrue.)!',
 };
 
@@ -13,7 +13,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
   return (
     <html lang="en">
       <body>

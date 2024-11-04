@@ -4,21 +4,18 @@ import { useState } from 'react';
 import style from './CCTVButton.module.scss';
 import Button from '../common/button/Button';
 
-const cctvZone = [
-  '101동 주변',
-  '102동 주변',
-  '101동 주차장',
-  '102동 주차장',
-  '아파트 입구',
-  '정문 경비실',
-  '후문 경비실',
-  '지하 스포츠센터',
-  '정문 어린이집',
-];
+interface CCTVprops {
+  activeZone: string;
+  setActiveZone: (zone: string) => void;
+  cctvZone: string[];
+}
 
-export default function CCTVButton() {
+export default function CCTVButton({
+  activeZone,
+  setActiveZone,
+  cctvZone,
+}: CCTVprops) {
   // 기본 활성 상태를 "101동 주변"으로 설정
-  const [activeZone, setActiveZone] = useState<string>('101동 주변');
 
   const handleButtonClick = (zone: string) => {
     // 이미 활성화된 버튼을 클릭하면 비활성화, 아니면 새 버튼 활성화

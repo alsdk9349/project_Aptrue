@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./TimeInput.module.scss";
+import Calendar from "../calendar/Calendar";
 
 
 export default function TimeInput({
@@ -49,7 +50,7 @@ export default function TimeInput({
             </div>
             {openCalendar && 
             <div className={styles.calendarContainer}>
-                캘린더오픈
+                <Calendar />
             </div>
             }
         </div>

@@ -5,7 +5,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 40px;
     width: fit-content;
 
     input {
@@ -16,12 +16,12 @@
         background-color: colors.$white;
         display: flex;
         text-align: center;
-        font-size: 16px;
+        font-size: 12px;
         font-family: 'regular';
         color: colors.$gray6;
 
         &::placeholder {
-            font-size: 16px;
+            font-size: 12px;
             font-family: 'medium';
             color: colors.$gray5;
         }
@@ -78,7 +78,7 @@
 .isColumnName {
     background-color: colors.$gray2;
     font-family: 'semibold';
-    font-size: 20px;
+    font-size: 16px;
     color: colors.$gray7;
     border-bottom: solid 1px colors.$gray5;
 }
@@ -86,13 +86,13 @@
 .isTableItem {
     background-color: colors.$white;
     font-family: 'regular';
-    font-size: 16px;
+    font-size: 12px;
     color: colors.$gray6
 }
 
 .isTableInput {
     background-color: colors.$gray1;
     font-family: 'regular';
-    font-size: 16px;
+    font-size: 12px;
     color: colors.$gray6;
 }

@@ -1,14 +1,17 @@
+"use client";
+
 import { useRouter } from 'next/navigation';
 import style from './Pagination.module.scss';
 
 interface PageProps {
   pageProps: string;
+  pathName:string;
 }
 
 const ITEMS_PER_PAGE = 10;
 const BUTTONS_PER_GROUP = 5;
 
-export default function Pagination({ pageProps }: PageProps) {
+export default function Pagination({ pageProps, pathName }: PageProps) {
   const router = useRouter();
   const page = parseInt(pageProps, 10) || 1;
   // 페이지네이션 버튼 생성
@@ -22,7 +25,7 @@ export default function Pagination({ pageProps }: PageProps) {
 
   // 페이지 이동 함수
   const handlePageChange = (newPage: number) => {
-    router.push(`/clip/${newPage}`);
+    router.push(`/${pathName}/${newPage}`);
   };
 
   return (

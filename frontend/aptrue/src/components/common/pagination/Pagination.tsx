@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import style from './Pagination.module.scss';
 
 interface PageProps {
-  pageNum: string;
+  pageNum?: string;
   urlPath: string;
 }
 
@@ -12,10 +12,11 @@ const BUTTONS_PER_GROUP = 5;
 
 export default function Pagination({ urlPath, pageNum }: PageProps) {
   const router = useRouter();
-  const page = parseInt(pageNum, 10) || 1;
+  const page = parseInt(pageNum as string, 10) || 1;
   // 페이지네이션 버튼 생성
   const currentGroup = Math.floor((page - 1) / BUTTONS_PER_GROUP);
   const startPage = currentGroup * BUTTONS_PER_GROUP;
+  const endPage = startPage + BUTTONS_PER_GROUP;
   // const endPage = startPage + BUTTONS_PER_GROUP - 1;
   const pageNumbers = Array.from(
     { length: BUTTONS_PER_GROUP },
@@ -24,15 +25,15 @@ export default function Pagination({ urlPath, pageNum }: PageProps) {
 
   // 페이지 이동 함수
   const handlePageChange = (newPage: number) => {
-    const basePath = urlPath.replace(/\/\d+\/?$/, '');
-    router.push(`${basePath}/${newPage}/`);
+    const baseURL = window.location.origin;
+    router.push(`${baseURL}/${urlPath}/${newPage}/`);
   };
 
   return (
     <div className={style.container}>
       {/* 이전 그룹 버튼 */}
       <button
-        onClick={() => handlePageChange(startPage - BUTTONS_PER_GROUP)}
+        onClick={() => handlePageChange(startPage - (BUTTONS_PER_GROUP - 1))}
         className={`${style.group} ${currentGroup > 0 ? '' : style.hidden}`}
       >
         &lt; &nbsp; Back
@@ -49,7 +50,7 @@ export default function Pagination({ urlPath, pageNum }: PageProps) {
       ))}
       {/* 다음 그룹 버튼 */}
       <button
-        onClick={() => handlePageChange(startPage + BUTTONS_PER_GROUP)}
+        onClick={() => handlePageChange(endPage + 1)}
         className={style.group}
       >
         Next &nbsp; &gt;

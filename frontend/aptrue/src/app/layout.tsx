@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.scss';
 import RecoilRootProvider from '@/utils/RecoilRootProvider';
-import WebNav from '@/components/common/navbar/WebNav';
 
 export const metadata: Metadata = {
   title: 'APTrue',
@@ -17,7 +16,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <RecoilRootProvider>{children}</RecoilRootProvider>
-        <div></div>
       </body>
     </html>
   );

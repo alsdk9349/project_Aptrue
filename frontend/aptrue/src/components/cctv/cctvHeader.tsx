@@ -1,8 +1,11 @@
 'use client';
 import Image from 'next/image';
 import style from './cctv.module.scss';
+import { useSetRecoilState } from 'recoil';
+import { cctvFormState } from '@/state/atoms/cctvAtoms';
 
 export default function CCTVHeader() {
+  const setFormState = useSetRecoilState(cctvFormState);
   const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
@@ -12,7 +15,7 @@ export default function CCTVHeader() {
     console.log('검색하기');
   };
   const handleShowForm = () => {
-    console.log('신청하기 버튼 클릭');
+    // setFormState('form');
   };
   return (
     <div className={style.header}>

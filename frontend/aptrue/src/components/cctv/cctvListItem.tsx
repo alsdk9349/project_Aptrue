@@ -1,4 +1,8 @@
+'use client';
 import style from './cctv.module.scss';
+import { useState, useEffect } from 'react';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { cctvRequestIdState, cctvFormState } from '@/state/atoms/cctvAtoms';
 
 interface CCTVListItemProps {
   item?: CCTVItem;
@@ -6,6 +10,17 @@ interface CCTVListItemProps {
 }
 
 export default function CCTVListItem({ item, num }: CCTVListItemProps) {
+  const setCctvRequestId = useSetRecoilState(cctvRequestIdState);
+  // const [formState,setFormState] = useRecoilState(cctvFormState);
+  const [formattedDate, setFormattedDate] = useState<string>('');
+
+  useEffect(() => {
+    if (item?.createdAt) {
+      const date = new Date(item.createdAt);
+      setFormattedDate(date.toLocaleString()); // 클라이언트에서만 포맷팅
+    }
+  }, [item]);
+
   const getStatusClass = (status: string) => {
     switch (status) {
       case '방문 필요':
@@ -17,8 +32,16 @@ export default function CCTVListItem({ item, num }: CCTVListItemProps) {
     }
   };
 
+
+  const handleClick = () => {
+    if (item) {
+      setCctvRequestId(item.cctvRequestId);
+      // setFormState('detail');
+    }
+  };
+
   return (
-    <div className={style['item-container']}>
+    <div className={style['item-container']} onClick={handleClick}>
       <div className={style.numbox}>{num}</div>
       <div className={style.content}>
         {item && (
@@ -29,7 +52,7 @@ export default function CCTVListItem({ item, num }: CCTVListItemProps) {
               >{`• \u00A0 ${item.status}`}</div>
               <div>{`${item.address} ${item.name}님의 CCTV 처리 요청`}</div>
             </div>
-            <div>{new Date(item.createdAt).toLocaleString()}</div>
+            <div>{formattedDate}</div>
           </>
         )}
       </div>

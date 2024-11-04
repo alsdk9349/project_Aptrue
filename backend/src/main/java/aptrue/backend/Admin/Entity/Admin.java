@@ -1,5 +1,6 @@
 package aptrue.backend.Admin.Entity;
 
+import aptrue.backend.Apartment.Entity.Apartment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,6 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
     private int adminId;
-
-    // 나중에 아파트 외래키 추가해야함
-
 
     @NotNull
     @Column(name = "account", unique = true, length = 100)
@@ -50,4 +48,8 @@ public class Admin {
 
     @Column(name = "token", length = 500)
     private String token;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "apt_id")
+    private Apartment apartment;
 }

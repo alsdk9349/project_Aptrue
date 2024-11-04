@@ -4,6 +4,8 @@ import aptrue.backend.Admin.Dto.*;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
 import aptrue.backend.Admin.Service.AdminService;
+import aptrue.backend.Apartment.Entity.Apartment;
+import aptrue.backend.Apartment.Repository.ApartmentRepository;
 import aptrue.backend.Global.ResultResponse;
 import aptrue.backend.Global.Code.SuccessCode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final AdminRepository adminRepository;
+    private final ApartmentRepository apartmentRepository;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup (@RequestBody SignupRequestDto signupRequestDto, HttpServletRequest httpServletRequest) {
@@ -57,6 +60,12 @@ public class AdminController {
     @PostMapping("/superAdmin")
     public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Apartment apart = Apartment.builder()
+                .aptName("sixbee")
+                .address("Samsung_Gwangju")
+                .houseCount(666)
+                .build();
+        apartmentRepository.save(apart);
         Admin admin = Admin.builder()
                 .name(signupRequestDto.getName())
                 .account(signupRequestDto.getAccount())
@@ -64,6 +73,7 @@ public class AdminController {
                 .phone(signupRequestDto.getPhone())
                 .isSuperAdmin(true)
                 .createdAt(LocalDateTime.now())
+                .apartment(apart)
                 .build();
         adminRepository.save(admin);
         SignupResponseDto signupResponseDto = SignupResponseDto.builder()

@@ -25,6 +25,32 @@
             padding: 20px 5px;
         }
 
+        @media (max-width: 1200px) {
+
+            .title {
+                width: 800px;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                width: 760px;
+            }
+
+        }
+
+    }
+
+    @media (max-width: 1500px) {
+
+        .container {
+
+            margin-top: 40px;
+
+        }
+
+
     }
 
 }

@@ -24,7 +24,8 @@ export default function Pagination({ urlPath, pageNum }: PageProps) {
 
   // 페이지 이동 함수
   const handlePageChange = (newPage: number) => {
-    router.push(`${urlPath}/${newPage}`);
+    const basePath = urlPath.replace(/\/\d+\/?$/, '');
+    router.push(`${basePath}/${newPage}/`);
   };
 
   return (

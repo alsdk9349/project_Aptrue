@@ -41,7 +41,7 @@ public class Admin {
     private String phone;
 
     @NotNull
-    @Column(name = "isSuperAdmin")
+    @Column(name = "is_super_admin")
     private boolean isSuperAdmin;
 
     @NotNull

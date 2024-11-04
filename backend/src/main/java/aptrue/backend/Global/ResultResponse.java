@@ -1,5 +1,6 @@
 package aptrue.backend.Global;
 
+import aptrue.backend.Global.Code.SuccessCode;
 import lombok.Builder;
 import lombok.Getter;
 

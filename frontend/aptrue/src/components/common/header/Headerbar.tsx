@@ -19,8 +19,8 @@ export default function Headerbar({
         <div className={styles.container}>
             <div>
                 {pathname==='/' && '관리자 홈'}
-                {pathname==='/cctv' && 'CCTV 처리'}
-                {pathname==='/admin' && '관리자 계정 '}
+                {pathname.includes('/cctv') && 'CCTV 처리'}
+                {pathname.includes('/admin') && '관리자 계정 '}
             </div>
             <div className={styles.profile}>
                 <img src="/icons/profileImage.png" alt="" />

@@ -1,7 +1,10 @@
-import { ReactNode, Suspense } from "react"
+import { ReactNode, Suspense } from "react";
 import TableColumn from "@/components/admin/TableColumn";
-import styles from './page.module.scss';
 import TableInput from "@/components/admin/TableInput";
+import styles from './layout.module.scss';
+import TimeInput from "@/components/common/input/TimeInput";
+
+// 맨 밖의 레이아웃으로 Suspense안에는 나중에 클라이언트와 상호작용하는 tableinput만 넣어주기
 
 export default function Layout({
     children
@@ -10,15 +13,18 @@ export default function Layout({
 }) {
 
     return (
-        <div className={styles.container}>
-            <div className={styles.title}>
-                계정 생성 테이블
+        <div className={styles.layout}>
+            <div className={styles.container}>
+                <div className={styles.title}>
+                    계정 생성 테이블
+                </div>
+                <TableColumn />
+                <Suspense>
+                    <TableInput />
+                    <TimeInput isWeb={true}/>
+                </Suspense>
+                {children}
             </div>
-            <TableColumn />
-            <Suspense>
-                <TableInput />
-            </Suspense>
-            {children}
         </div>
     )
 }

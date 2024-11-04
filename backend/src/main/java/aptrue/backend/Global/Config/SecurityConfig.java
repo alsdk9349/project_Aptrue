@@ -74,7 +74,7 @@ public class SecurityConfig {
                             .requestMatchers("/video/upload").permitAll() // 업로드 경로 허용
                             .requestMatchers("/login").permitAll() // 로그인 경로 허용
                             .requestMatchers("/signup").permitAll() // 모든 사용자가 signup 접근 가능
-                            .requestMatchers("/superAdmin").permitAll() // /superAdmin에 대한 요청 허용
+                            .requestMatchers("/api/superAdmin").permitAll() // /superAdmin에 대한 요청 허용
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 

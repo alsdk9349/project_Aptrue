@@ -1,4 +1,4 @@
-package aptrue.backend.Global.Code;
+package aptrue.backend.Global.Error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -4,25 +4,18 @@ import aptrue.backend.Admin.Dto.*;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
 import aptrue.backend.Admin.Service.AdminService;
-import aptrue.backend.Global.BusinessException;
-import aptrue.backend.Global.Code.ErrorCode;
 import aptrue.backend.Global.ResultResponse;
-import aptrue.backend.Global.Security.CustomAdminDetails;
 import aptrue.backend.Global.Code.SuccessCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -46,10 +39,17 @@ public class AdminController {
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
-    @GetMapping("/adminList")
+    @GetMapping("/admin/list")
     public ResponseEntity<?> adminList(HttpServletRequest httpServletRequest) {
         List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminList(httpServletRequest);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_ADMIN_LIST, adminListResponseDtos);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
+
+    @DeleteMapping("/admin/{admin_id}")
+    public ResponseEntity<?> deleteAdmin(HttpServletRequest httpServletRequest, @PathVariable int admin_id) {
+        adminService.deleteAdmin(httpServletRequest, admin_id);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.DELETE_ADMIN, admin_id);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 

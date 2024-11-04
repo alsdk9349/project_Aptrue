@@ -10,4 +10,5 @@ public interface AdminService {
     LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse);
     SignupResponseDto signup(SignupRequestDto adminIn, HttpServletRequest signupRequestDto);
     List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest);
+    void deleteAdmin(HttpServletRequest httpServletRequest, int adminId);
 }

@@ -18,7 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <RecoilRootProvider>{children}</RecoilRootProvider>
-        <div></div>
       </body>
     </html>
   );

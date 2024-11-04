@@ -1,4 +1,5 @@
 import style from '@/components/common/button/Button.module.scss';
+import { useState } from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

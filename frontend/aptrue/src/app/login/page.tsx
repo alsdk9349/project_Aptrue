@@ -1,24 +1,21 @@
-"use client"
-import LoginInput from "@/components/common/input/LoginInput"
+import LoginBackground from "@/components/login/LoginBackground";
+import LoginForm from "@/components/login/LoginForm";
+import { postLogin } from "@/types/admin";
+import { signIn } from "next-auth/react";
+import { Suspense } from "react";
+import styles from './page.module.scss';
 
 export default function Page() {
 
-    const changeLogin = () => {
-
-    }
-
     return (
-        <>
-            <LoginInput
-            label="아이디"
-            onChange={changeLogin}
-            placeholder="아이디를 입력하세요"
-            />
-            <LoginInput
-            label="비밀번호"
-            onChange={changeLogin}
-            placeholder="비밀번호를 입력하세요"
-            />
-        </>
+        <div className={styles.container}>
+            <LoginBackground />
+            <div className={styles.ch}>
+                <div className={styles.title}>APTrue.</div>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <LoginForm />
+                </Suspense>
+            </div>
+        </div>
     )
 }

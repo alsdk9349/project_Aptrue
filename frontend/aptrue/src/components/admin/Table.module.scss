@@ -73,6 +73,88 @@
         width: 90px;
         height: 100%;
     }
+
+    @media (max-width: 1200px) {
+
+        input {
+            width: 110px;
+        }
+        .no {
+            width: 40px;
+        }
+        .name {
+            width: 120px;
+        }
+        .id {
+            width: 140px;
+        }
+        .password {
+            width: 150px;
+        }
+        .phoneNumber {
+            width: 160px;
+        }
+        .date {
+            width: 140px;
+        }
+        .blank {
+            width: 70px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        input {
+            width: 90px;
+        }
+        .no {
+            width: 35px;
+        }
+        .name {
+            width: 100px;
+        }
+        .id {
+            width: 120px;
+        }
+        .password {
+            width: 130px;
+        }
+        .phoneNumber {
+            width: 140px;
+        }
+        .date {
+            width: 120px;
+        }
+        .blank {
+            width: 60px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        input {
+            width: 90px;
+        }
+        .no {
+            width: 30px;
+        }
+        .name {
+            width: 80px;
+        }
+        .id {
+            width: 100px;
+        }
+        .password {
+            width: 110px;
+        }
+        .phoneNumber {
+            width: 120px;
+        }
+        .date {
+            width: 100px;
+        }
+        .blank {
+            width: 50px;
+        }
+    }
 }
 
 .isColumnName {

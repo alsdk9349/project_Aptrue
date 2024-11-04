@@ -2,7 +2,6 @@ import { ReactNode, Suspense } from "react";
 import TableColumn from "@/components/admin/TableColumn";
 import TableInput from "@/components/admin/TableInput";
 import styles from './layout.module.scss';
-import TimeInput from "@/components/common/input/TimeInput";
 
 // 맨 밖의 레이아웃으로 Suspense안에는 나중에 클라이언트와 상호작용하는 tableinput만 넣어주기
 
@@ -21,7 +20,6 @@ export default function Layout({
                 <TableColumn />
                 <Suspense>
                     <TableInput />
-                    <TimeInput isWeb={true}/>
                 </Suspense>
                 {children}
             </div>

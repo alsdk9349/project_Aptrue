@@ -8,6 +8,7 @@
   position: fixed; /* 화면의 왼쪽에 고정 */
   top: 0;
   left: 0;
+  z-index: 10;
 }
 
 .container {

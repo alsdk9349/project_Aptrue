@@ -1,4 +1,4 @@
-export default async function CCTV({
+export default async function Page({
   params,
 }: {
   params: Promise<{ page: string }>;

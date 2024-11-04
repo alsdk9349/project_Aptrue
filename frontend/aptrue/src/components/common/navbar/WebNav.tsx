@@ -47,7 +47,7 @@ export default function WebNav() {
           </Link>
 
           <Link
-            href="/cctv/1"
+            href="/cctv"
             className={`${style.cctv} ${style.commonItem} ${
               activeItem === 'cctv' ? style.active : ''
             }`}

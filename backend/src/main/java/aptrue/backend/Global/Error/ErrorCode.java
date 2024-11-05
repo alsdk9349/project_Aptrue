@@ -19,8 +19,10 @@ public enum ErrorCode {
     CLIP_RQ_FAIL(HttpStatus.NOT_FOUND, "E101", "CCTV 요청이 처리되지 않았습니다."),
     PHOTO_EXCEED_9(HttpStatus.BAD_REQUEST, "E102", "사진은 9장까지 업로드할 수 있습니다."),
     IMAGES_EXIST(HttpStatus.BAD_REQUEST, "E103", "이미 업로드 된 사진이 있습니다."),
-    NOT_FOUND_RQId(HttpStatus.NOT_FOUND, "E104", "요청 번호를 찾을 수 없습니다.");
+    NOT_FOUND_RQId(HttpStatus.NOT_FOUND, "E104", "요청 번호를 찾을 수 없습니다."),
 
+    // GPU
+    GPU_SERVER_REQUEST_FAILED(HttpStatus.METHOD_NOT_ALLOWED, "E201", "GPU 서버에 요청하는 데에 실패했습니다.");
 
     private final HttpStatus status;
     private final String code;

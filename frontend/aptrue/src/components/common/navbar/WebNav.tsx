@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // App Router용 훅
+import { usePathname, useRouter } from 'next/navigation'; // App Router용 훅
 import style from './WebNav.module.scss';
 import ApartCard from './ApartCard';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+
 
 export default function WebNav() {
   const pathname = usePathname(); // 현재 경로 가져오기
@@ -21,6 +21,10 @@ export default function WebNav() {
 
   const activeItem = getActiveItem();
 
+  const handleLogoClick = () => {
+    router.push('/');
+  };
+
   const clickLogout = () => {
     signOut({redirect:false})
     .then(() => {
@@ -28,10 +32,13 @@ export default function WebNav() {
     });
   }
 
+
   return (
     <div className={style.navbar}>
       <div className={style.container}>
-        <div className={style.title}>APTrue.</div>
+        <div className={style.title} onClick={handleLogoClick}>
+          APTrue.
+        </div>
         <div className={style.card}>
           <ApartCard />
         </div>

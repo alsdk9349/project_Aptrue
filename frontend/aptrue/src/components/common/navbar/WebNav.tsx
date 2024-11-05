@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation'; // App Router용 훅
 import style from './WebNav.module.scss';
 import ApartCard from './ApartCard';
+import { signOut } from 'next-auth/react';
+
 
 export default function WebNav() {
   const pathname = usePathname(); // 현재 경로 가져오기
@@ -22,6 +24,14 @@ export default function WebNav() {
   const handleLogoClick = () => {
     router.push('/');
   };
+
+  const clickLogout = () => {
+    signOut({redirect:false})
+    .then(() => {
+      router.replace('/login');
+    });
+  }
+
 
   return (
     <div className={style.navbar}>
@@ -93,7 +103,7 @@ export default function WebNav() {
             <span className={style.text}>관리자 계정</span>
           </Link>
         </div>
-        <div className={style.logout}>
+        <div className={style.logout} onClick={clickLogout}>
           <div className={style.iconWrapper}>
             <img src="/icons/logout.png" alt="" className={style.icon} />
           </div>

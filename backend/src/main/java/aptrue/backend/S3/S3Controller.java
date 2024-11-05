@@ -18,15 +18,17 @@ import java.util.List;
 public class S3Controller {
 
     private final S3BucketClient bucketClient;
+    private final S3Service s3Service;
 
     @PostMapping("/picture/upload")
     public String pictureUpload(
             @RequestParam("clipRQId") int clipRQId,
             @RequestParam("files") List<MultipartFile> photos) throws FileNotFoundException {
-        if (photos.size() > 9) {
+        int len = photos.size();
+        if (len > 9) {
             throw new IllegalArgumentException("You can upload a maximum of 9 photos.");
         }
-        for (int i=0;i< photos.size();i++) {
+        for (int i=0;i< len;i++) {
             String fileName = i+1+"";
             String directoryPath = "request_" + clipRQId; // clipRQ 번호로 디렉토리 경로 설정
             String fullPath = directoryPath + "/images/" + fileName;
@@ -35,6 +37,7 @@ public class S3Controller {
 
             bucketClient.uploadPhoto(photos.get(i), fullPath); // 파일을 경로 포함해서 업로드
         }
+        s3Service.updateImages(clipRQId, len);
         return "success";
     }
 

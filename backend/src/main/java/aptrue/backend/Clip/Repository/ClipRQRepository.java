@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ClipRQRepository extends JpaRepository<ClipRQ, Integer> {
 
     Optional<ClipRQ> findByPhone(String phone);
+    Optional<ClipRQ> findById(int ClipRQId);
 
 }

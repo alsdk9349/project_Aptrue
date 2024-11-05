@@ -211,8 +211,6 @@ export default function Calendar({
           }
         }}
         placeholder="시"
-        min="1"
-        max="12"
       />
       <input
         type="text"
@@ -232,8 +230,6 @@ export default function Calendar({
           }
         }}
         placeholder="분"
-        min="0"
-        max="59"
       />
     </div>
   );

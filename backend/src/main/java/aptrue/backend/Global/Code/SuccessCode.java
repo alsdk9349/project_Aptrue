@@ -17,8 +17,10 @@ public enum SuccessCode {
     GET_ADMIN_LIST(HttpStatus.OK, "A003", "관리자 목록을 조회했습니다."),
     SIGN_UP_SUPERUSER(HttpStatus.OK, "A004", "슈퍼 유저를 등록했습니다."),
     SIGN_UP_OK(HttpStatus.OK, "A005", "새로운 관리자를 등록했습니다."),
-    DELETE_ADMIN(HttpStatus.OK, "A006", "관리자를 삭제했습니다.");
+    DELETE_ADMIN(HttpStatus.OK, "A006", "관리자를 삭제했습니다."),
 
+    // CCTV
+    CLIP_RQ_OK(HttpStatus.OK, "C006", "CCTV 요청이 완료되었습니다.");
 
     private final HttpStatus status;
     private final String code;

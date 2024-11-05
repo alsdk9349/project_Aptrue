@@ -24,8 +24,6 @@ public class ClipRQ {
     @Column(name = "clipRQ_id")
     private int clipRQId;
 
-    // controller에서 먼저 S3에 이미지를 저장하고 경로만 db에 저장해야함
-    @NotNull
     @Column(name = "images")
     private List<String> images;
 

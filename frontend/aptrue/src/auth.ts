@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { NextResponse } from "next/server";
 
 export const {
     handlers: {GET, POST}, // api 라우트
@@ -12,15 +11,15 @@ export const {
         signIn: '/login'
     },
     // 로그아웃했을때 로그인 필요한 페이지 막는 방법!!! 
-    callbacks:{
-        // session검사했을떄 session이 없다면 redirect시키기
-        async authorized({auth}) {
-            if (!auth) {
-                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
-            }
-            return true;
-        }
-    },
+    // callbacks:{
+    //     // session검사했을떄 session이 없다면 redirect시키기
+    //     async authorized({auth}) {
+    //         if (!auth) {
+    //             return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
+    //         }
+    //         return true;
+    //     }
+    // },
     providers: [
         CredentialsProvider({
             async authorize(credentials : any) {

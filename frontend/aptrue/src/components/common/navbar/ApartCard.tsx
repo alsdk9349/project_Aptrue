@@ -9,6 +9,7 @@ const data = {
 };
 
 export default function ApartCard() {
+  // [todo]아파트 카드 API 호출 로직 작성
   // location을 분리하는 로직
   const [city, ...rest] = data.location.split(' ');
   const restLocation = rest.join(' ');

@@ -69,12 +69,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> {
                     authorize
-                            .requestMatchers("/public/**").permitAll() // 특정 경로에 대한 접근 허용
-                            .requestMatchers("/picture/upload").permitAll() // 업로드 경로 허용
-                            .requestMatchers("/video/upload").permitAll() // 업로드 경로 허용
-                            .requestMatchers("/login").permitAll() // 로그인 경로 허용
-                            .requestMatchers("/signup").permitAll() // 모든 사용자가 signup 접근 가능
+                            .requestMatchers("/api/public/**").permitAll() // 특정 경로에 대한 접근 허용
+                            .requestMatchers("/api/picture/upload").permitAll() // 업로드 경로 허용
+                            .requestMatchers("/api/video/upload").permitAll() // 업로드 경로 허용
+                            .requestMatchers("/api/login").permitAll() // 로그인 경로 허용
+                            .requestMatchers("/api/signup").permitAll() // 모든 사용자가 signup 접근 가능
                             .requestMatchers("/api/superAdmin").permitAll() // /superAdmin에 대한 요청 허용
+                            .requestMatchers("/api/ClipRQ/new").permitAll()
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 

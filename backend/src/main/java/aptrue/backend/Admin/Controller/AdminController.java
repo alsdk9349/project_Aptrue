@@ -1,33 +1,23 @@
 package aptrue.backend.Admin.Controller;
 
-import aptrue.backend.Admin.Dto.LoginRequestDto;
-import aptrue.backend.Admin.Dto.SignupRequestDto;
-import aptrue.backend.Admin.Dto.SignupResponseDto;
+import aptrue.backend.Admin.Dto.*;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
 import aptrue.backend.Admin.Service.AdminService;
-import aptrue.backend.Global.BusinessException;
-import aptrue.backend.Global.Code.ErrorCode;
+import aptrue.backend.Apartment.Entity.Apartment;
+import aptrue.backend.Apartment.Repository.ApartmentRepository;
 import aptrue.backend.Global.ResultResponse;
-import aptrue.backend.Global.Security.CustomAdminDetails;
 import aptrue.backend.Global.Code.SuccessCode;
-import aptrue.backend.Admin.Dto.LoginResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -37,6 +27,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final AdminRepository adminRepository;
+    private final ApartmentRepository apartmentRepository;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup (@RequestBody SignupRequestDto signupRequestDto, HttpServletRequest httpServletRequest) {
@@ -52,9 +43,30 @@ public class AdminController {
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
+    @GetMapping("/admin/list")
+    public ResponseEntity<?> adminList(HttpServletRequest httpServletRequest) {
+        List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminList(httpServletRequest);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_ADMIN_LIST, adminListResponseDtos);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
+
+    @DeleteMapping("/admin/{admin_id}")
+    public ResponseEntity<?> deleteAdmin(HttpServletRequest httpServletRequest, @PathVariable int admin_id) {
+        adminService.deleteAdmin(httpServletRequest, admin_id);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.DELETE_ADMIN, admin_id);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
+
+
     @PostMapping("/superAdmin")
     public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Apartment apart = Apartment.builder()
+                .aptName("sixbee")
+                .address("Samsung_Gwangju")
+                .houseCount(666)
+                .build();
+        apartmentRepository.save(apart);
         Admin admin = Admin.builder()
                 .name(signupRequestDto.getName())
                 .account(signupRequestDto.getAccount())
@@ -62,6 +74,7 @@ public class AdminController {
                 .phone(signupRequestDto.getPhone())
                 .isSuperAdmin(true)
                 .createdAt(LocalDateTime.now())
+                .apartment(apart)
                 .build();
         adminRepository.save(admin);
         SignupResponseDto signupResponseDto = SignupResponseDto.builder()
@@ -69,10 +82,7 @@ public class AdminController {
                 .account(admin.getAccount())
                 .name(admin.getName())
                 .build();
-        ResultResponse resultResponse = ResultResponse.of(SuccessCode.LOGIN_OK, signupResponseDto);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.SIGN_UP_SUPERUSER, signupResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
-
-
-
 }

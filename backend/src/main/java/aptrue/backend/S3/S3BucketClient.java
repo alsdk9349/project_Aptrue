@@ -23,7 +23,7 @@ public class S3BucketClient implements BucketClient{
     public void uploadPhoto(MultipartFile file, String fileName) throws FileNotFoundException {
         try (InputStream inputStream = file.getInputStream()) {
             log.info("Uploading file to S3: {}", fileName);
-            S3Resource upload = s3Operations.upload("aptrue-s3-bucket", "images/" + fileName, inputStream);
+            S3Resource upload = s3Operations.upload("aptrue-s3-bucket",  "request/" + fileName, inputStream);
             log.info("Upload successful: {}", upload.getURL());
         } catch (IOException e) {
             log.error("Error during upload", e);

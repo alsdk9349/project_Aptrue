@@ -13,4 +13,5 @@ public class LoginResponseDto {
     private int adminID;
     private String account;
     private String name;
+    private boolean isSuperAdmin;
 }

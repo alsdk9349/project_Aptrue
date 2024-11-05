@@ -95,6 +95,7 @@ export default function Calendar({
     return `${year}-${month}-${day}T${formattedHour}:${formattedMinute}`;
   };
 
+  // 확정 버튼 클릭
   const handleSetDates = () => {
     if (startDate && endDate) {
       const formattedStartTime = formatDateToCustomString(
@@ -117,6 +118,16 @@ export default function Calendar({
     clickCalendar();
   };
 
+  // 버튼 비활성화 조건
+  const isButtonDisabled = !(
+    startDate &&
+    endDate &&
+    startHour &&
+    startMinute &&
+    endHour &&
+    endMinute
+  );
+
   const monthYearDropdown = (
     <div className={styles.dropDown}>
       <select value={currentDate.getMonth()} onChange={handleMonthChange}>
@@ -134,7 +145,11 @@ export default function Calendar({
         ))}
       </select>
 
-      <button className={styles.confirm} onClick={handleSetDates}>
+      <button
+        className={styles.confirm}
+        disabled={isButtonDisabled}
+        onClick={handleSetDates}
+      >
         확정
       </button>
     </div>
@@ -219,7 +234,7 @@ export default function Calendar({
           const value = e.currentTarget.value;
           // 모든 문자가 숫자인지 확인
           if (/^\d*$/.test(value)) {
-            if (Number(value) >= 1 && Number(value) <= 59) {
+            if (Number(value) >= 0 && Number(value) <= 59) {
               setStartMinute(value); // 올바른 범위의 숫자만 허용
             } else {
               setStartMinute(''); // 범위를 벗어나면 상태를 리셋
@@ -242,20 +257,42 @@ export default function Calendar({
         <option value="오후">오후</option>
       </select>
       <input
-        type="number"
+        type="text"
         value={endHour}
-        onChange={(e) => setEndHour(e.target.value)}
+        onInput={(e) => {
+          const value = e.currentTarget.value;
+          // 모든 문자가 숫자인지 확인
+          if (/^\d*$/.test(value)) {
+            if (Number(value) >= 1 && Number(value) <= 12) {
+              setEndHour(value); // 올바른 범위의 숫자만 허용
+            } else {
+              setStartHour(''); // 범위를 벗어나면 상태를 리셋
+            }
+          } else {
+            e.currentTarget.value = ''; // 숫자가 아닌 경우 입력 필드를 비웁니다
+            setEndHour(''); // 상태를 리셋
+          }
+        }}
         placeholder="시"
-        min="1"
-        max="12"
       />
       <input
-        type="number"
+        type="text"
         value={endMinute}
-        onChange={(e) => setEndMinute(e.target.value)}
+        onInput={(e) => {
+          const value = e.currentTarget.value;
+          // 모든 문자가 숫자인지 확인
+          if (/^\d*$/.test(value)) {
+            if (Number(value) >= 0 && Number(value) <= 59) {
+              setEndMinute(value); // 올바른 범위의 숫자만 허용
+            } else {
+              setEndMinute(''); // 범위를 벗어나면 상태를 리셋
+            }
+          } else {
+            e.currentTarget.value = ''; // 숫자가 아닌 경우 입력 필드를 비웁니다
+            setEndMinute(''); // 상태를 리셋
+          }
+        }}
         placeholder="분"
-        min="0"
-        max="59"
       />
     </div>
   );

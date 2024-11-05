@@ -11,7 +11,7 @@
     width: 100%;
     text-align: center;
     font-size: 16px;
-    margin: 40px 0;
+    margin: 30px 0;
   }
 }
 
@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .location-button-container {
@@ -81,3 +81,86 @@ z-index: 1;
 .blue{
   color:colors.$blue5
 }
+.green{
+  color:#33B453
+}
+.real-blue{
+  color: colors.$realBlue;
+}
+
+
+.isPhoto{
+  margin-top: 30px;        
+  padding-left: 5px;
+  font-size: 12px;
+  font-family: 'medium';
+  height: 40px;
+  width: 465px;
+  flex-direction: column;
+  display: flex;
+  gap: 10px;
+}
+
+.uploadInfo{
+  margin-top: 20px;
+  padding-left: 5px;
+  font-size: 12px;
+  font-family: 'medium';
+  height: 40px;
+  width: 466px;
+  flex-direction: column;
+  display: flex;
+  gap: 15px;
+}
+
+.uploadLinkBox {
+  width: 465px;
+  display: flex;
+  align-items: center;
+  .label{
+    width: 150px;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: colors.$gray8;
+    font-family: 'medium';
+    display: flex;
+    justify-content: space-between;
+    padding-right: 15px;
+  }
+}
+
+.copyBox{
+  width: 300px;
+  height: 30px;
+  background-color: colors.$gray1;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'regular';
+  color: colors.$gray7;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.cctv-video-box{
+  margin-top: 20px;        
+  padding-left: 5px;
+  font-size: 12px;
+  font-family: 'medium';
+  height: 40px;
+  width: 465px;
+  flex-direction: column;
+  display: flex;
+  gap: 10px;
+}
+

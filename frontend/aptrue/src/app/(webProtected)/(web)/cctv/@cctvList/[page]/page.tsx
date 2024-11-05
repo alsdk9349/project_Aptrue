@@ -30,13 +30,9 @@ const response = {
   ],
 };
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ page: string }>;
-}) {
-  const { page } = await params;
-  '[* todo] page에 맞는 데이터 불러와서 캐싱하기'
+export default function Page({ params }: { params: { page: string } }) {
+  const { page } = params;
+  ('[* todo] page에 맞는 데이터 불러와서 캐싱하기');
 
   return (
     <>

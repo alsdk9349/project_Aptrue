@@ -3,6 +3,7 @@ import style from './cctv.module.scss';
 import { useState, useEffect } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { cctvRequestIdState, cctvFormState } from '@/state/atoms/cctvAtoms';
+import { useRouter } from 'next/navigation';
 
 interface CCTVListItemProps {
   item?: CCTVItem;
@@ -10,8 +11,7 @@ interface CCTVListItemProps {
 }
 
 export default function CCTVListItem({ item, num }: CCTVListItemProps) {
-  const setCctvRequestId = useSetRecoilState(cctvRequestIdState);
-  // const [formState,setFormState] = useRecoilState(cctvFormState);
+  const router = useRouter();
   const [formattedDate, setFormattedDate] = useState<string>('');
 
   useEffect(() => {
@@ -32,11 +32,9 @@ export default function CCTVListItem({ item, num }: CCTVListItemProps) {
     }
   };
 
-
   const handleClick = () => {
     if (item) {
-      setCctvRequestId(item.cctvRequestId);
-      // setFormState('detail');
+      router.push(`/cctv/detail/${item.cctvRequestId}`);
     }
   };
 
@@ -49,7 +47,7 @@ export default function CCTVListItem({ item, num }: CCTVListItemProps) {
             <div className={style.description}>
               <div
                 className={`${getStatusClass(item.status)}`}
-              >{`• \u00A0 ${item.status}`}</div>
+              >{`•\u00A0 ${item.status}`}</div>
               <div>{`${item.address} ${item.name}님의 CCTV 처리 요청`}</div>
             </div>
             <div>{formattedDate}</div>

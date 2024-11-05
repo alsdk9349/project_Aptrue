@@ -11,20 +11,11 @@ export default function GeneralInput({
   onChange,
 }: {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   value: string;
   size: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
-  // const [inputValue, setInputValue] = useState<string>('');
-
-  // const onChangeInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   setInputValue(value);
-  //   if (onChange) {
-  //     onChange(value);
-  //   }
-  // };
 
   return (
     <div className={styles.container}>

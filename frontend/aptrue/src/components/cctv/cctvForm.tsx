@@ -28,7 +28,7 @@ export default function CCTVForm() {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [showDate, setShowDate] = useState<string>('');
-  const [activeZone, setActiveZone] = useState<string>('101동 주변');
+  const [sections, setSections] = useState<string[]>(['101동 주변']);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
@@ -127,11 +127,12 @@ export default function CCTVForm() {
   };
 
   const handleButtonClick = (zone: string) => {
-    // 이미 활성화된 버튼을 클릭하면 비활성화, 아니면 새 버튼 활성화
-    if (activeZone === zone) {
-      setActiveZone(''); // 비활성화 상태로 변경
+    if (sections.includes(zone)) {
+      // 이미 활성화된 zone이면 비활성화 (배열에서 제거)
+      setSections(sections.filter((z) => z !== zone));
     } else {
-      setActiveZone(zone); // 클릭한 버튼을 활성화 상태로 설정
+      // 활성화된 zone이 아니면 배열에 추가
+      setSections([...sections, zone]);
     }
   };
 
@@ -201,10 +202,10 @@ export default function CCTVForm() {
             {cctvZone.map((zone, index) => (
               <Button
                 key={index}
-                color={activeZone === zone ? 'blue' : 'white'} // 활성 상태에 따라 색상 변경
+                color={sections.includes(zone) ? 'blue' : 'white'} // 활성 상태에 따라 색상 변경
                 size="webSmall"
                 clickedColor="lightBlue"
-                active={activeZone === zone} // active prop을 boolean으로 설정
+                active={sections.includes(zone)} // active prop을 boolean으로 설정
                 onClick={() => handleButtonClick(zone)} // 클릭 시 활성 상태 변경
               >
                 {zone}

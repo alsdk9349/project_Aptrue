@@ -125,4 +125,9 @@
     border: none;
     font-size: 12px;
     margin-top: 5px;
+    &:disabled {
+        background-color: colors.$gray2;/* 비활성화 시 회색 */
+        color: colors.$black; /* 비활성화된 상태의 텍스트 색상 */
+        cursor: not-allowed; /* 비활성화 커서 */
+      }
 }

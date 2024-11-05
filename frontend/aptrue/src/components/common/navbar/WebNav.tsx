@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // App Router용 훅
+import { usePathname, useRouter } from 'next/navigation'; // App Router용 훅
 import style from './WebNav.module.scss';
 import ApartCard from './ApartCard';
 
 export default function WebNav() {
   const pathname = usePathname(); // 현재 경로 가져오기
+  const router = useRouter();
 
   // 현재 경로를 기반으로 activeItem 설정
   const getActiveItem = () => {
@@ -18,10 +19,16 @@ export default function WebNav() {
 
   const activeItem = getActiveItem();
 
+  const handleLogoClick = () => {
+    router.push('/');
+  };
+
   return (
     <div className={style.navbar}>
       <div className={style.container}>
-        <div className={style.title}>APTrue.</div>
+        <div className={style.title} onClick={handleLogoClick}>
+          APTrue.
+        </div>
         <div className={style.card}>
           <ApartCard />
         </div>

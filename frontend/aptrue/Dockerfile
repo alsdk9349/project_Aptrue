@@ -10,6 +10,9 @@ COPY package.json package-lock.json ./
 # 의존성 설치
 RUN npm install
 
+# ESLint 플러그인 설치
+RUN npm install eslint-plugin-storybook --save-dev
+
 # 애플리케이션 소스 코드를 복사
 COPY .. .
 

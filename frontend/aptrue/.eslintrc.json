@@ -32,9 +32,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "next/typescript",
-    "plugin:storybook/recommended",
-    "plugin:storybook/recommended"
+    "next/typescript"
   ],
   "settings": {
     "import/resolver": {

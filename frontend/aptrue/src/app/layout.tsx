@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.scss';
 import RecoilRootProvider from '@/utils/RecoilRootProvider';
+// import AuthSession from '@/components/authSession/AuthSession';
 
 export const metadata: Metadata = {
   title: 'APTrue',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <RecoilRootProvider>{children}</RecoilRootProvider>
+        <RecoilRootProvider>
+          {children}
+        </RecoilRootProvider>
       </body>
     </html>
   );

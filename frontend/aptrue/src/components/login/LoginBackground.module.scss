@@ -9,12 +9,22 @@
     font-size: 40px;
     font-family: 'bold';
     box-sizing: border-box;
-    align-items: center;
+    padding-right: 100px;
+    align-items:flex-end;
 
-    div {
-        padding-bottom: 5px;
-        width: 70%;
-        text-align: right;
+
+    .text {
+        display:flex;
+        flex-direction: column;
+        width: 80%;
+        justify-content: center;
+        align-items: right;
+        padding-right: 70px;
+
+        div {
+            text-align: right;
+            padding-bottom: 5px;
+        }
 
         span {
             font-size: 24px;
@@ -22,8 +32,8 @@
     }
 
     img {
-        width: 50%;
-        height: 70%;
+        width: 57%;
+        height: 80%;
         padding: 100px 0px 100px 100px;
     }
 }

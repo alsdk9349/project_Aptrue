@@ -1,14 +1,10 @@
 package aptrue.backend.Admin.Service;
 
-import aptrue.backend.Admin.Dto.SignupRequestDto;
-import aptrue.backend.Admin.Dto.SignupResponseDto;
-import aptrue.backend.Global.BusinessException;
-import aptrue.backend.Global.Code.ErrorCode;
-import aptrue.backend.Admin.Dto.LoginRequestDto;
-import aptrue.backend.Admin.Dto.LoginResponseDto;
+import aptrue.backend.Admin.Dto.*;
+import aptrue.backend.Global.Error.BusinessException;
+import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
-import aptrue.backend.Global.Security.CustomAdminDetails;
 import aptrue.backend.Global.Security.CustomAdminInfoDto;
 import aptrue.backend.Global.Util.CookieUtil;
 import aptrue.backend.Global.Util.JwtUtil;
@@ -19,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -95,6 +92,7 @@ public class AdminServiceImpl implements AdminService {
                 .adminID(admin.getAdminId())
                 .account(admin.getAccount())
                 .name(admin.getName())
+                .isSuperAdmin(admin.isSuperAdmin())
                 .build();
         return loginResponseDto;
     }
@@ -130,6 +128,7 @@ public class AdminServiceImpl implements AdminService {
                 .phone(phone)
                 .isSuperAdmin(false)
                 .createdAt(LocalDateTime.now())
+                .apartment(superAdmin.getApartment())
                 .build();
         adminRepository.save(admin);
         Optional<Admin> signUpAdmin = adminRepository.findByAccount(signupRequestDto.getAccount());
@@ -140,5 +139,50 @@ public class AdminServiceImpl implements AdminService {
                 .name(signupRequestDto.getName())
                 .build();
         return signupResponseDto;
+    }
+
+    @Transactional
+    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest) {
+        int superAdminId = cookieUtil.getAdminId(httpServletRequest);
+
+        Admin superAdmin = adminRepository.findByAdminId(superAdminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
+
+        if (!superAdmin.isSuperAdmin()) {
+            throw new BusinessException(ErrorCode.NOT_SUPER_ADMIN);
+        }
+
+        List<Admin> adminAll = adminRepository.findAll();
+        List<AdminListResponseDto> adminList = new ArrayList<>();
+        for (Admin admin : adminAll) {
+            AdminListResponseDto adminListResponseDto = AdminListResponseDto.builder()
+                    .account(admin.getAccount())
+                    .adminID(admin.getAdminId())
+                    .createdAt(admin.getCreatedAt())
+                    .name(admin.getName())
+                    .phone(admin.getPhone())
+                    .build();
+            adminList.add(adminListResponseDto);
+        }
+        return adminList;
+    }
+
+    @Transactional
+    public void deleteAdmin(HttpServletRequest httpServletRequest, int adminId) {
+        int superAdminId = cookieUtil.getAdminId(httpServletRequest);
+
+        Admin superAdmin = adminRepository.findByAdminId(superAdminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
+
+        if (!superAdmin.isSuperAdmin()) {
+            throw new BusinessException(ErrorCode.NOT_SUPER_ADMIN);
+        }
+        log.info("슈퍼유저 권한 확인");
+        Optional<Admin> admin = adminRepository.findByAdminId(adminId);
+        if (admin.isEmpty()) {
+            throw new BusinessException(ErrorCode.ADMIN_NOT_FOUND);
+        } else {
+            adminRepository.delete(admin.get());
+        }
     }
 }

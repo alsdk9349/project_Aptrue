@@ -2,8 +2,8 @@ package aptrue.backend.Global.Security;
 
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
-import aptrue.backend.Global.BusinessException;
-import aptrue.backend.Global.Code.ErrorCode;
+import aptrue.backend.Global.Error.BusinessException;
+import aptrue.backend.Global.Error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -12,7 +12,7 @@ export default function WebNav() {
   const getActiveItem = () => {
     if (pathname === '/') return 'home';
     if (pathname.includes('/cctv')) return 'cctv';
-    if (pathname === '/admin') return 'admin';
+    if (pathname.includes('/admin')) return 'admin';
     return '';
   };
 
@@ -67,7 +67,7 @@ export default function WebNav() {
           </Link>
 
           <Link
-            href="/admin"
+            href="/admin/1"
             className={`${style.account} ${style.commonItem} ${
               activeItem === 'admin' ? style.active : ''
             }`}

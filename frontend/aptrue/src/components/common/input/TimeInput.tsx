@@ -1,23 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './TimeInput.module.scss';
+import Calendar from '../calendar/Calendar';
+
+interface TimeInputProps {
+  startDate: string;
+  endDate: string;
+  setStartDate: (date: string) => void;
+  setEndDate: (date: string) => void;
+  handleInputTime: (startDate: string, endDate: string) => void;
+  value: string;
+  isWeb: boolean;
+}
 
 export default function TimeInput({
-  onChange,
+  setStartDate,
+  setEndDate,
   isWeb,
-}: {
-  onChange: (inputValue: string) => void;
-  isWeb: boolean;
-}) {
-  const [inputValue, setInputValue] = useState<string>('');
+  value,
+  handleInputTime,
+}: TimeInputProps) {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false);
-
-  const onChangeInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-    onChange(value);
-  };
 
   const clickCalendar = () => {
     setOpenCalendar(!openCalendar);
@@ -33,9 +37,9 @@ export default function TimeInput({
       <div className={styles.inputContainer}>
         <input
           type="text"
-          value={inputValue}
+          value={value}
           placeholder="yyyy.mm.dd hh:mm - yyyy.mm.dd hh:mm"
-          onChange={onChangeInputValue}
+          readOnly
           className={isWeb ? styles.web : styles.app}
         />
         <img
@@ -45,7 +49,14 @@ export default function TimeInput({
         />
       </div>
       {openCalendar && (
-        <div className={styles.calendarContainer}>캘린더오픈</div>
+        <div className={styles.calendarContainer}>
+          <Calendar
+            setEndDate={setEndDate}
+            setStartDate={setStartDate}
+            clickCalendar={clickCalendar}
+            handleInputTime={handleInputTime}
+          />
+        </div>
       )}
     </div>
   );

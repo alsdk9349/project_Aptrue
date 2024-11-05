@@ -1,4 +1,3 @@
-'use client';
 import style from '@/components/common/button/Button.module.scss';
 import { useState } from 'react';
 
@@ -7,6 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color: ButtonColor;
   size: ButtonSize;
   clickedColor?: ButtonColor;
+  active?: boolean;
 }
 
 export default function Button({
@@ -14,21 +14,15 @@ export default function Button({
   color,
   children,
   clickedColor,
+  active,
   ...props
 }: ButtonProps) {
-  const [currentColor, setCurrentColor] = useState<ButtonColor>(color);
-  const [colorState, setColorState] = useState<boolean>(true);
+  const currentColor: ButtonColor =
+    active && clickedColor ? clickedColor : color;
 
-  const onClick = async () => {
-    if (clickedColor) {
-      setCurrentColor(colorState === true ? clickedColor : color);
-      setColorState(!colorState);
-    }
-  };
   return (
     <button
       className={`${style['base-button-style']} ${style[currentColor]} ${style[size]}`}
-      onClick={onClick}
       {...props}
     >
       {children}

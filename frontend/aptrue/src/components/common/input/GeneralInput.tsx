@@ -6,23 +6,25 @@ import styles from './Input.module.scss';
 export default function GeneralInput({
   label,
   placeholder,
+  value,
   size,
   onChange,
 }: {
   label: string;
   placeholder: string;
+  value: string;
   size: string;
-  onChange?: (inputValue: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
-  const [inputValue, setInputValue] = useState<string>('');
+  // const [inputValue, setInputValue] = useState<string>('');
 
-  const onChangeInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-    if (onChange) {
-      onChange(value);
-    }
-  };
+  // const onChangeInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   setInputValue(value);
+  //   if (onChange) {
+  //     onChange(value);
+  //   }
+  // };
 
   return (
     <div className={styles.container}>
@@ -33,9 +35,9 @@ export default function GeneralInput({
       </div>
       <input
         type="text"
-        value={inputValue}
+        value={value}
         placeholder={placeholder}
-        onChange={onChangeInputValue}
+        onChange={onChange}
         className={size === 'long' ? styles.long : styles.short}
       />
     </div>

@@ -3,9 +3,11 @@ import Image from 'next/image';
 import style from './cctv.module.scss';
 import { useSetRecoilState } from 'recoil';
 import { cctvFormState } from '@/state/atoms/cctvAtoms';
+import { useRouter } from 'next/navigation';
 
 export default function CCTVHeader() {
-  const setFormState = useSetRecoilState(cctvFormState);
+  const router = useRouter();
+  // const setFormState = useSetRecoilState(cctvFormState);
   const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
@@ -15,7 +17,7 @@ export default function CCTVHeader() {
     console.log('검색하기');
   };
   const handleShowForm = () => {
-    // setFormState('form');
+    router.push(`/cctv/form`);
   };
   return (
     <div className={style.header}>

@@ -1,3 +1,12 @@
+import CCTVForm from '@/components/cctv/cctvForm';
+
 export default function Default() {
-  return <div>cctvForm default</div>;
+  console.log("form 디폴트");
+  
+  return (
+    <div>
+      <CCTVForm />
+      디폴트
+    </div>
+  );
 }

@@ -1,5 +1,10 @@
 import CCTVForm from '@/components/cctv/cctvForm';
 
 export default function Page() {
-  return <CCTVForm />;
+  return (
+    <div>
+      <CCTVForm />
+      페이지
+    </div>
+  );
 }

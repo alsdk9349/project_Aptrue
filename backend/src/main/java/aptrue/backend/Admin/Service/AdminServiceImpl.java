@@ -128,6 +128,7 @@ public class AdminServiceImpl implements AdminService {
                 .phone(phone)
                 .isSuperAdmin(false)
                 .createdAt(LocalDateTime.now())
+                .apartment(superAdmin.getApartment())
                 .build();
         adminRepository.save(admin);
         Optional<Admin> signUpAdmin = adminRepository.findByAccount(signupRequestDto.getAccount());

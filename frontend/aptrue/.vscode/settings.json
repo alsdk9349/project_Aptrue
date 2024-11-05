@@ -1,0 +1,6 @@
+{
+  "emmet.includeLanguages": { "javascript": "javascriptreact" }, 
+  "emmet.syntaxProfiles": { "javascript": "jsx" },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

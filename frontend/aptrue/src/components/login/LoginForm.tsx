@@ -48,7 +48,7 @@ export default function LoginForm() {
         // "credentails" : 로컬 로그인 이므로
         try { 
             await signIn("credentials", {
-            username: info.account, // username,password은 next-auth의 고정이라서
+            account: info.account, // username,password은 next-auth의 고정이라서
             password: info.password,
             redirect: false
         }) 
@@ -76,7 +76,7 @@ export default function LoginForm() {
             <div className={styles.label}>비밀 번호</div>
             <input 
             name='password'
-            type="text"
+            type="password"
             value={info.password}
             onChange={changeInfo}
             placeholder='비밀번호를 입력하세요'

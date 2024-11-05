@@ -1,4 +1,4 @@
-export {auth} from "./auth"; // auth.ts의 auth를 불러온것
+import { auth } from "./auth"; // auth.ts의 auth를 불러온것
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -10,12 +10,12 @@ import type { NextRequest } from "next/server";
 //     matcher: '/admin/:path', '/cctv/:path', '/'
 // }
 
-// export async function middleware() {
-//     const session = await auth();
-//     if (!session) {
-//         return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
-//     }
-// }
+export async function middleware() {
+    const session = await auth();
+    if (!session) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
+    }
+}
 
 export const config = {
     // 미들웨어를 적용할 라우트 즉 로그인을 해야지만 접근할 수 있는 페이지

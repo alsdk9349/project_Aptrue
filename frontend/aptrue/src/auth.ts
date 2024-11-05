@@ -47,7 +47,7 @@ export const {
         Credentials({
             credentials: {
                 account: {},
-                password: {},
+                password: {}
             },
             // 세션을 생성할때 반환 값들 사용할 수 있음.
         authorize: async (credentials : any) => {
@@ -70,7 +70,9 @@ export const {
                     return null
                 }
 
-                const user = await authResponse.json()
+                const response = await authResponse.json();
+                const user = response.data;
+                console.log('로그인 성공 후 반환', user)
 
                 return {
                     id: user.adminID,
@@ -79,7 +81,9 @@ export const {
                     isSuperAdmin:user.isSuperAdmin
                 }
             } catch (error) {
+                console.log('로그인 실패', error)
                 throw new Error('로그인 실패')
+                // return null
             }
 
         },

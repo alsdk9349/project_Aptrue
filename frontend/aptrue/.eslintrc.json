@@ -1,11 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "import"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "import"],
   "parserOptions": {
     "project": "./tsconfig.json",
     "createDefaultProgram": true
@@ -15,35 +11,26 @@
     "node": true,
     "es6": true
   },
-  "ignorePatterns": [
-    "node_modules/"
-  ],
+  "ignorePatterns": ["node_modules/"],
   "extends": [
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
-    "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier",
-    "eslint-config-prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "eslint:recommended",
-    "plugin:react/recommended",
-//    "plugin:react-hooks/recommended"
-    "next/typescript"
-//    "plugin:storybook/recommended",
-//    "plugin:storybook/recommended"
+    "next/core-web-vitals",
+    "plugin:prettier/recommended",
+    "eslint-config-prettier"
   ],
   "settings": {
     "import/resolver": {
       "typescript": {}
     },
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts"
-      ]
+      "@typescript-eslint/parser": [".ts"]
     }
   },
   "rules": {
@@ -52,33 +39,22 @@
     "react/jsx-filename-extension": [
       "warn",
       {
-        "extensions": [
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".ts", ".tsx"]
       }
     ],
     "react/function-component-definition": [
-      2,
+      "warn",
       {
-        "namedComponents": [
-          "arrow-function",
-          "function-declaration"
-        ]
+        "namedComponents": ["arrow-function", "function-declaration"]
       }
     ],
     "sort-imports": [
       "error",
       {
         "ignoreCase": false,
-        "ignoreDeclarationSort": false,
+        "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": [
-          "none",
-          "all",
-          "multiple",
-          "single"
-        ],
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
         "allowSeparatedGroups": false
       }
     ],
@@ -86,15 +62,9 @@
       "error",
       {
         "groups": [
-          [
-            "builtin",
-            "external"
-          ],
+          ["builtin", "external"],
           "internal",
-          [
-            "parent",
-            "sibling"
-          ],
+          ["parent", "sibling"],
           "index",
           "object"
         ],
@@ -115,9 +85,7 @@
             "position": "after"
           }
         ],
-        "pathGroupsExcludedImportTypes": [
-          "react"
-        ],
+        "pathGroupsExcludedImportTypes": ["react"],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",

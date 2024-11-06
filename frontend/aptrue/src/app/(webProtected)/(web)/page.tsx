@@ -9,7 +9,7 @@ export default async function Home() {
   // if (!session?.user) {
   //   redirect('/login');
   // }
-  // // 서버 사이드에서 API 호출
+  // 서버 사이드에서 API 호출
   // const response = await fetch(
   //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/cctv/get/101동주변`,
   // );

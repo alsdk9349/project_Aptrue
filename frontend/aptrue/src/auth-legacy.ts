@@ -1,6 +1,28 @@
 import NextAuth, { type DefaultSession } from "next-auth";
 import { DefaultJWT } from "next-auth/jwt";
-import CredentialsProvider from 'next-auth/providers/credentials';
+
+import Credentials from "next-auth/providers/credentials";
+ 
+
+// user 타입 확장
+declare module "next-auth" {
+  interface Session {
+    user: {
+      account: string;
+      isSuperAdmin: boolean;
+    } & DefaultSession["user"];
+    accessToken:string;
+    refreshToken:string;
+  }
+}
+
+// JWT 타입 확장
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    accessToken: string; // 토큰에 액세스 토큰 추가
+    refreshToken: string; // 토큰에 리프레시 토큰 추가
+  }
+}
 
 
 export const {
@@ -23,7 +45,11 @@ export const {
     //     }
     // },
     providers: [
-        CredentialsProvider({
+        Credentials({
+            credentials: {
+                account: {},
+                password: {}
+            },
             // 세션을 생성할때 반환 값들 사용할 수 있음.
         authorize: async (credentials : any) => {
             
@@ -36,7 +62,7 @@ export const {
                 },
                 body: JSON.stringify({
                     // credentials안에 username 이랑 password로 고정되어 있음. 그래서 바꿔주기
-                    account: credentials.username ,
+                    account: credentials.account ,
                     password:credentials.password
                     }),
                 })

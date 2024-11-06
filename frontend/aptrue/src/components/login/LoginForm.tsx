@@ -19,8 +19,31 @@ export default function LoginForm() {
         setPassword(event.target.value)
     }
 
-    const submit = () => {
-        console.log('로그인 api 요청')
+
+    const onSubmit : FormEventHandler<HTMLFormElement> = async (e) => {
+        e.preventDefault();
+        setMessage('')
+
+        try {
+            const result = await signIn("credentials", {
+                username: account,
+                password: password,
+                redirect:false
+            })
+            console.log('here1', result)
+
+            if (result?.error) {
+                setMessage('아이디와 비밀번호가 일치하지 않습니다');
+                console.log('here2')
+              } else {
+                router.replace('/');
+              }
+        } catch (error) {
+            console.error(error);
+            setMessage('로그인에 실패했습니다. 다시 시도해주세요')
+        }
+
+        
     }
 
     return (
@@ -42,7 +65,7 @@ export default function LoginForm() {
             onChange={changeInfo}
             placeholder='비밀번호를 입력하세요'
             />
-            <button disabled={!account && !password}>
+            <button disabled={!account || !password}>
                 로그인
             </button>
         </div>

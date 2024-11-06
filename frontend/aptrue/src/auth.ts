@@ -99,5 +99,6 @@ export const {
         }),
   ],
   // TO DO
-    //   secret: process.env.AUTH_SECRET,
+      //secret: process.env.AUTH_SECRET
+      secret: '11111'
 });

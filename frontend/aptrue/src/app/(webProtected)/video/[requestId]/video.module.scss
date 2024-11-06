@@ -1,0 +1,17 @@
+@use '@/styles/constants/colors.scss' as colors;
+
+.videoBox{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;  
+}
+
+.playBar{
+position: fixed;
+width: 100%;
+height: 100%;
+bottom: 0;
+right: 0;
+}

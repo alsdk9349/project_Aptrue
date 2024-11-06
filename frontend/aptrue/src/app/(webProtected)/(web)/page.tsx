@@ -9,7 +9,7 @@ export default async function Home() {
   // if (!session?.user) {
   //   redirect('/login');
   // }
-  // // 서버 사이드에서 API 호출
+  // 서버 사이드에서 API 호출
   // const response = await fetch(
   //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/cctv/get/101동주변`,
   // );
@@ -30,8 +30,7 @@ export default async function Home() {
       <div className={style.container}>
         <div className={style.content}>
           <div className={style.title}>CCTV</div>
-          {/* CCTVHome에 props로 videoUrls 전달 */}
-          <CCTVHome activeZone="101동 주변" videoUrls={videoUrls} />
+          <CCTVHome />
         </div>
       </div>
       <div className={style.notification}>
@@ -40,3 +39,4 @@ export default async function Home() {
     </div>
   );
 }
+

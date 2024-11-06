@@ -73,22 +73,27 @@ export const {
                 const parsedCookies = parse(cookies);
                 const accessToken = parsedCookies["accessToken"]
                 const refreshToken = parsedCookies["refreshToken"]
+                console.log()
 
                 if (!accessToken) {
                     console.error("엑세스토큰이 없습니다.")
                 }
 
                 const response = await authResponse.json();
+                console.log('로그인 후 response 반환 값', response)
                 const user = response.data;
                 console.log('로그인 성공 후 반환', user)
 
                 return {
-                    id: user.adminID,
-                    account : user.account,
-                    name: user.name,
-                    isSuperAdmin:user.isSuperAdmin,
-                    accessToken: accessToken
+                    id:'1'
                 }
+                // return {
+                //     id: user.adminID,
+                //     account : user.account,
+                //     name: user.name,
+                //     isSuperAdmin:user.isSuperAdmin,
+                //     accessToken: accessToken
+                // }
             } catch (error) {
                 console.log('로그인 실패', error)
                 throw new Error('로그인 실패')

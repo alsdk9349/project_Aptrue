@@ -1,4 +1,7 @@
+import { notFound } from 'next/navigation';
 import style from './ApartCard.module.scss';
+
+const aptId = 1;
 
 const data = {
   aptname: 'SSAFY Apt',
@@ -8,7 +11,17 @@ const data = {
   household: 10,
 };
 
-export default function ApartCard() {
+export default async function ApartCard() {
+  // // [todo]아파트 카드 API 호출 로직 작성
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/apart/?aptId=${aptId}`,
+  // )
+  // if(!response.ok){
+  //   notFound();
+  // }
+
+  // const res = await response.json();
+  // const data = res.data;
   // location을 분리하는 로직
   const [city, ...rest] = data.location.split(' ');
   const restLocation = rest.join(' ');

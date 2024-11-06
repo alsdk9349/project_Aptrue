@@ -1,5 +1,5 @@
 .button {
-  margin: 13px 0px;
+  margin: 13px 0;
 }
 
 .cctvContainer {
@@ -11,7 +11,6 @@
 .cctvContainer > * {
   flex: 0 0 calc(50% - 10px);
   box-sizing: border-box;
-  margin-bottom: 13px;
 }
 
 .modal {

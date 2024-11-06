@@ -1,9 +1,12 @@
-'use client';
-
-import CCTVScreen from './CCTV/CCTVScreen';
+// 서버 컴포넌트
 import CCTVButton from './CCTVButton';
+import CCTVScreen from './CCTV/CCTVScreen';
 import style from './CCTVHome.module.scss';
-import { useState } from 'react';
+
+interface CCTVHomeProps {
+  activeZone: string;
+  videoUrls: string[];
+}
 
 const cctvZone = [
   '101동 주변',
@@ -17,65 +20,22 @@ const cctvZone = [
   '정문 어린이집',
 ];
 
-const videoUrls = [
-  '/videos/entrance.mp4',
-  '/videos/park2.mp4',
-  '/videos/park.mp4',
-  '/videos/playground.mp4',
-];
-
-export default function CCTVHome() {
-  const [activeZone, setActiveZone] = useState<string>('101동 주변');
-  const [randomVideos, setRandomVideos] = useState<string[]>(videoUrls);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
-
-  const handleZoneChange = (zone: string) => {
-    setActiveZone(zone);
-    const shuffledVideos = [...videoUrls].sort(() => Math.random() - 0.5);
-    setRandomVideos(shuffledVideos);
-  };
-
-  const openModal = (videoUrl: string) => {
-    setCurrentVideoUrl(videoUrl);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCurrentVideoUrl('');
-  };
-
+export default function CCTVHome({ activeZone, videoUrls }: CCTVHomeProps) {
   return (
     <div>
       <div className={style.button}>
-        <CCTVButton
-          activeZone={activeZone}
-          setActiveZone={handleZoneChange}
-          cctvZone={cctvZone}
-        />
+        <CCTVButton activeZone={activeZone} cctvZone={cctvZone} />
       </div>
       <div className={style.cctvContainer}>
-        {randomVideos.map((videoUrl, index) => (
+        {videoUrls.map((videoUrl, index) => (
           <CCTVScreen
             key={index}
             activeZone={activeZone}
             camNumber={index + 1}
             videoUrl={videoUrl}
-            onClick={() => openModal(videoUrl)} // 클릭 핸들러 추가
           />
         ))}
       </div>
-      {isModalOpen && (
-        <div className={style.modal} onClick={closeModal}>
-          <div
-            className={style.modalContent}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <video src={currentVideoUrl} controls={false} autoPlay loop muted />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

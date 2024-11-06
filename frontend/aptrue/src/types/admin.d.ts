@@ -20,12 +20,3 @@ interface postLogin {
     account:string;
     password:string;
 }
-
-declare module 'next-auth' {
-    interface Session extends DefaultSession {
-        user: {
-            account:string
-        } & DefaultSession['user'];
-        accessToken:string;
-    }
-}

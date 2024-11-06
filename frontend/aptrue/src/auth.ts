@@ -39,12 +39,13 @@ export const {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-              username: { label: "Username", type: "text" },
+              account: { label: "account", type: "text" },
               // TO DO type : "password"
-              password: { label: "Password", type: "text" },
+              password: { label: "password", type: "text" },
             },
             // 세션을 생성할때 반환 값들 사용할 수 있음.
         authorize: async (credentials : any) => {
+            console.log('authorize 부분')
             
             try {
                     // TODO ${process.env.NEXT_PUBLIC_BASE_URL}
@@ -55,14 +56,15 @@ export const {
                 },
                 body: JSON.stringify({
                     // credentials안에 username 이랑 password로 고정되어 있음. 그래서 바꿔주기
-                    account: credentials.username ,
+                    account: credentials.account ,
                     password:credentials.password
                     }),
                 })
 
                 if (!authResponse.ok) {
-                    return null
-                }
+                    console.error("서버에서 인증 실패:", authResponse.statusText);
+                    return null;
+                  }
 
                 const cookies = authResponse.headers.get('set-cookie');
                 if (!cookies) {
@@ -73,7 +75,7 @@ export const {
                 const parsedCookies = parse(cookies);
                 const accessToken = parsedCookies["accessToken"]
                 const refreshToken = parsedCookies["refreshToken"]
-                console.log()
+                console.log('토큰?')
 
                 if (!accessToken) {
                     console.error("엑세스토큰이 없습니다.")
@@ -85,15 +87,12 @@ export const {
                 console.log('로그인 성공 후 반환', user)
 
                 return {
-                    id:'1'
+                    id: user.adminID,
+                    account : user.account,
+                    name: user.name,
+                    isSuperAdmin:user.isSuperAdmin,
+                    accessToken: accessToken
                 }
-                // return {
-                //     id: user.adminID,
-                //     account : user.account,
-                //     name: user.name,
-                //     isSuperAdmin:user.isSuperAdmin,
-                //     accessToken: accessToken
-                // }
             } catch (error) {
                 console.log('로그인 실패', error)
                 throw new Error('로그인 실패')

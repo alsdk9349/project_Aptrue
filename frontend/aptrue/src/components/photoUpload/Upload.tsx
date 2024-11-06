@@ -1,12 +1,15 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
 import style from './Upload.module.scss';
 import Button from '../common/button/Button';
 
 export default function Upload() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  const { clipRQId } = useParams();
 
   // 클릭 핸들러
   const handleClick = () => {
@@ -34,7 +37,33 @@ export default function Upload() {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleUploadClick = () => {
+  const handleUploadClick = async () => {
+    const formData = new FormData();
+
+    // previews 배열을 순회하며 blob: URL을 fetch로 변환 후 FormData에 추가
+    await Promise.all(
+      previews.map(async (preview, index) => {
+        const response = await fetch(preview); // blob: URL로부터 Blob 가져오기
+        const blob = await response.blob();
+        const file = new File([blob], `image${index}.png`, { type: blob.type }); // Blob을 File로 변환
+        formData.append('files', file); // FormData에 추가
+      }),
+    );
+
+    // // FormData에 추가된 파일 확인
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+
+    // //[todo] 입주민 이미지 업로드 api 호출 로직 작성
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/picture/upload?clipRQId=${clipRQId}`,
+    //   {
+    //     method: 'POST',
+    //     body: formData, // FormData 객체를 사용합니다.
+    //   },
+    // );
+    // const data = await response.json();
     console.log(previews);
   };
 

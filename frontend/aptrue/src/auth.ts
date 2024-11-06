@@ -58,7 +58,6 @@ export const {
                     account: credentials.username ,
                     password:credentials.password
                     }),
-                    credentials: "include" //쿠키를 포함한 요청
                 })
 
                 if (!authResponse.ok) {

@@ -20,7 +20,10 @@ public enum SuccessCode {
     DELETE_ADMIN(HttpStatus.OK, "A006", "관리자를 삭제했습니다."),
 
     // CCTV
-    CLIP_RQ_OK(HttpStatus.OK, "C006", "CCTV 요청이 완료되었습니다.");
+    CLIP_RQ_OK(HttpStatus.OK, "C006", "CCTV 요청이 완료되었습니다."),
+
+    // APT
+    APT_OK(HttpStatus.OK, "B006", "아파트 정보 조회가 완료되었습니다.");
 
     private final HttpStatus status;
     private final String code;

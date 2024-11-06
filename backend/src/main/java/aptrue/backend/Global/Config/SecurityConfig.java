@@ -76,6 +76,9 @@ public class SecurityConfig {
                             .requestMatchers("/api/signup").permitAll() // 모든 사용자가 signup 접근 가능
                             .requestMatchers("/api/superAdmin").permitAll() // /superAdmin에 대한 요청 허용
                             .requestMatchers("/api/ClipRQ/new").permitAll()
+                            .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/v3/api-docs/**").permitAll()
+                            .requestMatchers("/api/apart").permitAll()
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 

@@ -44,7 +44,7 @@ RUN echo "SPRING_DATA_REDIS_PASSWORD: $SPRING_DATA_REDIS_PASSWORD"
 RUN echo "JWT_SECRET: $JWT_SECRET"
 
 # Gradle 빌드 후 생성된 JAR 파일 복사
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build --no-daemon --stacktrace
 
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "/app/build/libs/backend-0.0.1-SNAPSHOT.jar"]

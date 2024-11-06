@@ -2,21 +2,16 @@
 
 .container {
   width: 100%;
-  height: 250px;
+  height: 265px;
   // border: solid 1px black;
-  position: relative;
 }
 
 .title {
   font-family: 'medium';
   font-size: 12px;
-  // margin-left: 7px;
 }
 
 .video {
   width: 100%;
-  height: 100%;
   margin-top: 6px;
-  object-fit: cover; /* 비디오가 부모 요소를 완전히 덮으며 비율 유지 */
-  position: absolute;
 }

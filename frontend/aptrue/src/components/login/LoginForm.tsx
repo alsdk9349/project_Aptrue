@@ -1,6 +1,5 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
 import styles from './LoginForm.module.scss';
 import { postLogin } from '@/types/admin';
 import Button from '../common/button/Button';
@@ -12,29 +11,49 @@ export default function LoginForm() {
         password:""
     })
 
-    const changeInfo = (event:React.ChangeEvent<HTMLInputElement>) => {
-
-        const {name, value} = event.target;
-        setInfo((prevInfo) => (
-            {
-                ...prevInfo,
-                [name]:value,
-            }
-        ))
+    const changeAccount = (event:React.ChangeEvent<HTMLInputElement>) => {
+        setAccount(event.target.value)
     }
 
-    const submit = () => {
-        console.log('로그인 api 요청')
+    const changePassword = (event:React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value)
+    }
+
+
+    const onSubmit : FormEventHandler<HTMLFormElement> = async (e) => {
+        e.preventDefault();
+        setMessage('')
+
+        try {
+            const result = await signIn("credentials", {
+                account: account,
+                password: password,
+                redirect:false
+            })
+            console.log('here1', result)
+
+            if (result?.error) {
+                setMessage('아이디와 비밀번호가 일치하지 않습니다');
+                console.log('here2')
+              } else {
+                router.replace('/');
+              }
+        } catch (error) {
+            console.error(error);
+            setMessage('로그인에 실패했습니다. 다시 시도해주세요')
+        }
+
+        
     }
 
     return (
-        <div className={styles.container}>
+        <form onSubmit={onSubmit} className={styles.container}>
             <div className={styles.label}>아이디</div>
             <input 
             name='account'
             type="text"
-            value={info.account}
-            onChange={changeInfo}
+            value={account}
+            onChange={changeAccount}
             placeholder='아이디를 입력하세요'
             />
 
@@ -46,7 +65,7 @@ export default function LoginForm() {
             onChange={changeInfo}
             placeholder='비밀번호를 입력하세요'
             />
-            <button onClick={submit}>
+            <button type='submit' disabled={!account || !password}>
                 로그인
             </button>
         </div>

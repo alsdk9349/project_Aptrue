@@ -11,7 +11,7 @@ export default function WebNav() {
   // 현재 경로를 기반으로 activeItem 설정
   const getActiveItem = () => {
     if (pathname === '/') return 'home';
-    if (pathname === '/cctv') return 'cctv';
+    if (pathname.includes('/cctv')) return 'cctv';
     if (pathname.includes('/admin')) return 'admin';
     return '';
   };
@@ -47,7 +47,7 @@ export default function WebNav() {
           </Link>
 
           <Link
-            href="/" //[*]나중에 cctv 링크로 수정 필요
+            href="/cctv"
             className={`${style.cctv} ${style.commonItem} ${
               activeItem === 'cctv' ? style.active : ''
             }`}

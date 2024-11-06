@@ -30,15 +30,22 @@ export default function LoginForm() {
         setMessage('')
 
         try {
-            await signIn("credentials", {
+            const result = await signIn("credentials", {
                 username: account,
                 password: password,
                 redirect:false
             })
-            router.replace('/');
+            console.log('here1', result)
+
+            if (result?.error) {
+                setMessage('아이디와 비밀번호가 일치하지 않습니다');
+                console.log('here2')
+              } else {
+                router.replace('/');
+              }
         } catch (error) {
             console.error(error);
-            setMessage('아이디와 비밀번호가 일치하지 않습니다')
+            setMessage('로그인에 실패했습니다. 다시 시도해주세요')
         }
 
         
@@ -65,7 +72,7 @@ export default function LoginForm() {
             onChange={changePassword}
             placeholder='비밀번호를 입력하세요'
             />
-            <button disabled={!account && !password}>
+            <button disabled={!account || !password}>
                 로그인
             </button>
 

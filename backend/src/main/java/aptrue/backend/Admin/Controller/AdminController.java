@@ -68,14 +68,15 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ResultResponse.class)))
+                            schema = @Schema(implementation = ResultResponse.class))),
+            @ApiResponse(responseCode = "400", description = "에러")
     })
     public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Apartment apart = Apartment.builder()
-                .aptName("sixbee")
-                .address("Samsung_Gwangju")
-                .houseCount(666)
+                .aptName("sixbee2")
+                .address("Samsung_Gwangju2")
+                .houseCount(6662)
                 .build();
         apartmentRepository.save(apart);
         Admin admin = Admin.builder()

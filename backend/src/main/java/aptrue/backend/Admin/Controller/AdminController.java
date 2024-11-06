@@ -74,9 +74,9 @@ public class AdminController {
     public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Apartment apart = Apartment.builder()
-                .aptName("sixbee2")
-                .address("Samsung_Gwangju2")
-                .houseCount(6662)
+                .aptName("sixbee3")
+                .address("Samsung_Gwangju3")
+                .houseCount(6663)
                 .build();
         apartmentRepository.save(apart);
         Admin admin = Admin.builder()

@@ -54,6 +54,14 @@
             background-color: colors.$blue5;
         }
     }
+
+    .error {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: colors.$red;
+        font-family: 'regular';
+    }
 }
 
 @media (max-width: 768px) {

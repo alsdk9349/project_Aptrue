@@ -25,13 +25,13 @@ export default async function Home() {
     '/videos/playground.mp4',
   ];
 
+export default function Home() {
   return (
     <div className={style.page}>
       <div className={style.container}>
         <div className={style.content}>
           <div className={style.title}>CCTV</div>
-          {/* CCTVHome에 props로 videoUrls 전달 */}
-          <CCTVHome activeZone="101동 주변" videoUrls={videoUrls} />
+          <CCTVHome />
         </div>
       </div>
       <div className={style.notification}>

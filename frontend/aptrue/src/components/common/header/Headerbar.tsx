@@ -1,19 +1,13 @@
-"use client"
+'use client';
 
 import { useEffect } from 'react';
 import styles from './Headerbar.module.scss';
 import { usePathname } from 'next/navigation';
 
-export default function Headerbar({
-    name
-} : {
-    name:string;
-}) {
+export default function Headerbar({ name }: { name: string }) {
+  const pathname = usePathname();
 
-    const pathname = usePathname();
-
-    useEffect(()=> {
-    },[pathname])
+  useEffect(() => {}, [pathname]);
 
     return (
         <div className={styles.container}>

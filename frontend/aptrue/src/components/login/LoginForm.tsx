@@ -1,15 +1,20 @@
 "use client";
 
 import styles from './LoginForm.module.scss';
-import { postLogin } from '@/types/admin';
-import Button from '../common/button/Button';
+import { useRouter } from 'next/navigation';
+import { FormEventHandler, useState } from 'react';
+
+// import { signIn } from '@/auth'; // 서버 환경에서는 이거 써야함!
+import { signIn } from 'next-auth/react'; // 클라이언트 환경에서는 이걸 써야함
+
 
 export default function LoginForm() {
 
-    const [ info, setInfo ] = useState<postLogin>({
-        account:"",
-        password:""
-    })
+    const router = useRouter();
+
+    const [message, setMessage] = useState<string>("")
+    const [account, setAccount] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
 
     const changeAccount = (event:React.ChangeEvent<HTMLInputElement>) => {
         setAccount(event.target.value)
@@ -60,15 +65,21 @@ export default function LoginForm() {
             <div className={styles.label}>비밀 번호</div>
             <input 
             name='password'
-            type="text"
-            value={info.password}
-            onChange={changeInfo}
+            type='text'
+            // TO DO
+            // type="password"
+            value={password}
+            onChange={changePassword}
             placeholder='비밀번호를 입력하세요'
             />
             <button type='submit' disabled={!account || !password}>
                 로그인
             </button>
-        </div>
+
+            <div className={styles.error}>
+                {message}
+            </div>
+        </form>
 
     )
 }

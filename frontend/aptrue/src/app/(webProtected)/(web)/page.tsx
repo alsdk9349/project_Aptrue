@@ -25,7 +25,6 @@ export default async function Home() {
     '/videos/playground.mp4',
   ];
 
-export default function Home() {
   return (
     <div className={style.page}>
       <div className={style.container}>
@@ -40,3 +39,4 @@ export default function Home() {
     </div>
   );
 }
+

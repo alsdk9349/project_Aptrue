@@ -26,7 +26,7 @@ export default function LoginForm() {
 
         try {
             const result = await signIn("credentials", {
-                username: account,
+                account: account,
                 password: password,
                 redirect:false
             })
@@ -65,7 +65,7 @@ export default function LoginForm() {
             onChange={changeInfo}
             placeholder='비밀번호를 입력하세요'
             />
-            <button disabled={!account || !password}>
+            <button type='submit' disabled={!account || !password}>
                 로그인
             </button>
         </div>

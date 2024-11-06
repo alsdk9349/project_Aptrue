@@ -1,6 +1,6 @@
-import { auth } from "./auth"; // auth.ts의 auth를 불러온것
+// import { auth } from "./auth-legacy"; // auth.ts의 auth를 불러온것
+import {auth} from './auth';
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
 // 아래 주석을 안써도 됨! auth를 middleware로 정의하면서 로그인이 필요한지를 알아서 확인해줌.
 // export function middleware(request: NextRequest) {
@@ -14,7 +14,8 @@ export async function middleware() {
     const session = await auth();
     
     if (!session) {
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
+        // TODO ${process.env.NEXT_PUBLIC_BASE_URL}
+        return NextResponse.redirect(`http://k11c101.p.ssafy.io/login`)
     }
 }
 

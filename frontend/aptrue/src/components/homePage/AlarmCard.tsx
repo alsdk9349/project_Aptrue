@@ -23,11 +23,15 @@ export default function AlarmCard({
           ? style.request
           : '';
 
+  const [datePart, timePart] = date.split('T');
+  const formattedTime = timePart.split(':').slice(0, 2).join(':');
   return (
     <div className={`${style.container} ${categoryClass}`} onClick={onClick}>
       <div className={`${style.textContainer} ${!image ? style.full : ''}`}>
         <div className={style.message}>{message}</div>
-        <p className={style.date}>{new Date(date).toLocaleString()}</p>
+        <p className={style.date}>
+          {datePart} {formattedTime}
+        </p>
         <p
           className={`${style.status} ${isCompleted ? style.completed : style.incomplete}`}
         >

@@ -64,7 +64,7 @@ public class AdminController {
 
 
     @PostMapping("/superAdmin")
-    @Operation(summary = "슈퍼 유저 회원가입", description = "슈퍼 어드민 만드는 API")
+    @Operation(summary = "슈퍼 유저 회원가입 야호", description = "슈퍼 어드민 만드는 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
                     content = @Content(mediaType = "application/json",

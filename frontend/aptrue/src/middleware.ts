@@ -11,13 +11,14 @@ import type { NextRequest } from 'next/server';
 // }
 
 export async function middleware() {
-  const session = await auth();
-  if (!session) {
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`);
-  }
+    const session = await auth();
+    
+    if (!session) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
+    }
 }
 
 export const config = {
-  // 미들웨어를 적용할 라우트 즉 로그인을 해야지만 접근할 수 있는 페이지
-  // matcher: ['/', '/cctv/:path*', '/admin/:path*']
-};
+    // 미들웨어를 적용할 라우트 즉 로그인을 해야지만 접근할 수 있는 페이지
+    matcher: ['/:path*', '/cctv/:path*', '/admin/:path*']
+}

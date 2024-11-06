@@ -8,6 +8,11 @@ import aptrue.backend.Apartment.Entity.Apartment;
 import aptrue.backend.Apartment.Repository.ApartmentRepository;
 import aptrue.backend.Global.ResultResponse;
 import aptrue.backend.Global.Code.SuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +64,19 @@ public class AdminController {
 
 
     @PostMapping("/superAdmin")
+    @Operation(summary = "슈퍼 유저 회원가입", description = "슈퍼 어드민 만드는 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원가입 성공",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ResultResponse.class))),
+            @ApiResponse(responseCode = "400", description = "에러")
+    })
     public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Apartment apart = Apartment.builder()
-                .aptName("sixbee")
-                .address("Samsung_Gwangju")
-                .houseCount(666)
+                .aptName("sixbee3")
+                .address("Samsung_Gwangju3")
+                .houseCount(6663)
                 .build();
         apartmentRepository.save(apart);
         Admin admin = Admin.builder()

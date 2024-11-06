@@ -1,5 +1,6 @@
 import NextAuth  from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials';
+import {parse} from 'cookie';
 
 
 export const {
@@ -57,10 +58,25 @@ export const {
                     account: credentials.username ,
                     password:credentials.password
                     }),
+                    credentials: "include" //쿠키를 포함한 요청
                 })
 
                 if (!authResponse.ok) {
                     return null
+                }
+
+                const cookies = authResponse.headers.get('set-cookie');
+                if (!cookies) {
+                    console.error('쿠키가 없습니다')
+                    return null;
+                }
+
+                const parsedCookies = parse(cookies);
+                const accessToken = parsedCookies["accessToken"]
+                const refreshToken = parsedCookies["refreshToken"]
+
+                if (!accessToken) {
+                    console.error("엑세스토큰이 없습니다.")
                 }
 
                 const response = await authResponse.json();
@@ -72,7 +88,7 @@ export const {
                     account : user.account,
                     name: user.name,
                     isSuperAdmin:user.isSuperAdmin,
-                    accessToken: response.accessToken
+                    accessToken: accessToken
                 }
             } catch (error) {
                 console.log('로그인 실패', error)
@@ -83,5 +99,5 @@ export const {
         }),
   ],
   // TO DO
-    //   secret: process.env.NEXTAUTH_SECRET,
+    //   secret: process.env.AUTH_SECRET,
 });

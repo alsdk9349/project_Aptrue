@@ -6,15 +6,15 @@ interface UserInfo {
     password:string;
 }
 
-interface ResponseValue {
-    user: {
-        adminID:number
-        account: string;
-        name: string;
-        isSupserAdmin: boolean;
-    }
-    accessToken?: string
-  }
+// interface ResponseValue {
+//     user: {
+//         adminID:number
+//         account: string;
+//         name: string;
+//         isSupserAdmin: boolean;
+//     }
+//     accessToken?: string
+//   }
 
 export const {
     // handlers: {GET, POST}, // api 라우트
@@ -57,6 +57,7 @@ export const {
             // }
             // return token
             if (user) {
+                console.log('user', user)
                 // 쿠키에서 accessToken 읽어오기
                 const accessToken = document.cookie
                   .split('; ')
@@ -89,6 +90,8 @@ async function _login(
     } 
 ) {
     //https://ssafy-aptrue.co.kr
+    console.log('여기로 왔나?')
+    console.log('body데이터', body)
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
@@ -98,6 +101,7 @@ async function _login(
     })
 
     const data = await response.json();
+    console.log('로그인', data)
     console.log('로그인 성공', data.data)
 
     if (response.ok && data && typeof data !== 'string') {

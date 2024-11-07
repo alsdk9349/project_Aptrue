@@ -17,23 +17,23 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // 쿠키에서 accessToken 가져오기
-  const accessToken = request.cookies.get('accessToken')?.value;
+  // const accessToken = request.cookies.get('accessToken')?.value;
 
-  // 인증이 필요한 경로에 대한 처리
-  if (isMatch(pathname, matchersForAuth)) {
-    // accessToken이 없으면 로그인 페이지로 리디렉션
-    return accessToken
-      ? NextResponse.next() // accessToken이 있으면 요청을 그대로 진행
-      : NextResponse.redirect(new URL('/login', request.url));
-  }
+  // // 인증이 필요한 경로에 대한 처리
+  // if (isMatch(pathname, matchersForAuth)) {
+  //   // accessToken이 없으면 로그인 페이지로 리디렉션
+  //   return accessToken
+  //     ? NextResponse.next() // accessToken이 있으면 요청을 그대로 진행
+  //     : NextResponse.redirect(new URL('/login', request.url));
+  // }
 
   // 로그인 페이지 접근 제한 처리
-  if (isMatch(pathname, matchersForSignIn)) {
-    // accessToken이 있으면 메인 페이지로 리디렉션
-    return accessToken
-      ? NextResponse.redirect(new URL('/', request.url))
-      : NextResponse.next();
-  }
+  // if (isMatch(pathname, matchersForSignIn)) {
+  //   // accessToken이 있으면 메인 페이지로 리디렉션
+  //   return accessToken
+  //     ? NextResponse.redirect(new URL('/', request.url))
+  //     : NextResponse.next();
+  // }
 
   // 인증이 필요하지 않은 경로는 그대로 진행
   return NextResponse.next();

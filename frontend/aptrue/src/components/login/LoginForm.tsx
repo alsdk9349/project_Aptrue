@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.scss';
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
+    const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
 
@@ -18,7 +18,10 @@ export default function LoginPage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({
+                account: account,
+                password: password 
+            }),
             credentials: 'include' // 쿠키를 포함해 서버와 통신
         });
 
@@ -38,8 +41,8 @@ export default function LoginPage() {
             <input
                 type="text"
                 placeholder="아이디"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={account}
+                onChange={(e) => setAccount(e.target.value)}
                 required
             />
             <input

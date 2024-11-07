@@ -6,7 +6,7 @@ import { match } from 'path-to-regexp';
 import { getSession } from './serverActions/auth';
 
 // 로그인한 사용자만 접근할 수 있는 페이지
-const matchersForAuth = ['/*', '/cctv/*', '/admin/*']
+const matchersForAuth = ['/', '/cctv/:page', '/admin/:page']
 
 // 로그인페이지
 const matchersForSignIn = ['/login']

@@ -19,7 +19,7 @@ export const signInWithCredentials = async (
     } catch (error) {
         return  { message: error instanceof Error ? error.message : '로그인에 실패했습니다' };
     }
-
+    
     redirect('/')
 }
 

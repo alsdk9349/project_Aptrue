@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST() {
   const OPENVIDU_URL = 'http://localhost:4443';
-  const OPENVIDU_SECRET = 'sixbee101';
+  const OPENVIDU_SECRET = 'MY_SECRET';
 
   try {
     console.log('Creating session on OpenVidu server...');
@@ -12,7 +12,7 @@ export async function POST() {
         Authorization: `Basic ${Buffer.from(`OPENVIDUAPP:${OPENVIDU_SECRET}`).toString('base64')}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ customSessionId: 'YOUR_SESSION_ID' }),
+      body: JSON.stringify({}),
     });
 
     if (!sessionResponse.ok) {

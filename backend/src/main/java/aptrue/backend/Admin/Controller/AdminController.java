@@ -71,21 +71,21 @@ public class AdminController {
                             schema = @Schema(implementation = ResultResponse.class))),
             @ApiResponse(responseCode = "400", description = "에러")
     })
-    public ResponseEntity<?> superAdmin (@RequestBody SignupRequestDto signupRequestDto) {
+    public ResponseEntity<?> superAdmin (@RequestBody SuperAdminRequestDto superAdminRequestDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Apartment apart = Apartment.builder()
-                .aptName("SixBee")
-                .block(250)
-                .location("Gwangju")
-                .aptImg("https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/test/image.png")
-                .household(250)
+                .aptName(superAdminRequestDto.getAptName())
+                .block(superAdminRequestDto.getBlock())
+                .location(superAdminRequestDto.getLocation())
+                .aptImg(superAdminRequestDto.getAptImg())
+                .household(superAdminRequestDto.getHousehold())
                 .build();
         apartmentRepository.save(apart);
         Admin admin = Admin.builder()
-                .name(signupRequestDto.getName())
-                .account(signupRequestDto.getAccount())
-                .password(passwordEncoder.encode(signupRequestDto.getPassword()))
-                .phone(signupRequestDto.getPhone())
+                .name(superAdminRequestDto.getName())
+                .account(superAdminRequestDto.getAccount())
+                .password(passwordEncoder.encode(superAdminRequestDto.getPassword()))
+                .phone(superAdminRequestDto.getPhone())
                 .isSuperAdmin(true)
                 .createdAt(LocalDateTime.now())
                 .apartment(apart)

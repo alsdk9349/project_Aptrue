@@ -10,12 +10,12 @@ export default function CCTVVideoLink({
       <div>CCTV 처리 완료 영상</div>
       <div className={style['real-blue']}>
         <a
-          href={`${window.location.origin}/video/${detailInfo.cctvVideo}`}
+          href={`${window.location.origin}/video/${detailInfo.clipList}`}
           target="_blank"
           rel="noopener noreferrer"
           className={style['real-blue']}
         >
-          {`https://www.ssafy-aptrue/video/${detailInfo.cctvVideo}`}
+          {`https://www.ssafy-aptrue/video/${detailInfo.clipList}`}
         </a>
       </div>
     </div>

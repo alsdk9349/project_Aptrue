@@ -1,3 +1,5 @@
+//
+
 'use client';
 import style from './cctv.module.scss';
 import { useEffect, useRef, useState } from 'react';
@@ -8,7 +10,13 @@ interface CCTVClipProps {
 
 export default function CCTVClip({ clipList }: CCTVClipProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const thumbnailContainerRef = useRef<HTMLDivElement>(null);
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMouseOver, setIsMouseOver] = useState(false); // 마우스가 올라와 있는지 여부 확인
+  const [containerWidth, setContainerWidth] = useState(0); // 컨테이너의 폭
+  const [scrollWidth, setScrollWidth] = useState(0); // 스크롤할 수 있는 전체 폭
+  const scrollSpeed = 5; // 스크롤 속도 조절
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -23,7 +31,6 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
           videoElement.play();
           return nextIndex;
         } else {
-          // 모든 비디오 재생이 끝났을 때 처음으로 돌아감
           videoElement.src = clipList[0];
           videoElement.play();
           return 0;
@@ -38,50 +45,113 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
     };
   }, [clipList]);
 
-  // 드롭다운에서 선택한 비디오 재생 시작
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedIndex = parseInt(event.target.value, 10);
-    setCurrentIndex(selectedIndex);
-
-    // 선택한 비디오를 바로 재생
+  // 썸네일 클릭 시 비디오 변경
+  const handleThumbnailClick = (index: number) => {
+    // 드래그 중이 아닐 때만 비디오 변경
+    setCurrentIndex(index);
     if (videoRef.current) {
-      videoRef.current.src = clipList[selectedIndex];
+      videoRef.current.src = clipList[index];
       videoRef.current.play();
+    }
+  };
+
+  const scrollThumbnails = (direction: 'left' | 'right') => {
+    if (thumbnailContainerRef.current) {
+      const scrollAmount = 500; // 스크롤 이동량 설정
+      thumbnailContainerRef.current.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // 마우스가 썸네일 컨테이너 위에 올라갔을 때
+  const handleMouseEnter = () => {
+    setIsMouseOver(true);
+    setContainerWidth(thumbnailContainerRef.current?.offsetWidth || 0);
+    setScrollWidth(thumbnailContainerRef.current?.scrollWidth || 0);
+  };
+
+  // 마우스가 썸네일 컨테이너를 벗어났을 때
+  const handleMouseLeave = () => {
+    setIsMouseOver(false);
+  };
+
+  // 마우스 이동 시 스크롤 처리 (좌우 끝에 근접했을 때만 스크롤 발생)
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseOver || !thumbnailContainerRef.current) return;
+
+    const mouseX =
+      e.clientX - thumbnailContainerRef.current.getBoundingClientRect().left;
+
+    // 마우스가 왼쪽 끝 근처에 있을 때
+    if (mouseX < containerWidth * 0.2) {
+      thumbnailContainerRef.current.scrollLeft -= scrollSpeed;
+    }
+    // 마우스가 오른쪽 끝 근처에 있을 때
+    else if (mouseX > containerWidth * 0.8) {
+      thumbnailContainerRef.current.scrollLeft += scrollSpeed;
     }
   };
 
   return (
     <div className={style['video-container']}>
-      <div className={style.dropDown}>
-        <div>
-          {/* 드롭다운 메뉴 */}
-          <select value={currentIndex} onChange={handleSelectChange}>
-            {clipList.map((clip, index) => (
-              <option key={index} value={index}>
-                비디오 {index + 1}
-              </option>
-            ))}
-          </select>
+      {/* 영상 미리보기 - 가로 스크롤 */}
+      <div className={style.thumbnailWrapper}>
+        <button
+          className={style.scrollButton}
+          onClick={() => scrollThumbnails('left')}
+        >
+          ◀
+        </button>
+        <div
+          className={style.thumbnailContainer}
+          ref={thumbnailContainerRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+        >
+          {clipList.map((clip, index) => (
+            <video
+              key={index}
+              className={`${style.thumbnail} ${
+                currentIndex === index ? style.activeThumbnail : ''
+              }`}
+              src={clip}
+              muted
+              autoPlay
+              loop
+              onClick={() => handleThumbnailClick(index)}
+              onContextMenu={(e) => e.preventDefault()}
+            ></video>
+          ))}
         </div>
-        <div>
+        <button
+          className={style.scrollButton}
+          onClick={() => scrollThumbnails('right')}
+        >
+          ▶
+        </button>
+      </div>
+      {/* 메인 비디오 플레이어 */}
+      <div className={style.videoBox}>
+        <video
+          className={style.video}
+          ref={videoRef}
+          src={clipList[currentIndex]}
+          controls
+          autoPlay
+          muted
+          loop={false}
+          controlsList="noremoteplayback nodownload"
+          disablePictureInPicture
+          onContextMenu={(e) => e.preventDefault()}
+          draggable="false"
+        ></video>
+        <div className={style.videoNum}>
           현재 비디오: {currentIndex + 1} / {clipList.length}
         </div>
       </div>
-
-      {/* 비디오 플레이어 */}
-      <video
-        className={style.videoBox}
-        ref={videoRef}
-        src={clipList[currentIndex]} // 선택된 비디오로 초기화
-        controls
-        autoPlay
-        muted
-        loop={false} // 전체 비디오 리스트를 반복할 때 필요하지 않음
-        controlsList="noremoteplayback nodownload"
-        disablePictureInPicture
-        onContextMenu={(e) => e.preventDefault()}
-        draggable="false"
-      ></video>
     </div>
   );
 }

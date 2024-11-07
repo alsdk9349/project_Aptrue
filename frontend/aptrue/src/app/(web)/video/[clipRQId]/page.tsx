@@ -9,6 +9,13 @@ export default function Page({ params }: { params: { clipRQId: string } }) {
     '/videos/park2.mp4',
     '/videos/playground.mp4',
     '/videos/entrance.mp4',
+    '/videos/park.mp4',
+    '/videos/park2.mp4',
+    '/videos/playground.mp4',
+    '/videos/entrance.mp4',
+    '/videos/park.mp4',
+    '/videos/park2.mp4',
+    '/videos/playground.mp4',
   ];
 
   return (

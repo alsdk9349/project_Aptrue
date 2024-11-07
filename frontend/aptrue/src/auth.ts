@@ -79,16 +79,17 @@ export const {
     },
     // TO DO
     //secret: process.env.AUTH_SECRET
-      secret: '11111'
+      secret: process.env.AUTH_SECRET
 });
 
 async function _login(
     body : {
         account:string;
         password:string;
-    }
+    } 
 ) {
-    const response = await fetch(`https://ssafy-aptrue.co.kr/api/login`, {
+    //https://ssafy-aptrue.co.kr
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

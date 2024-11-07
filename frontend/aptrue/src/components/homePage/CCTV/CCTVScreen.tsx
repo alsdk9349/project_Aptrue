@@ -21,6 +21,7 @@ export default function CCTVScreen({
         loop
         muted
         controls={false}
+        onContextMenu={(e) => e.preventDefault()}
       />
     </div>
   );

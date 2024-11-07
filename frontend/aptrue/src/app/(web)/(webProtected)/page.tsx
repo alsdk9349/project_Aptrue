@@ -1,4 +1,4 @@
-import style from '@/app/(webProtected)/(web)/page.module.scss';
+import style from '@/app/(web)/(webProtected)/page.module.scss';
 import Notification from '@/components/homePage/Notification';
 import CCTVHome from '@/components/homePage/CCTVHome';
 import { auth } from '@/auth';
@@ -39,4 +39,3 @@ export default async function Home() {
     </div>
   );
 }
-

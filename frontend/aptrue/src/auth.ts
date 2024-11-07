@@ -33,10 +33,13 @@ export const {
         Credentials({
             authorize: async credentials => {
                 const userInfo = credentials as unknown as UserInfo
+                console.log('providers.userInfo', userInfo)
 
                 try {
                     // 로그인
+                    console.log('provider.authorize', 'try문')
                     const user = await _login(userInfo);
+                    console.log(user)
                     
                     return user ? {...user} : null;
                 } catch (error) {
@@ -80,7 +83,7 @@ export const {
     },
     // TO DO
     //secret: process.env.AUTH_SECRET
-      secret: process.env.AUTH_SECRET
+      secret: '1111'
 });
 
 async function _login(
@@ -92,7 +95,8 @@ async function _login(
     //https://ssafy-aptrue.co.kr
     console.log('여기로 왔나?')
     console.log('body데이터', body)
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
+    console.log('.env', process.env.NEXT_PUBLIC_BASE_URL)
+    const response = await fetch(`https://ssafy-aptrue.co.kr/api/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

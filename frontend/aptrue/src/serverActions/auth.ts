@@ -9,7 +9,8 @@ export const signInWithCredentials = async (
     initialState: {message:string},
     formData: FormData
 ) => {
-
+    console.log('.env', process.env.NEXT_PUBLIC_BASE_URL)
+    console.log('signInWithCredentials serverActions/auth.ts', formData)
     try {
         await signIn('credentials', {
           account: formData.get('account') || '', // null 방지

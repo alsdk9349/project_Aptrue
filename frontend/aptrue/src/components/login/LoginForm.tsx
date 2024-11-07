@@ -16,6 +16,7 @@ export default function LoginForm() {
         const account = formData.get('account');
         const password = formData.get('password');
         console.log('formData', formData)
+        console.log(account, password)
 
         try {
             const response = await signInWithCredentials({ message: '' }, formData);
@@ -48,7 +49,7 @@ export default function LoginForm() {
             <div className={styles.error}>
                 {message}
                 <br />
-                env: {process.env.NEXT_PUBLIC_BASE_URL}
+                env: {process.env.NEXTAUTH_URL}
             </div>
         </form>
     );

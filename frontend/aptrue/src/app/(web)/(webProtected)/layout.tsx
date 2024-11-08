@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        <Headerbar name='차은우'/>
+        <Headerbar/>
         <WebNav />
       </Suspense>
 

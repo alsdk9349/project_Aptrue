@@ -6,15 +6,20 @@ import {format} from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useState } from 'react';
 import Button from '../common/button/Button';
+import Cookies from 'js-cookie';
+import { revalidateTag } from 'next/cache';
 
 export default function TableInput() {
 
-    const [newAdmin, setNewAdmin] = useState<postAdmin>({
+    const accessToken = Cookies.get('accessToken');
+
+    const [newAdmin, setNewAdmin] = useState<PostAdmin>({
         name:'',
         account:'',
         password:'',
         phone:''
     })
+
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
 
@@ -23,6 +28,30 @@ export default function TableInput() {
             [name]:value
         }))
 
+    }
+
+    const submitNewAdmin = async () => {
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signup`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(newAdmin),
+            credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
+        });
+
+        const result = await response.json();
+        console.log('등록된 관리자', result.data)
+
+
+        if (result.status === 200) {
+            console.log('관리자 등록 성공')
+            revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화
+        } else {
+            console.log('관리자 등록 실패', result.message)
+        }
     }
 
     return (
@@ -77,7 +106,12 @@ export default function TableInput() {
                 />
             </div>
             <div className={styles.blank}>
-                <Button size='webTiny' color='blue'>
+                <Button 
+                size='webTiny' 
+                color='blue' 
+                onClick={submitNewAdmin} 
+                disabled={!newAdmin.name.trim() || !newAdmin.account.trim() || !newAdmin.password.trim() || !newAdmin.phone.trim()}
+                >
                     등록
                 </Button>
             </div>

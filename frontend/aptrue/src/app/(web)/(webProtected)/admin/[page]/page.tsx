@@ -7,7 +7,7 @@ import styles from './page.module.scss';
 
 async function AdminList() {
 
-    // const response = await fetch('', {cache:})
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list`, { cache: 'next', tags: ['adminList'] })
 
     // const admins = 
     // 10개씩 자르는데 10개 보다 적으면 뒤에 남은 수 배열로 붙여주기
@@ -18,7 +18,7 @@ async function AdminList() {
             {numbers.map((number, index) => 
                 <TableItem 
                 key={index}
-                adminId={number+1}
+                adminID={number+1}
                 name="강두홍"
                 account="dhkang0912"
                 password="apple1234"

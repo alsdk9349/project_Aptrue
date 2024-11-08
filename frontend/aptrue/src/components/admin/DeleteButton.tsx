@@ -24,7 +24,7 @@ export default function DeleteButton({adminId}:{adminId:number}) {
 
         if (result.status === 200 && result.code==="A006") {
             console.log(result.message) //  "관리자를 삭제했습니다."
-            revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화
+            // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동x)
 
         } else if (result.code === "M001") {
             setMessage(result.message)

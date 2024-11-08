@@ -13,6 +13,7 @@ export default function TableInput() {
 
     const accessToken = Cookies.get('accessToken');
 
+    const [message, setMessage] = useState<string>('');
     const [newAdmin, setNewAdmin] = useState<PostAdmin>({
         name:'',
         account:'',
@@ -43,14 +44,17 @@ export default function TableInput() {
         });
 
         const result = await response.json();
-        console.log('등록된 관리자', result.data)
 
-
-        if (result.status === 200) {
-            console.log('관리자 등록 성공')
+        if (result.status === 200 && result.code==="A005") {
+            console.log(result.message) //  "새로운 관리자를 등록했습니다."
             revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화
+
+        } else if (result.code === "E003") {
+            setMessage(result.message)
+            console.log('이미 등록된 관리자')
+
         } else {
-            console.log('관리자 등록 실패', result.message)
+            console.log('관리자 등록 실패')
         }
     }
 

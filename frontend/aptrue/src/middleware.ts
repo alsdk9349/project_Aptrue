@@ -1,20 +1,67 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-import { match } from 'path-to-regexp';
+// import { match } from 'path-to-regexp';
 
-// 인증이 필요한 페이지 목록
-const matchersForAuth = ['/', '/cctv/:page', '/admin/:page'];
+export default async function middleware(request: NextRequest) {
 
-// 로그인 페이지
-const matchersForSignIn = ['/login'];
+  const accessToken = request.cookies.get('accessToken')?.value; // 서버에서 사용하는 방법
+  console.log('accessToken', accessToken)
 
-// URL 경로와 패턴이 일치하는지 확인하는 함수
-function isMatch(pathname: string, urls: string[]) {
-  return urls.some((url) => !!match(url)(pathname));
+  // 정적 파일이나 API 요청을 건너뛰도록 조건 추가
+  const isPublicFile = /\.(.*)$/.test(request.nextUrl.pathname);
+  const isLoginPath = request.nextUrl.pathname === '/login';
+
+  if (!accessToken && !isLoginPath && !isPublicFile) {
+    return NextResponse.redirect(`${request.nextUrl.origin}/login`);
+  }
+
+  return NextResponse.next(); // 인증 성공시 요청을 계속 진행
+
 }
 
-export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 인증이 필요한 페이지 목록
+// const matchersForAuth = ['/', '/cctv/:page', '/admin/:page'];
+
+// // 로그인 페이지
+// const matchersForSignIn = ['/login'];
+
+// // URL 경로와 패턴이 일치하는지 확인하는 함수
+// function isMatch(pathname: string, urls: string[]) {
+//   return urls.some((url) => !!match(url)(pathname));
+// }
+
+// export async function middleware(request: NextRequest) {
+//   const pathname = request.nextUrl.pathname;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // 쿠키에서 accessToken 가져오기
   // const accessToken = request.cookies.get('accessToken')?.value;
@@ -36,27 +83,13 @@ export async function middleware(request: NextRequest) {
   // }
 
   // 인증이 필요하지 않은 경로는 그대로 진행
-  return NextResponse.next();
-}
+//   return NextResponse.next();
+// }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//-----------------------------------------------------------
 
 
 // // import { auth } from "./auth-legacy"; // auth.ts의 auth를 불러온것

@@ -80,6 +80,8 @@ public class SecurityConfig {
                             .requestMatchers("/v3/api-docs/**").permitAll()
                             .requestMatchers("/api/apart").permitAll()
                             .requestMatchers("/api/admin/list/**").permitAll()
+                            .requestMatchers("/api/admin/**").permitAll()
+                            .requestMatchers("/api/clip/detail/**").permitAll()
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 

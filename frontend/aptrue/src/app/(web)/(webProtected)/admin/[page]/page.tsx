@@ -5,46 +5,58 @@ import styles from './page.module.scss';
 
 // params값만 받아서 활용하는 서버컴포넌트!
 
-async function AdminList() {
+async function AdminList({pageNum}:{pageNum:string}) {
 
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list`, { cache: 'next', tags: ['adminList'] })
 
-    // const admins = 
-    // 10개씩 자르는데 10개 보다 적으면 뒤에 남은 수 배열로 붙여주기
-    const numbers = Array.from({length:10}, (_, i) => i);
+    // // api/admin/list/{page}/{limit}
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`, { next: {tags: ['adminList']} })
 
-    return (
-        <div>
-            {numbers.map((number, index) => 
-                <TableItem 
-                key={index}
-                adminID={number+1}
-                name="강두홍"
-                account="dhkang0912"
-                password="apple1234"
-                phone="010-1234-5678"
-                createdAt="2024-10-02T11:33:22"
-                />
-            )}
-        </div>
-    );
+    // if (!response.ok) {
+    //     return <div>오류가 발생했습니다</div>
+    // }
+
+    // const admins : GetAdmin[] = response.data;
+    // const remains :number = 10 - admins.length;
+
+    // // 10개씩 자르는데 10개 보다 적으면 뒤에 남은 수 배열로 붙여주기
+    // const remainNumbers = Array.from({length:remains}, (_, i) => i+1 + admins.length + (Number(pageNum)-1)*10);
+
+    // return (
+    //     <div>
+    //         {admins.map((admin, index) => 
+    //             <TableItem 
+    //             key={index}
+    //             adminID={admin.adminID}
+    //             name={admin.name}
+    //             account={admin.account}
+    //             password={admin.password}
+    //             phone={admin.phone}
+    //             createdAt={admin.createdAt}
+    //             />
+    //         )}
+    //         {remainNumbers.map((number, index) =>
+    //             <DefaultTableItem 
+    //             key={index}
+    //             id={number}
+    //             />
+    //         )}
+    //     </div>
+    // );
 }
 
-export default async function Page({
-    params,
-} : {
-    params : Promise<{page:string}>
-}) {
 
-    const {page} = await params;
-    console.log(page)
+
+
+export default async function Page({params}:{params: {page:string} }) {
+
+    const page = params.page;
 
     // 관리자 목록 전체 조회 API 불러오기
 
     return (
         <>
             {/* <DefaultTableItem id={2}/> */}
-            <AdminList/>
+            {/* <AdminList pageNum={page}/> */}
             <div className={styles.pagination}>
                 <Pagination pageNum={page} urlPath="admin" />
             </div>

@@ -9,7 +9,7 @@ export default function CCTVList({ data }: { data: CCTVItem[] }) {
       {items.map((item, index) =>
         item ? (
           <CCTVListItem
-            key={`${item.cctvRequestId}`}
+            key={`${item.clipRQId}`}
             item={item}
             num={index + 1}
           />

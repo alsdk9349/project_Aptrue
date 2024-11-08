@@ -10,9 +10,9 @@ import CCTVVideoLink from './cctvVideoLink';
 
 const response = {
   status: 200,
-  message: 'cctvRequestId : 1번의 상세 정보를 조회했습니다 .',
+  message: 'clipRQId : 1번의 상세 정보를 조회했습니다 .',
   data: {
-    cctvRequestId: 1,
+    clipRQId: 1,
     name: '김민아',
     email: 'ma@gmail.com',
     phone: '010-0000-0000',
@@ -20,10 +20,9 @@ const response = {
     startDate: '2024-07-31T11:54:03.096298',
     endDate: '2024-07-31T11:54:03.096298',
     sections: ['101동 주변', '102동 주변'],
-    isPhoto: true,
+    photoStatus: true,
     password: 'Ma1234!!',
-    photoUploadUrl: 'https://www.ssafy-aptrue/photo-upload/1',
-    cctvVideo: '1',
+    clipList: ['1'],
   },
 };
 
@@ -109,16 +108,16 @@ export default function CCTVDetail() {
             ))}
           </div>
         </div>
-        <div className={style.isPhoto}>
+        <div className={style.photoStatus}>
           <div>사진 업로드 현황</div>
-          <div className={detailInfo.isPhoto ? style.green : style.red}>
-            {detailInfo.isPhoto
+          <div className={detailInfo.photoStatus ? style.green : style.red}>
+            {detailInfo.photoStatus
               ? '사진이 업로드 되었습니다.'
               : '사진이 아직 등록되지 않았습니다.'}
           </div>
         </div>
-        {!detailInfo.isPhoto && <CCTVUploadLink detailInfo={detailInfo} />}
-        {detailInfo.cctvVideo && <CCTVVideoLink detailInfo={detailInfo} />}
+        {!detailInfo.photoStatus && <CCTVUploadLink detailInfo={detailInfo} />}
+        {detailInfo.clipList && <CCTVVideoLink detailInfo={detailInfo} />}
       </div>
       <div className={style.buttons}>
         <Button size="webRegular" color="gray" onClick={handleClose}>

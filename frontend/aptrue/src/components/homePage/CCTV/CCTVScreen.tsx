@@ -1,4 +1,5 @@
 import style from './CCTVScreen.module.scss';
+import CCTVWebRTC from './CCTVWebRTC';
 
 export default function CCTVScreen({
   activeZone,
@@ -14,15 +15,21 @@ export default function CCTVScreen({
   return (
     <div className={style.container} onClick={onClick}>
       <div className={style.title}>{`${activeZone} cam0${camNumber}`}</div>
-      <video
-        className={style.video}
-        src={videoUrl}
-        autoPlay
-        loop
-        muted
-        controls={false}
-        onContextMenu={(e) => e.preventDefault()}
-      />
+      {videoUrl === 'openvidu-stream' ? (
+        <div className={style.video}>
+          <CCTVWebRTC onClick={onClick} />
+        </div>
+      ) : (
+        <video
+          className={style.video}
+          src={videoUrl}
+          autoPlay
+          loop
+          muted
+          controls={false}
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      )}
     </div>
   );
 }

@@ -1,4 +1,18 @@
-.container {
-  margin-left: 210px;
-  margin-top: 200px;
+// .videoContainer {
+//   width: 100%;
+//   height: 90%;
+//   aspect-ratio: 16 / 9; /* Sets a 16:9 aspect ratio */
+//   overflow: hidden;
+//   position: relative;
+// }
+
+.video {
+  // aspect-ratio: 16 / 9; // 일정한 비율 유지
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; // 내용이 넘치지 않도록
+  object-fit: cover; // 꽉 차도록 설정
 }

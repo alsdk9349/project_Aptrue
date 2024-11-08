@@ -30,6 +30,7 @@ export default function CCTVForm() {
   const [sections, setSections] = useState<string[]>(['101동 주변']);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+
   const accessToken = Cookies.get('accessToken');
 
   // 유효성 검증 함수
@@ -114,7 +115,7 @@ export default function CCTVForm() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhZG1pbklkIjoxLCJpYXQiOjE3MzEwNTEzODYsImV4cCI6MTczMTY1NjE4Nn0.hEbTnCOPS0JpQmoL5scZKG8YyEGSASKglKzUFya9z5g`,
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify(requestBody), // JSON 문자열로 변환하여 전송
           credentials: 'include',

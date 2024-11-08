@@ -5,19 +5,19 @@ import { ko } from 'date-fns/locale';
 import Button from '../common/button/Button';
 
 export default function TableItem({
-    adminId,
+    adminID,
     name,
     account,
     password,
     phone,
     createdAt
-} : Admin) {
+} : GetAdmin) {
 
     return (
         <div className={ classNames(
             styles.container, styles.isTableItem
             )}>
-            <div className={styles.no}>{adminId}</div>
+            <div className={styles.no}>{adminID}</div>
             <div className={styles.name}>{name}</div>
             <div className={styles.id}>{account}</div>
             <div className={styles.password}>{password}</div>

@@ -33,7 +33,7 @@ export default function CCTVUploadLink({
             height={12}
             width={12}
             alt="복사"
-            onClick={()=>handleCopy(copy)}
+            onClick={() => handleCopy(copy)}
             style={{ cursor: 'pointer' }}
           />
         </div>
@@ -41,11 +41,14 @@ export default function CCTVUploadLink({
     );
   };
   return (
-    detailInfo.photoUploadUrl && (
+    detailInfo.photoStatus && (
       <div className={style.uploadInfo}>
         <div>사진 업로드 링크</div>
         <div>
-          <UploadBox label="사진 첨부 링크" copy={detailInfo.photoUploadUrl} />
+          <UploadBox
+            label="사진 첨부 링크"
+            copy={`resident/${detailInfo.clipRQId}/entrance`}
+          />
           <UploadBox label="사진 첨부 비밀번호" copy={detailInfo.password} />
         </div>
       </div>

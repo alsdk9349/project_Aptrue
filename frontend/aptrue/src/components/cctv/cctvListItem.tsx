@@ -1,8 +1,6 @@
 'use client';
 import style from './cctv.module.scss';
 import { useState, useEffect } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
-import { cctvRequestIdState, cctvFormState } from '@/state/atoms/cctvAtoms';
 import { useRouter } from 'next/navigation';
 
 interface CCTVListItemProps {
@@ -34,7 +32,7 @@ export default function CCTVListItem({ item, num }: CCTVListItemProps) {
 
   const handleClick = () => {
     if (item) {
-      router.push(`/cctv/detail/${item.cctvRequestId}`);
+      router.push(`/cctv/detail/${item.clipRQId}`);
     }
   };
 

@@ -79,6 +79,7 @@ public class SecurityConfig {
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("/v3/api-docs/**").permitAll()
                             .requestMatchers("/api/apart").permitAll()
+                            .requestMatchers("/api/admin/list/**").permitAll()
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 

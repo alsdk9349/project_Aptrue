@@ -38,7 +38,7 @@ export default async function Default() {
   // API에서 데이터를 가져옵니다.
   // api/clip/list/{page}/{limit}
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/clip/list/1/10`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/1/10`,
     {
       method: 'GET',
       headers: {

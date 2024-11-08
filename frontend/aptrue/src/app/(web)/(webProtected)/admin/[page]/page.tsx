@@ -1,3 +1,5 @@
+"use server"
+
 import TableItem from "@/components/admin/TableItem";
 import DefaultTableItem from "@/components/admin/DefaultTableItem";
 import Pagination from "@/components/common/pagination/Pagination";

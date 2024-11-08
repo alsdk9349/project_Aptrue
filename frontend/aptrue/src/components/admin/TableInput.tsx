@@ -9,6 +9,17 @@ import Button from '../common/button/Button';
 import Cookies from 'js-cookie';
 import { revalidateTag } from 'next/cache';
 
+function formatPhoneNumber(value:string) {
+
+    const phoneNumber = value.replace(/\D/g, ''); // 숫자만 남기기
+
+     // 전화번호 길이에 따라 포맷팅 적용
+    if (phoneNumber.length <= 3) return phoneNumber;
+    if (phoneNumber.length <= 7) return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
+    return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
+
+};
+
 export default function TableInput() {
 
     const accessToken = Cookies.get('accessToken');
@@ -26,14 +37,14 @@ export default function TableInput() {
 
         setNewAdmin((prevData) => ({
             ...prevData,
-            [name]:value
-        }))
+            [name]: name === 'phone' ? formatPhoneNumber(value) : value
+        }));
 
     }
 
     const submitNewAdmin = async () => {
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signup`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

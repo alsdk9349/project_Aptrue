@@ -1,13 +1,15 @@
 interface CCTVItem {
-  cctvRequestId: number;
+  clipRQId: number;
   status: string;
   address: string;
   name: string;
   createdAt: string;
 }
 
+type ClipList = string[]
+
 interface requestDetailInfo {
-  cctvRequestId: number;
+  clipRQId: number;
   name: string;
   email: string;
   phone: string;
@@ -15,8 +17,7 @@ interface requestDetailInfo {
   startDate: string;
   endDate: string;
   sections: string[];
-  isPhoto: boolean;
+  photoStatus: boolean;
   password: string;
-  photoUploadUrl: string;
-  cctvVideo: string;
+  clipList: ClipList;
 }

@@ -33,8 +33,8 @@ export default function LoginPage() {
             return
         }
 
-        console.log('121212121212', process.env.NEXT_PUBLIC_BASE_URL)
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
+        console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

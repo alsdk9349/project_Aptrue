@@ -2,7 +2,7 @@ import styles from './Table.module.scss';
 import classNames from 'classnames';
 import {format} from 'date-fns';
 import { ko } from 'date-fns/locale';
-import Button from '../common/button/Button';
+import DeleteButton from './DeleteButton';
 
 export default function TableItem({
     adminID,
@@ -24,9 +24,7 @@ export default function TableItem({
             <div className={styles.phoneNumber}>{phone}</div>
             <div className={styles.date}>{format(createdAt, 'yyyy-MM-dd', {locale: ko})}</div>
             <div className={styles.blank}>
-                <Button size='webTiny' color='red'>
-                    삭제
-                </Button>
+                <DeleteButton adminId={adminID}/>
             </div>
         </div>
     )

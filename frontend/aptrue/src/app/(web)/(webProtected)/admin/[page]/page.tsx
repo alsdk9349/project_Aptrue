@@ -10,6 +10,7 @@ async function AdminList({pageNum}:{pageNum:string}) {
 
     const cookiesObj = cookies();
     const accessToken = cookiesObj.get('accessToken')?.value;
+    console.log('acessToken', accessToken)
 
     // api/admin/list/{page}/{limit}
     console.log('getAdminList요청')
@@ -25,9 +26,15 @@ async function AdminList({pageNum}:{pageNum:string}) {
         }
     )
 
+    if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error response:', errorData);
+        return <div>오류가 발생했습니다: {errorData.message}</div>;
+    }
+
     const result = await response.json();
     console.log('adminList',result)
-    const admins : GetAdmin[] =  result.data;
+    const admins : GetAdmin[] =  result.data || [];
     const remains :number = 10 - admins.length;
 
     // 10개씩 자르는데 10개 보다 적으면 뒤에 남은 수 배열로 붙여주기

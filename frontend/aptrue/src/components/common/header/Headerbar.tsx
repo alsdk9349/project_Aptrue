@@ -3,9 +3,12 @@
 import { useEffect } from 'react';
 import styles from './Headerbar.module.scss';
 import { usePathname } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { adminState } from '@/state/atoms/admins';
 
-export default function Headerbar({ name }: { name: string }) {
+export default function Headerbar() {
   const pathname = usePathname();
+  const [admin, _] = useRecoilState(adminState);
 
   useEffect(() => {}, [pathname]);
 
@@ -18,7 +21,7 @@ export default function Headerbar({ name }: { name: string }) {
             </div>
             <div className={styles.profile}>
                 <img src="/icons/profileImage.png" alt="" />
-                <div>관리자 {name}</div>
+                <div>관리자 {admin.name}</div>
             </div>
         </div>
     )

@@ -9,7 +9,9 @@ export const signInWithCredentials = async (
     initialState: {message:string},
     formData: FormData
 ) => {
-
+    console.log(1111111111)
+    console.log('.env', process.env.NEXTAUTH_URL)
+    console.log('signInWithCredentials serverActions/auth.ts', formData)
     try {
         await signIn('credentials', {
           account: formData.get('account') || '', // null 방지
@@ -19,7 +21,7 @@ export const signInWithCredentials = async (
     } catch (error) {
         return  { message: error instanceof Error ? error.message : '로그인에 실패했습니다' };
     }
-
+    
     redirect('/')
 }
 

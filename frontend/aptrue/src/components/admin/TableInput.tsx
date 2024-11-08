@@ -58,7 +58,7 @@ export default function TableInput() {
 
         if (result.status === 200 && result.code==="A005") {
             console.log(result.message) //  "새로운 관리자를 등록했습니다."
-            revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화
+            // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동하지 않음)
 
         } else if (result.code === "E003") {
             setMessage(result.message)

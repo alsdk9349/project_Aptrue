@@ -19,7 +19,8 @@ async function AdminList({pageNum}:{pageNum:string}) {
                 'Authorization': `Bearer ${accessToken}`,
             },
             credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
-            next: {tags: ['adminList']}
+            // next: {tags: ['adminList']}
+            cache: 'no-store'
         }
     )
 

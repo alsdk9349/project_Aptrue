@@ -142,7 +142,7 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public List<ClipListResponseDto> getClipList(HttpServletRequest httpServletRequest) {
+    public List<ClipListResponseDto> getClipList(HttpServletRequest httpServletRequest, int page, int limit) {
         int adminId = cookieUtil.getAdminId(httpServletRequest);
 
         Admin admin = adminRepository.findByAdminId(adminId)
@@ -151,8 +151,12 @@ public class ClipRQServiceImpl implements ClipRQService {
         List<ClipRQ> clipRQS = clipRQRepository.findAll();
 
         List<ClipListResponseDto> clipListResponseDtoList = new ArrayList<>();
-
-        for (ClipRQ clipRQ : clipRQS) {
+        int start = (page-1)*limit;
+        for (int i=start;i<start+limit;i++) {
+            if (i>=clipRQS.size()) {
+                break;
+            }
+            ClipRQ clipRQ = clipRQS.get(i);
             if (clipRQ.getAdmin().getApartment()==admin.getApartment()) {
                 ClipListResponseDto clipListResponseDto = ClipListResponseDto.builder()
                         .clipRQId(clipRQ.getClipRQId())

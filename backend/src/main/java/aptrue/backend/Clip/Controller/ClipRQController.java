@@ -44,14 +44,14 @@ public class ClipRQController {
 
     @GetMapping("/clip/list/{clip_id}")
     public ResponseEntity<?> getVideos(@PathVariable int clip_id, HttpServletRequest httpServletRequest) {
-    ClipOnlyResponseDto clipOnlyResponseDto = clipRQService.getVideosOnly(clip_id, httpServletRequest);
-    ResultResponse resultResponse = ResultResponse.of(SuccessCode.VIDEOS_OK, clipOnlyResponseDto);
+        ClipOnlyResponseDto clipOnlyResponseDto = clipRQService.getVideosOnly(clip_id, httpServletRequest);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.VIDEOS_OK, clipOnlyResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
-    @GetMapping("/clip/list")
-    public ResponseEntity<?> getClipList(HttpServletRequest httpServletRequest) {
-        List<ClipListResponseDto> clipListResponseDtoList = clipRQService.getClipList(httpServletRequest);
+    @GetMapping("/clip/list/{page}/{limit}")
+    public ResponseEntity<?> getClipList(HttpServletRequest httpServletRequest, @PathVariable int page, @PathVariable int limit) {
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQService.getClipList(httpServletRequest,page, limit);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.CLIP_LIST_OK, clipListResponseDtoList);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }

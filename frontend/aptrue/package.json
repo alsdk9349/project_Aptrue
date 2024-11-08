@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
-    "sass": "^1.80.5"
+    "sass": "^1.80.5",
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

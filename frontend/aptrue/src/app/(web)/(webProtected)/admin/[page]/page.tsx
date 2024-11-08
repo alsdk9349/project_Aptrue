@@ -2,20 +2,33 @@ import TableItem from "@/components/admin/TableItem";
 import DefaultTableItem from "@/components/admin/DefaultTableItem";
 import Pagination from "@/components/common/pagination/Pagination";
 import styles from './page.module.scss';
+import { cookies } from 'next/headers';
 
 // params값만 받아서 활용하는 서버컴포넌트!
 
 async function AdminList({pageNum}:{pageNum:string}) {
 
+    const cookiesObj = cookies();
+    const accessToken = cookiesObj.get('accessToken')?.value;
 
     // api/admin/list/{page}/{limit}
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`, { next: {tags: ['adminList']} })
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
+        {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
+            next: {tags: ['adminList']}
+        }
+    )
 
     if (!response.ok) {
         return <div>오류가 발생했습니다</div>
     }
 
     const result = await response.json();
+    console.log('adminList',result)
     const admins : GetAdmin[] =  result.data;
     const remains :number = 10 - admins.length;
 

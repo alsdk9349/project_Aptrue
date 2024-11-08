@@ -4,16 +4,36 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.scss';
+import { useRecoilState } from 'recoil';
+import { adminState } from '@/state/atoms/admins';
 
 export default function LoginPage() {
+
+    const [admin, setAdmin] = useRecoilState(adminState);
     const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
     const router = useRouter();
 
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // 폼이 제출될 때 페이지가 새로고침되는 것을 방지하기 위해 사용
 
-        const response = await fetch('https://ssafy-aptrue.co.kr/api/login', {
+        const formData = new FormData(e.currentTarget)
+        // const account = (formData.get('account') as string)?.trim() || '';
+        // const password = (formData.get('password') as string)?.trim() || '';
+
+        if (!account.trim() && !password.trim()) {
+            setMessage('아이디와 비밀번호를 입력해주세요')
+            return
+        } else if (!account || !account.trim()) {
+            setMessage('아이디를 입력해주세요')
+            return
+        } else if (!password || !password.trim()) {
+            setMessage('비밀번호를 입력해주세요')
+            return
+        }
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,17 +42,20 @@ export default function LoginPage() {
                 account: account,
                 password: password 
             }),
-            credentials: 'include' // 쿠키를 포함해 서버와 통신
+            credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
         });
 
         const result = await response.json();
-        console.log('로그인----성공',result)
+        const resultAdmin : ResultAdmin  = result.data;
+        setAdmin(resultAdmin)
 
         if (result.status === 200) {
             // 로그인 성공 시 관리자 페이지로 이동
+            console.log('로그인 성공')
             router.push('/');
         } else {
-            alert(result.message); // 실패 메시지 표시
+            // alert(result.message); // 실패 메시지 표시
+            console.log('로그인 실패', result.message)
         }
     };
 
@@ -43,16 +66,20 @@ export default function LoginPage() {
                 placeholder="아이디"
                 value={account}
                 onChange={(e) => setAccount(e.target.value)}
-                required
+                // required
             />
             <input
                 type="password"
                 placeholder="비밀번호"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                // required
             />
             <button type="submit">로그인</button>
+
+            <div className={styles.error}>
+                {message}
+            </div>
         </form>
     );
 }

@@ -12,6 +12,7 @@ async function AdminList({pageNum}:{pageNum:string}) {
     const accessToken = cookiesObj.get('accessToken')?.value;
 
     // api/admin/list/{page}/{limit}
+    console.log('getAdminList요청')
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
         {
             method: 'GET',
@@ -23,10 +24,6 @@ async function AdminList({pageNum}:{pageNum:string}) {
             cache: 'no-store'
         }
     )
-
-    if (!response.ok) {
-        return <div>오류가 발생했습니다</div>
-    }
 
     const result = await response.json();
     console.log('adminList',result)

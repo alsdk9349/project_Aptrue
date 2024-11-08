@@ -1,11 +1,10 @@
 'use client';
-import { useRecoilState } from 'recoil';
-import { cctvFormState } from '@/state/atoms/cctvAtoms';
 import style from './cctvForm.module.scss';
 import GeneralInput from '../common/input/GeneralInput';
 import { useEffect, useState } from 'react';
 import TimeInput from '../common/input/TimeInput';
 import Button from '../common/button/Button';
+import Cookies from 'js-cookie';
 
 const cctvZone = [
   '101동 주변',
@@ -31,6 +30,7 @@ export default function CCTVForm() {
   const [sections, setSections] = useState<string[]>(['101동 주변']);
   const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const accessToken = Cookies.get('accessToken');
 
   // 유효성 검증 함수
   const isFormValid = () => {
@@ -92,9 +92,52 @@ export default function CCTVForm() {
     setActiveSubmit(false);
   };
 
-  const handleSubmitClick = () => {
-    // setActiveSubmit((prev) => !prev); // 상태를 반전시킴
-    reset();
+  const handleSubmitClick = async () => {
+    const requestBody = {
+      name,
+      phone,
+      email,
+      address,
+      password,
+      startDate,
+      endDate,
+      sections,
+    };
+    console.log('[*]', requestBody);
+
+    try {
+      console.log('[*] fetch 전');
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/clipRQ/new`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhZG1pbklkIjoxLCJpYXQiOjE3MzEwNTEzODYsImV4cCI6MTczMTY1NjE4Nn0.hEbTnCOPS0JpQmoL5scZKG8YyEGSASKglKzUFya9z5g`,
+          },
+          body: JSON.stringify(requestBody), // JSON 문자열로 변환하여 전송
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+        console.log('[*] 에러임');
+      }
+
+      console.log('[*] result', response);
+
+      const result = await response.json();
+      console.log('[*] result', result);
+
+      console.log('Form submitted successfully:', result);
+      setMessage('제출이 완료되었습니다!');
+      reset(); // 제출 후 폼 리셋
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setMessage('제출에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
 
   const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {

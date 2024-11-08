@@ -1,5 +1,3 @@
-//
-
 'use client';
 import style from './cctv.module.scss';
 import { useEffect, useRef, useState } from 'react';
@@ -13,10 +11,6 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
   const thumbnailContainerRef = useRef<HTMLDivElement>(null);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMouseOver, setIsMouseOver] = useState(false); // 마우스가 올라와 있는지 여부 확인
-  const [containerWidth, setContainerWidth] = useState(0); // 컨테이너의 폭
-  const [scrollWidth, setScrollWidth] = useState(0); // 스크롤할 수 있는 전체 폭
-  const scrollSpeed = 5; // 스크롤 속도 조절
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -65,35 +59,6 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
     }
   };
 
-  // 마우스가 썸네일 컨테이너 위에 올라갔을 때
-  const handleMouseEnter = () => {
-    setIsMouseOver(true);
-    setContainerWidth(thumbnailContainerRef.current?.offsetWidth || 0);
-    setScrollWidth(thumbnailContainerRef.current?.scrollWidth || 0);
-  };
-
-  // 마우스가 썸네일 컨테이너를 벗어났을 때
-  const handleMouseLeave = () => {
-    setIsMouseOver(false);
-  };
-
-  // 마우스 이동 시 스크롤 처리 (좌우 끝에 근접했을 때만 스크롤 발생)
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isMouseOver || !thumbnailContainerRef.current) return;
-
-    const mouseX =
-      e.clientX - thumbnailContainerRef.current.getBoundingClientRect().left;
-
-    // 마우스가 왼쪽 끝 근처에 있을 때
-    if (mouseX < containerWidth * 0.2) {
-      thumbnailContainerRef.current.scrollLeft -= scrollSpeed;
-    }
-    // 마우스가 오른쪽 끝 근처에 있을 때
-    else if (mouseX > containerWidth * 0.8) {
-      thumbnailContainerRef.current.scrollLeft += scrollSpeed;
-    }
-  };
-
   return (
     <div className={style['video-container']}>
       {/* 영상 미리보기 - 가로 스크롤 */}
@@ -104,13 +69,7 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
         >
           ◀
         </button>
-        <div
-          className={style.thumbnailContainer}
-          ref={thumbnailContainerRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onMouseMove={handleMouseMove}
-        >
+        <div className={style.thumbnailContainer} ref={thumbnailContainerRef}>
           {clipList.map((clip, index) => (
             <video
               key={index}
@@ -123,6 +82,7 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
               loop
               onClick={() => handleThumbnailClick(index)}
               onContextMenu={(e) => e.preventDefault()}
+              tabIndex={-1}
             ></video>
           ))}
         </div>

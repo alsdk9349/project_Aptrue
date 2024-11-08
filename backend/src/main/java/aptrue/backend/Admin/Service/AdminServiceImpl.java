@@ -142,7 +142,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Transactional
-    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest) {
+    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest,int page, int limit) {
         int superAdminId = cookieUtil.getAdminId(httpServletRequest);
 
         Admin superAdmin = adminRepository.findByAdminId(superAdminId)
@@ -152,9 +152,14 @@ public class AdminServiceImpl implements AdminService {
             throw new BusinessException(ErrorCode.NOT_SUPER_ADMIN);
         }
 
+        int start = (page-1)*limit;
         List<Admin> adminAll = adminRepository.findAll();
         List<AdminListResponseDto> adminList = new ArrayList<>();
-        for (Admin admin : adminAll) {
+        for (int i=start;i<start+limit;i++) {
+            if (i>=adminAll.size()) {
+                break;
+            }
+            Admin admin = adminAll.get(i);
             AdminListResponseDto adminListResponseDto = AdminListResponseDto.builder()
                     .account(admin.getAccount())
                     .adminID(admin.getAdminId())

@@ -47,6 +47,7 @@ export default async function Page() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
       },
+      credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
       cache: 'no-store', // 캐시를 사용하지 않도록 설정 (선택 사항)
     },
   );

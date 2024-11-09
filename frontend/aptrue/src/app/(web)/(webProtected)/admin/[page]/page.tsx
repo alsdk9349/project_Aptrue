@@ -1,11 +1,9 @@
 "use server"
 
-import TableItem from "@/components/admin/TableItem";
-import DefaultTableItem from "@/components/admin/DefaultTableItem";
 import Pagination from "@/components/common/pagination/Pagination";
 import styles from './page.module.scss';
 import { cookies } from 'next/headers';
-import { Suspense } from "react";
+// import { Suspense } from "react";
 import ErrorHandler from "@/components/admin/ErrorHandler";
 import AdminList from "@/components/admin/AdminList";
 
@@ -33,8 +31,9 @@ async function fetchAdminList({
     )
 
     if (!response.ok) {
-        const errorData = await response.json();
+        // const errorData = await response.json();
         console.error('Error response:', errorData);
+        throw new Error(result.message || '오류가 발생했습니다.');
     }
 
     const result = await response.json();

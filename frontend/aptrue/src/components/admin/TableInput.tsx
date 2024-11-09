@@ -7,7 +7,8 @@ import { ko } from 'date-fns/locale';
 import { useState } from 'react';
 import Button from '../common/button/Button';
 import Cookies from 'js-cookie';
-import { revalidateTag } from 'next/cache';
+// import { revalidateTag } from 'next/cache';
+import ErrorModal from './ErrorModal';
 
 function formatPhoneNumber(value:string) {
 
@@ -24,7 +25,10 @@ export default function TableInput() {
 
     const accessToken = Cookies.get('accessToken');
 
+    // 에러 메세지
     const [message, setMessage] = useState<string>('');
+    const [isOpenErrorModal, setIsOpenErrorModal] = useState<boolean>(false);
+    
     const [newAdmin, setNewAdmin] = useState<PostAdmin>({
         name:'',
         account:'',
@@ -57,16 +61,25 @@ export default function TableInput() {
         const result = await response.json();
 
         if (result.status === 200 && result.code==="A005") {
+            // input창 비워주기!
+            // setNewAdmin()
             console.log(result.message) //  "새로운 관리자를 등록했습니다."
             // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동하지 않음)
 
         } else if (result.code === "E003") {
             setMessage(result.message)
+            setIsOpenErrorModal(true);
             console.log('이미 등록된 관리자')
 
         } else {
-            console.log('관리자 등록 실패')
+            setMessage('관리자 등록 실패')
+            setIsOpenErrorModal(true);
         }
+    }
+
+    const closeModal = () => {
+        setIsOpenErrorModal(false);
+        setMessage('')
     }
 
     return (
@@ -130,6 +143,9 @@ export default function TableInput() {
                     등록
                 </Button>
             </div>
+            {isOpenErrorModal && 
+            <ErrorModal message={message} isOpen={isOpenErrorModal} onClose={closeModal}/>
+            }
         </div>
     )
 }

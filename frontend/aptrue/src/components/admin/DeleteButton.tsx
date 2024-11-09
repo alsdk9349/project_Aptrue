@@ -4,10 +4,13 @@ import Button from "../common/button/Button";
 import Cookies from 'js-cookie';
 import { revalidateTag } from 'next/cache';
 import { useState } from "react";
+import ErrorModal from "./ErrorModal";
 
 export default function DeleteButton({adminId}:{adminId:number}) {
 
     const accessToken = Cookies.get('accessToken');
+
+    const [ openErrorModal, setOpenErrorModal ] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
 
     const delteAdmin = async () => {
@@ -24,16 +27,24 @@ export default function DeleteButton({adminId}:{adminId:number}) {
 
         if (result.status === 200 && result.code==="A006") {
             console.log(result.message) //  "관리자를 삭제했습니다."
+            setMessage(result.message)
+            setOpenErrorModal(true);
             // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동x)
 
         } else if (result.code === "M001") {
             setMessage(result.message)
+            setOpenErrorModal(true);
             console.log('존재하지 않는 관리자입니다')
 
         } else {
+            setMessage(result.message)
+            setOpenErrorModal(true);
             console.log('관리자 삭제 실패')
         }
+    }
 
+    const closeModal = () => {
+        setOpenErrorModal(false);
     }
 
     return (
@@ -41,6 +52,13 @@ export default function DeleteButton({adminId}:{adminId:number}) {
             <Button size='webTiny' color='red' onClick={delteAdmin}>
                     삭제
             </Button>
+            { openErrorModal &&
+                <ErrorModal 
+                message={message}
+                isOpen={openErrorModal}
+                onClose={closeModal}
+                />
+            }
         </>
     )
 }

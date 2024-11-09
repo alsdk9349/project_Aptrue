@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'; // TO DO
 
 import Pagination from "@/components/common/pagination/Pagination";
 import styles from './page.module.scss';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 // import { Suspense } from "react";
 import ErrorHandler from "@/components/admin/ErrorHandler";
 import AdminList from "@/components/admin/AdminList";
@@ -48,7 +48,7 @@ export default async function Page({params}:{params: {page:string} }) {
     const accessToken = Cookies.get('accessToken'); // TO DO
 
     const page = params.page;
-    const cookiesObj = cookies();
+    // const cookiesObj = cookies();
     // const accessToken = cookiesObj.get('accessToken')?.value || '';
     let admins: GetAdmin[] = [];
     let errorMessage = '';

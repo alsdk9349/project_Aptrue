@@ -43,7 +43,6 @@ export default async function Page({ params }: { params: { page: string } }) {
     {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
       },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)

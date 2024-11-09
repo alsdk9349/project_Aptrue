@@ -1,3 +1,4 @@
+'use client';
 import CCTVList from '@/components/cctv/cctvList';
 import Pagination from '@/components/common/pagination/Pagination';
 import style from './cctvList.module.scss';
@@ -35,7 +36,8 @@ import { cookies } from 'next/headers';
 export default async function Page() {
   const cookiesObj = cookies();
   const accessToken = cookiesObj.get('accessToken')?.value;
-  console.log('acessToken', accessToken);
+  console.log('[*] acessToken, cctvList 기본 page', accessToken);
+  console.log('[*] NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL);
 
   // API에서 데이터를 가져옵니다.
   // api/clip/list/{page}/{limit}
@@ -44,7 +46,6 @@ export default async function Page() {
     {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
       },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
@@ -53,6 +54,10 @@ export default async function Page() {
   );
 
   if (!response.ok) {
+    console.error(
+      `Failed to fetch data, status: ${response.status}`,
+      await response.text(),
+    );
     throw new Error(`Failed to fetch data, status: ${response.status}`);
   }
 

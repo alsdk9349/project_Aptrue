@@ -24,7 +24,7 @@ public class CustomAdminDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String adminId) throws UsernameNotFoundException {
         Admin admin = adminRepository.findByAdminId(Integer.parseInt(adminId))
-                .orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.APT_NOT_FOUND));
 
         CustomAdminInfoDto customAdminInfoDto = CustomAdminInfoDto.builder()
                 .adminId(admin.getAdminId())

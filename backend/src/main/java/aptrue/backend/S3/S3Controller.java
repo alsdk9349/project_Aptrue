@@ -1,5 +1,11 @@
 package aptrue.backend.S3;
 
+import aptrue.backend.Ai.AiRequestDto;
+import aptrue.backend.Ai.WebClientService;
+import aptrue.backend.Clip.Entity.ClipRQ;
+import aptrue.backend.Clip.Repository.ClipRQRepository;
+import aptrue.backend.Global.Error.BusinessException;
+import aptrue.backend.Global.Error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -19,6 +26,8 @@ public class S3Controller {
 
     private final S3BucketClient bucketClient;
     private final S3Service s3Service;
+    private final WebClientService webClientService;
+    private final ClipRQRepository clipRQRepository;
 
     @PostMapping("/picture/upload")
     public String pictureUpload(
@@ -38,6 +47,21 @@ public class S3Controller {
             bucketClient.uploadPhoto(photos.get(i), fullPath); // 파일을 경로 포함해서 업로드
         }
         s3Service.updateImages(clipRQId, len);
+
+        ClipRQ optionalClipRQ = clipRQRepository.findById(clipRQId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
+
+        // S3에 올리는 영상 주소로 바꿔야함
+        List<String> originalCctvList = new ArrayList<>();
+
+        AiRequestDto aiRequestDto = AiRequestDto.builder()
+                .ClipRQId(clipRQId)
+                .adminID(optionalClipRQ.getAdmin().getAdminId())
+                .createdAt(optionalClipRQ.getCreatedAt())
+                .imgNames(optionalClipRQ.getImages())
+                .cctvNames(originalCctvList)
+                .build();
+        webClientService.sendAsyncPostRequest(aiRequestDto);
         return "success";
     }
 

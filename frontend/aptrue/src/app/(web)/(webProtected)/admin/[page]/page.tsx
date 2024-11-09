@@ -30,13 +30,14 @@ async function fetchAdminList({
         }
     )
 
+    const result = await response.json();
+
     if (!response.ok) {
         // const errorData = await response.json();
-        console.error('Error response:', errorData);
+        console.error('Error response:', result.message);
         throw new Error(result.message || '오류가 발생했습니다.');
     }
 
-    const result = await response.json();
     return result.data || [];
 }
 

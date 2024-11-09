@@ -61,8 +61,17 @@ export default function TableInput() {
         const result = await response.json();
 
         if (result.status === 200 && result.code==="A005") {
-            // input창 비워주기!
-            // setNewAdmin()
+
+            // 입력 필드 초기화
+            setNewAdmin({
+                name: '',
+                account: '',
+                password: '',
+                phone: ''
+            });
+
+            setMessage(result.message)
+            setIsOpenErrorModal(true);
             console.log(result.message) //  "새로운 관리자를 등록했습니다."
             // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동하지 않음)
 
@@ -96,6 +105,7 @@ export default function TableInput() {
                 value={newAdmin.name}
                 placeholder='이름' 
                 onChange={handleChange}
+                required
                 />
             </div>
             <div className={styles.id}>
@@ -105,6 +115,7 @@ export default function TableInput() {
                 value={newAdmin.account}
                 placeholder='아이디' 
                 onChange={handleChange}
+                required
                 />
             </div>
             <div className={styles.password}>
@@ -114,6 +125,7 @@ export default function TableInput() {
                 value={newAdmin.password}
                 placeholder='비밀번호' 
                 onChange={handleChange}
+                required
                 />
             </div>
             <div className={styles.phoneNumber}>
@@ -123,6 +135,7 @@ export default function TableInput() {
                 value={newAdmin.phone}
                 placeholder='전화번호' 
                 onChange={handleChange}
+                required
                 />
             </div>
             <div className={styles.date}>

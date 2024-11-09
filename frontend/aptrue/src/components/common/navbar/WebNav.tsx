@@ -44,7 +44,7 @@ export default function WebNav() {
   return (
     <div className={style.navbar}>
       <div className={style.container}>
-        <div className={style.title}>APTrue.</div>
+        <Link className={style.title} href='/'>APTrue.</Link>
         <div className={style.card}>
           <ApartCard />
         </div>

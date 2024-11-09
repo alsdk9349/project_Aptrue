@@ -1,7 +1,7 @@
 import CCTVList from '@/components/cctv/cctvList';
 import style from '@/app/(web)/(webProtected)/cctv/@cctvList/cctvList.module.scss';
 import Pagination from '@/components/common/pagination/Pagination';
-import Cookies from 'js-cookie';
+import { cookies } from 'next/headers';
 
 // const response = {
 //   status: 200,
@@ -34,7 +34,9 @@ import Cookies from 'js-cookie';
 export default async function Page({ params }: { params: { page: string } }) {
   const { page } = params;
   ('[* todo] page에 맞는 데이터 불러와서 캐싱하기');
-  const accessToken = Cookies.get('accessToken');
+  const cookiesObj = cookies();
+  const accessToken = cookiesObj.get('accessToken')?.value;
+  console.log('acessToken', accessToken);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,

@@ -1,7 +1,7 @@
 import CCTVList from '@/components/cctv/cctvList';
 import Pagination from '@/components/common/pagination/Pagination';
 import style from './cctvList.module.scss';
-import Cookies from 'js-cookie';
+import { cookies } from 'next/headers';
 
 // [* todo] 1page 정보 가져오기
 // const response = {
@@ -33,7 +33,9 @@ import Cookies from 'js-cookie';
 // };
 
 export default async function Default() {
-  const accessToken = Cookies.get('accessToken');
+  const cookiesObj = cookies();
+  const accessToken = cookiesObj.get('accessToken')?.value;
+  console.log('acessToken', accessToken);
 
   // API에서 데이터를 가져옵니다.
   // api/clip/list/{page}/{limit}

@@ -1,4 +1,3 @@
-'use client';
 import CCTVList from '@/components/cctv/cctvList';
 import Pagination from '@/components/common/pagination/Pagination';
 import style from './cctvList.module.scss';

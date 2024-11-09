@@ -1,4 +1,6 @@
-"use server"
+// "use server"
+"use client" // TO DO
+import Cookies from 'js-cookie'; // TO DO
 
 import Pagination from "@/components/common/pagination/Pagination";
 import styles from './page.module.scss';
@@ -43,14 +45,19 @@ async function fetchAdminList({
 
 export default async function Page({params}:{params: {page:string} }) {
 
+    const accessToken = Cookies.get('accessToken'); // TO DO
+
     const page = params.page;
     const cookiesObj = cookies();
-    const accessToken = cookiesObj.get('accessToken')?.value || '';
+    // const accessToken = cookiesObj.get('accessToken')?.value || '';
     let admins: GetAdmin[] = [];
     let errorMessage = '';
 
     try {
-        admins = await fetchAdminList({pageNum : page, accessToken});
+        // TO DO
+        if (accessToken) {
+            admins = await fetchAdminList({pageNum : page, accessToken});
+        }
     } catch (error: any) {
         errorMessage = error.message;
     }

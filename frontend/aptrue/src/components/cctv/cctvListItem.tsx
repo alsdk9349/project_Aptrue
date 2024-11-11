@@ -44,11 +44,13 @@ export default function CCTVListItem({ item, num }: CCTVListItemProps) {
           <>
             <div className={style.description}>
               <div
-                className={`${getStatusClass(item.status)}`}
+                className={`${getStatusClass(item.status)} `}
               >{`•\u00A0 ${item.status}`}</div>
-              <div>{`${item.address} ${item.name}님의 CCTV 처리 요청`}</div>
+              <div
+                className={style.statusText}
+              >{`${item.address} ${item.name}님의 CCTV 처리 요청`}</div>
             </div>
-            <div>{formattedDate}</div>
+            <div className={style.date}>{formattedDate}</div>
           </>
         )}
       </div>

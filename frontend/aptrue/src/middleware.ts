@@ -11,7 +11,7 @@ export default async function middleware(request: NextRequest) {
   const isLoginPath = request.nextUrl.pathname === '/login';
 
   if (!accessToken && !isLoginPath && !isPublicFile) {
-    return NextResponse.redirect(`${request.nextUrl.origin}/login`);
+    // return NextResponse.redirect(`${request.nextUrl.origin}/login`);
   }
 
   return NextResponse.next(); // 인증 성공시 요청을 계속 진행

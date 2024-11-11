@@ -5,7 +5,7 @@ export default function Page({ params }: { params: { clipRQId: string } }) {
 
   return (
     <>
-      <CCTVDetail />
+      <CCTVDetail clipRQId={clipRQId}/>
     </>
   );
 }

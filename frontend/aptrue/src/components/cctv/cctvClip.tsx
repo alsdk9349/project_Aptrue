@@ -11,6 +11,7 @@ export default function CCTVClip({ clipList }: CCTVClipProps) {
   const thumbnailContainerRef = useRef<HTMLDivElement>(null);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  console.log('[*] clipList', clipList);
 
   useEffect(() => {
     const videoElement = videoRef.current;

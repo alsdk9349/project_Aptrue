@@ -37,7 +37,7 @@ export default function CCTVHome() {
     const OV = new OpenVidu();
     const session = OV.initSession();
 
-    const sessionId = 'ses_X10xmmKVaK';
+    const sessionId = 'ses_JPXttfELkv';
 
     const initializeSubscriber = async () => {
       session.on('streamCreated', (event) => {

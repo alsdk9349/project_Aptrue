@@ -1,5 +1,3 @@
-"use client"
-
 import TableItem from "./TableItem";
 import DefaultTableItem from "./DefaultTableItem";
 
@@ -26,7 +24,8 @@ export default function AdminList({
                 adminID={admin.adminID}
                 name={admin.name}
                 account={admin.account}
-                password={admin.password}
+                // password={admin.password}
+                password={'*'.repeat(admin.account.length)}
                 phone={admin.phone}
                 createdAt={admin.createdAt}
                 />

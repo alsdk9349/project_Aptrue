@@ -21,11 +21,12 @@ export default function AdminList({
             {admins.map((admin, index) => 
                 <TableItem 
                 key={index}
-                adminID={admin.adminID}
+                adminID={
+                    (Number(pageNum)-1)*10+index+1
+                }
                 name={admin.name}
                 account={admin.account}
-                // password={admin.password}
-                password={'*'.repeat(admin.account.length)}
+                password={'*************'}
                 phone={admin.phone}
                 createdAt={admin.createdAt}
                 />

@@ -12,13 +12,19 @@
 }
 
 .container {
-  padding: 0 15px;
+  padding: 20px 15px;
   font-family: 'medium';
 
   .title {
     font-size: 24px;
     padding-left: 5px;
     padding-top: 20px;
+    color: colors.$black;
+    text-decoration: none;
+
+    &:hover {
+      color: colors.$blue5; // 호버 시 색상 변경
+  }
   }
   .select {
     display: flex; /* flexbox 레이아웃 적용 */

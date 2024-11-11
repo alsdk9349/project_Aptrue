@@ -5,13 +5,13 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 40px;
     width: fit-content;
     z-index: 1;
+    height: 55px;
 
     input {
         width: 137px;
-        height: 30px;
+        height: 20px;
         border-radius: 5px;
         border: 0;
         background-color: colors.$white;
@@ -32,8 +32,42 @@
         }
     }
 
+    .validation {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        color:colors.$red;
+        border: solid 0;
+        background-color: transparent;
+        font-family: 'regular';
+        font-size: 10px;
+    }
+
+    .buttonContainer {
+        button {
+            width: 50px;
+            height: 25px;
+            border-radius: 5px;
+            border: transparent;
+            background-color: colors.$blue4;
+            color: colors.$white;
+            font-family: 'medium';
+            font-size: 12px;
+        }
+
+        .blue {
+            background-color: colors.$blue4;
+        }
+
+        .gray {
+            background-color: colors.$gray5;
+        }
+    }
+
     div {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
@@ -68,6 +102,13 @@
     .date {
         width: 170px;
         height: 100%;
+        .validation {
+    display: flex;
+    align-items: center;
+    color:colors.$red;
+    border: solid 0;
+    background-color: transparent;
+}
     }
 
     .blank {
@@ -170,7 +211,7 @@
     background-color: colors.$white;
     font-family: 'regular';
     font-size: 12px;
-    color: colors.$gray6
+    color: colors.$gray6;
 }
 
 .isTableInput {

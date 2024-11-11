@@ -18,9 +18,10 @@ export default function PasswordInput() {
   };
 
   const onSubmit = async () => {
+    console.log('제출 폼')
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/clip/upload/${clipRQId}/link`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/clip/upload/${clipRQId}/link?clipRQId=${clipRQId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

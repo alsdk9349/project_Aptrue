@@ -1,15 +1,17 @@
 "use client";
 
 import Button from "../common/button/Button";
-import { revalidateTag } from 'next/cache';
+// import { revalidateTag } from 'next/cache'; // 서버 컴포넌트에서만 작용
 import { useState } from "react";
 import ErrorModal from "./ErrorModal";
+import { useRouter } from "next/navigation";
 
 export default function DeleteButton({adminId}:{adminId:number}) {
 
 
     const [ openErrorModal, setOpenErrorModal ] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
+    const router = useRouter();
 
     const delteAdmin = async () => {
 
@@ -24,6 +26,7 @@ export default function DeleteButton({adminId}:{adminId:number}) {
             console.log(result.message) //  "관리자를 삭제했습니다."
             setMessage(result.message)
             setOpenErrorModal(true);
+            router.push(window.location.pathname);
             // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동x)
 
         } else if (result.code === "M001") {

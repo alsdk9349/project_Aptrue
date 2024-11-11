@@ -1,5 +1,3 @@
-"use client"
-
 import TableItem from "./TableItem";
 import DefaultTableItem from "./DefaultTableItem";
 
@@ -23,10 +21,12 @@ export default function AdminList({
             {admins.map((admin, index) => 
                 <TableItem 
                 key={index}
-                adminID={admin.adminID}
+                adminID={
+                    (Number(pageNum)-1)*10+index+1
+                }
                 name={admin.name}
                 account={admin.account}
-                password={admin.password}
+                password={'*************'}
                 phone={admin.phone}
                 createdAt={admin.createdAt}
                 />

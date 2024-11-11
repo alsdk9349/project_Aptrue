@@ -49,7 +49,7 @@ public class ClipRQController {
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
-    @GetMapping("/clip/list/{page}/{limit}")
+    @PostMapping("/clip/list/{page}/{limit}")
     public ResponseEntity<?> getClipList(HttpServletRequest httpServletRequest, @PathVariable int page, @PathVariable int limit) {
         List<ClipListResponseDto> clipListResponseDtoList = clipRQService.getClipList(httpServletRequest,page, limit);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.CLIP_LIST_OK, clipListResponseDtoList);

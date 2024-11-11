@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import CCTVVideoLink from './cctvVideoLink';
 import { useEffect, useState } from 'react';
 import { cctvDetailApi, requestDoneAPI } from '@/api/cctvAPI';
+import { cookies } from 'next/headers';
 
 // const response = {
 //   status: 200,
@@ -50,6 +51,8 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   const [detailInfo, setDetailInfo] = useState<requestDetailInfo | null>(null);
 
   const router = useRouter();
+  const cookiesObj = cookies();
+  const accessToken = cookiesObj.get('accessToken')?.value;
 
   // const cctvDetailApi = async (setDetailInfo, clipRQId) => {
   //   const response = await fetch(
@@ -83,7 +86,7 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
 
   const handleDone = () => {
     // [* todo] 완료 처리 api 연결
-    requestDoneAPI(clipRQId);
+    requestDoneAPI(clipRQId, accessToken);
     handleClose();
   };
   const handleClose = () => {

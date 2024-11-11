@@ -37,7 +37,7 @@ export default function TableInput() {
 
         if (name==='password') {
             if (!isValidPassword(value)) {
-                setPasswordMessage('비밀번호는 특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
+                setPasswordMessage('특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
             } else {
                 setPasswordMessage('')
             }
@@ -45,7 +45,7 @@ export default function TableInput() {
 
         if (name==='phone') {
             if (!isValidPhoneNumber(value)) {
-                setPhoneMessage('전화번호는 010-0000-0000 형식이어야 합니다')
+                setPhoneMessage('010-0000-0000 형식이어야 합니다')
             } else {
                 setPhoneMessage('')
             }

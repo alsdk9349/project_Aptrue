@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // App Router용 훅
+import { usePathname, useRouter } from 'next/navigation'; // App Router용 훅
 import style from './WebNav.module.scss';
 import ApartCard from './ApartCard';
 
@@ -18,10 +18,14 @@ export default function WebNav() {
 
   const activeItem = getActiveItem();
 
+  const router = useRouter();
+
   return (
     <div className={style.navbar}>
       <div className={style.container}>
-        <div className={style.title}>APTrue.</div>
+        <div className={style.title} onClick={() => router.push('/')}>
+          APTrue.
+        </div>
         <div className={style.card}>
           <ApartCard />
         </div>

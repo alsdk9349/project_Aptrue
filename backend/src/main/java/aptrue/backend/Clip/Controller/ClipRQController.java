@@ -29,8 +29,8 @@ public class ClipRQController {
     }
 
     @GetMapping("/clip/detail/{clip_id}")
-    public ResponseEntity<?> getClipDetail(@PathVariable int clip_id, HttpServletRequest httpServletRequest) {
-        ClipDetailResponseDto clipDetailResponseDto = clipRQService.getDetail(clip_id, httpServletRequest);
+    public ResponseEntity<?> getClipDetail(@PathVariable int clip_id) {
+        ClipDetailResponseDto clipDetailResponseDto = clipRQService.getDetail(clip_id);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.CLIP_DETAIL_OK, clipDetailResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
@@ -43,15 +43,15 @@ public class ClipRQController {
     }
 
     @GetMapping("/clip/list/{clip_id}")
-    public ResponseEntity<?> getVideos(@PathVariable int clip_id, HttpServletRequest httpServletRequest) {
-        ClipOnlyResponseDto clipOnlyResponseDto = clipRQService.getVideosOnly(clip_id, httpServletRequest);
+    public ResponseEntity<?> getVideos(@PathVariable int clip_id) {
+        ClipOnlyResponseDto clipOnlyResponseDto = clipRQService.getVideosOnly(clip_id);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.VIDEOS_OK, clipOnlyResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
-    @PostMapping("/clip/list/{page}/{limit}")
-    public ResponseEntity<?> getClipList(HttpServletRequest httpServletRequest, @PathVariable int page, @PathVariable int limit) {
-        List<ClipListResponseDto> clipListResponseDtoList = clipRQService.getClipList(httpServletRequest,page, limit);
+    @GetMapping("/clip/list/{page}/{limit}")
+    public ResponseEntity<?> getClipList(@PathVariable int page, @PathVariable int limit) {
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQService.getClipList(page, limit);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.CLIP_LIST_OK, clipListResponseDtoList);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }

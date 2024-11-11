@@ -77,7 +77,7 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public ClipDetailResponseDto getDetail(int clip_id, HttpServletRequest httpServletRequest) {
+    public ClipDetailResponseDto getDetail(int clip_id) {
         int adminId = cookieUtil.getAdminId(httpServletRequest);
 
         Admin admin = adminRepository.findByAdminId(adminId)
@@ -125,7 +125,7 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public ClipOnlyResponseDto getVideosOnly(int clip_id, HttpServletRequest httpServletRequest) {
+    public ClipOnlyResponseDto getVideosOnly(int clip_id) {
         int adminId = cookieUtil.getAdminId(httpServletRequest);
 
         Admin admin = adminRepository.findByAdminId(adminId)
@@ -142,7 +142,7 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public List<ClipListResponseDto> getClipList(HttpServletRequest httpServletRequest, int page, int limit) {
+    public List<ClipListResponseDto> getClipList(int page, int limit) {
         int adminId = cookieUtil.getAdminId(httpServletRequest);
 
         Admin admin = adminRepository.findByAdminId(adminId)

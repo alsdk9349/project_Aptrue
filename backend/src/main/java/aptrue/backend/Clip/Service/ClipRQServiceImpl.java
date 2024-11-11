@@ -86,7 +86,7 @@ public class ClipRQServiceImpl implements ClipRQService {
                                                 .build();
 
         sseRepository.save("CCTV 요청 처리 완료", new SseEmitter());
-        sseController.send(clipRQResponseDto, "CCTV 요천 처리 완료");
+        sseController.send(responseDto, "CCTV 요천 처리 완료");
 
         return clipRQResponseDto;
     }

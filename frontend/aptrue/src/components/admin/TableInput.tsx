@@ -8,9 +8,12 @@ import { useState } from 'react';
 import { formatPhoneNumber, isValidPassword, isValidPhoneNumber } from '@/utils/formatters';
 // import { revalidateTag } from 'next/cache';
 import ErrorModal from './ErrorModal';
+import Cookies from 'js-cookie';
 
 
 export default function TableInput() {
+
+    const accessToken = Cookies.get('accessToken');
 
     // 유효성 검사 errorMessage
     const [passwordMessage, setPasswordMessage] =useState<string>('');
@@ -63,6 +66,10 @@ export default function TableInput() {
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, // accessToken을 Authorization 헤더에 추가
+            },
             body: JSON.stringify(newAdmin),
             credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
         });

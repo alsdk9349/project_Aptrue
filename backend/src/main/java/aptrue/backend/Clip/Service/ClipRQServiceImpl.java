@@ -114,6 +114,7 @@ public class ClipRQServiceImpl implements ClipRQService {
                 .photoStatus(optionalClipRQ.isPhotoStatus())
                 .password(optionalClipRQ.getPassword())
                 .clipList(optionalClipRQ.getClipList())
+                .status(optionalClipRQ.getStatus())
                 .build();
 
         return clipDetailResponseDto;

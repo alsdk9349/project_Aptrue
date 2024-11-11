@@ -18,5 +18,4 @@ export default function Page({params}:{params: {clipQRId:string}}) {
             </div>
         </div>
     )
-
 }

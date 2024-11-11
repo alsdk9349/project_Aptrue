@@ -43,7 +43,7 @@ public class SseServiceImpl implements SseService {
         emitter.onTimeout(() -> sseRepository.remove(email));
 
         // 첫 연결 시 503에러 방지 위해 더미 데이터 전송
-        CompleteResponseDto data = new CompleteResponseDto();
+        SseResponseDto data = new SseResponseDto();
         send(data, "연결 성공");
 
 

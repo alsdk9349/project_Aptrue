@@ -5,25 +5,16 @@ import classNames from 'classnames';
 import {format} from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useState } from 'react';
-import Button from '../common/button/Button';
-import Cookies from 'js-cookie';
+import { formatPhoneNumber, isValidPassword, isValidPhoneNumber } from '@/utils/formatters';
 // import { revalidateTag } from 'next/cache';
 import ErrorModal from './ErrorModal';
 
-function formatPhoneNumber(value:string) {
-
-    const phoneNumber = value.replace(/\D/g, ''); // 숫자만 남기기
-
-     // 전화번호 길이에 따라 포맷팅 적용
-    if (phoneNumber.length <= 3) return phoneNumber;
-    if (phoneNumber.length <= 7) return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
-    return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
-
-};
 
 export default function TableInput() {
 
-    const accessToken = Cookies.get('accessToken');
+    // 유효성 검사 errorMessage
+    const [passwordMessage, setPasswordMessage] =useState<string>('');
+    const [phoneMessage, setPhoneMessage] =useState<string>('');
 
     // 에러 메세지
     const [message, setMessage] = useState<string>('');
@@ -36,8 +27,29 @@ export default function TableInput() {
         phone:''
     })
 
+    const canCreate = newAdmin.name.trim() && newAdmin.account.trim() && !passwordMessage && !phoneMessage;
+
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+
+        setPasswordMessage('')
+        setPhoneMessage('')
         const {name, value} = event.target;
+
+        if (name==='password') {
+            if (!isValidPassword(value)) {
+                setPasswordMessage('비밀번호는 특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
+            } else {
+                setPasswordMessage('')
+            }
+        }
+
+        if (name==='phone') {
+            if (!isValidPhoneNumber(value)) {
+                setPhoneMessage('전화번호는 010-0000-0000 형식이어야 합니다')
+            } else {
+                setPhoneMessage('')
+            }
+        }
 
         setNewAdmin((prevData) => ({
             ...prevData,
@@ -46,14 +58,11 @@ export default function TableInput() {
 
     }
 
+
     const submitNewAdmin = async () => {
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-            },
             body: JSON.stringify(newAdmin),
             credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
         });
@@ -120,13 +129,14 @@ export default function TableInput() {
             </div>
             <div className={styles.password}>
                 <input 
-                type="text" 
+                type="password" 
                 name="password"
                 value={newAdmin.password}
                 placeholder='비밀번호' 
                 onChange={handleChange}
                 required
                 />
+                <div className={styles.validation}>{passwordMessage}</div>
             </div>
             <div className={styles.phoneNumber}>
                 <input 
@@ -137,6 +147,7 @@ export default function TableInput() {
                 onChange={handleChange}
                 required
                 />
+                <div className={styles.validation}>{phoneMessage}</div>
             </div>
             <div className={styles.date}>
                 <input 
@@ -146,15 +157,14 @@ export default function TableInput() {
                 readOnly
                 />
             </div>
-            <div className={styles.blank}>
-                <Button 
-                size='webTiny' 
-                color='blue' 
+            <div className={classNames(styles.blank, styles.buttonContainer)}>
+                <button 
                 onClick={submitNewAdmin} 
-                disabled={!newAdmin.name.trim() || !newAdmin.account.trim() || !newAdmin.password.trim() || !newAdmin.phone.trim()}
+                className={canCreate ? styles.blue : styles.gray}
+                disabled={!canCreate}
                 >
                     등록
-                </Button>
+                </button>
             </div>
             {isOpenErrorModal && 
             <ErrorModal message={message} isOpen={isOpenErrorModal} onClose={closeModal}/>

@@ -40,7 +40,7 @@ public class AdminController {
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.SIGN_UP_OK, signupResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
-
+s
     @PostMapping("/login")
     public ResponseEntity<?> login (@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
         log.info("{}, {}", loginRequestDto.toString(), loginRequestDto.getPassword());

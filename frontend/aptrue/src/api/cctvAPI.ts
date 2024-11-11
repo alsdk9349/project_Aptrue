@@ -22,7 +22,7 @@ export const cctvDetailApi = async (setDetailInfo, clipRQId) => {
 export const requestDoneAPI = async (clipRQId, accessToken) => {
   const response = await fetch(`${url}/clip/complete/${clipRQId}`, {
     method: 'POST',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,

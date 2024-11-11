@@ -11,7 +11,7 @@ export default async function Home() {
   // }
   // 서버 사이드에서 API 호출
   // const response = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/cctv/get/101동주변`,
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/cctv/get/101동주변`,
   // );
   // const data = await response.json();
   // const videoUrls = data.data.map(

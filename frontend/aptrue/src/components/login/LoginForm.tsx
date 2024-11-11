@@ -61,8 +61,15 @@ export default function LoginPage() {
         }
     };
 
+     // Enter 키로 로그인 처리를 위한 onKeyDown 핸들러
+     const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleLogin(e as any); // onSubmit과 동일하게 처리
+        }
+    };
+
     return (
-        <form onSubmit={handleLogin} className={styles.container}>
+        <form onSubmit={handleLogin} className={styles.container} onKeyDown={handleKeyDown}>
             <input
                 type="text"
                 placeholder="아이디"

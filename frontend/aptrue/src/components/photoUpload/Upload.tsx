@@ -50,21 +50,33 @@ export default function Upload() {
       }),
     );
 
-    // // FormData에 추가된 파일 확인
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(key, value);
-    // }
+    // FormData에 추가된 파일 확인
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
-    // //[todo] 입주민 이미지 업로드 api 호출 로직 작성
-    // const response = await fetch(
-    //   `${process.env.NEXT_PUBLIC_BASE_URL}/picture/upload?clipRQId=${clipRQId}`,
-    //   {
-    //     method: 'POST',
-    //     body: formData, // FormData 객체를 사용합니다.
-    //   },
-    // );
-    // const data = await response.json();
-    console.log(previews);
+    //[todo] 입주민 이미지 업로드 api 호출 로직 작성
+    try {
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/picture/upload?clipRQId=${clipRQId}`,
+        {
+          method: 'POST',
+          body: formData, // FormData 객체를 사용합니다.
+          credentials: 'include'
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('업로드 실패');
+      }
+      const data = await response.json();
+      console.log('업로드 성공 반환', data)
+      console.log(previews);
+    } catch (error) {
+      console.error('업로드 중 오류 발생:', error)
+    }
+    
   };
 
   return (

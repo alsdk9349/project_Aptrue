@@ -78,10 +78,6 @@ public class ClipRQServiceImpl implements ClipRQService {
 
     @Transactional
     public ClipDetailResponseDto getDetail(int clip_id) {
-        int adminId = cookieUtil.getAdminId(httpServletRequest);
-
-        Admin admin = adminRepository.findByAdminId(adminId)
-                .orElseThrow(()->new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         ClipRQ optionalClipRQ = clipRQRepository.findById(clip_id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
@@ -126,10 +122,6 @@ public class ClipRQServiceImpl implements ClipRQService {
 
     @Transactional
     public ClipOnlyResponseDto getVideosOnly(int clip_id) {
-        int adminId = cookieUtil.getAdminId(httpServletRequest);
-
-        Admin admin = adminRepository.findByAdminId(adminId)
-                .orElseThrow(()->new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         ClipRQ optionalClipRQ = clipRQRepository.findById(clip_id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
@@ -143,10 +135,6 @@ public class ClipRQServiceImpl implements ClipRQService {
 
     @Transactional
     public List<ClipListResponseDto> getClipList(int page, int limit) {
-        int adminId = cookieUtil.getAdminId(httpServletRequest);
-
-        Admin admin = adminRepository.findByAdminId(adminId)
-                .orElseThrow(()->new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         List<ClipRQ> clipRQS = clipRQRepository.findAll();
 

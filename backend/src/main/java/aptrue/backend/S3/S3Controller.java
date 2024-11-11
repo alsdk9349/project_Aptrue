@@ -60,7 +60,7 @@ public class S3Controller {
                 .build();
 
         sseRepository.save("사람 사진 업로드 완료", new SseEmitter());
-        sseController.send(responseDto, "사람 사진 업로드 완료");
+        sseController.send(responseDto, "사람 사진 업로드");
 
         return "success";
     }

@@ -1,267 +1,196 @@
+// // CCTVWebRTC.tsx
 // 'use client';
 
+// import { useEffect, useRef } from 'react';
 // import { OpenVidu } from 'openvidu-browser';
-// import { useEffect, useState, useRef } from 'react';
-// import style from './CCTVWebRTC.module.scss';
+// import { useRecoilState } from 'recoil';
+// import { publisherState } from '@/state/atoms/webrtcAtoms';
 
-// export default function CCTVWebRTC() {
-//   const [session, setSession] = useState<any>(null);
-//   const [mainStreamManager, setMainStreamManager] = useState<any>(null);
-//   const videoRef = useRef(null); // 비디오 요소에 대한 참조 생성
+// export default function CCTVWebRTC({ role }: { role?: string }) {
+//   const localVideoRef = useRef<HTMLVideoElement | null>(null);
+//   const [newPublisher, setPublisher] = useRecoilState(publisherState);
 
 //   useEffect(() => {
 //     const OV = new OpenVidu();
 //     const session = OV.initSession();
 
-//     session.on('streamCreated', (event: any) => {
-//       const subscriber = session.subscribe(event.stream, undefined);
-//       setMainStreamManager(subscriber);
-//     });
+//     const initializeSession = async () => {
+//       try {
+//         // 서버에서 고정된 sessionId에 대한 토큰을 요청
+//         const tokenResponse = await fetch('/api/webrtc/gettoken', {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json' },
+//           body: JSON.stringify({ role }),
+//         });
 
-//     fetch('/api/webrtc/gettoken', { method: 'POST' })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const token = data.token;
-//         return session.connect(token);
-//       })
-//       .then(() => {
-//         setSession(session);
-//       })
-//       .catch((error) => {
-//         console.error('Error connecting to OpenVidu:', error);
-//       });
+//         const response = await tokenResponse.json();
+
+//         // 서버에서 받은 토큰으로 세션에 연결
+//         await session.connect(response.token);
+
+//         if (role === 'PUBLISHER') {
+//           const publisher = OV.initPublisher(undefined, {
+//             videoSource: undefined, // 기본 카메라와 마이크 사용
+//             audioSource: undefined,
+//             publishAudio: true,
+//             publishVideo: true,
+//             resolution: '640x480',
+//           });
+
+//           await session.publish(publisher).then(() => {
+//             console.log(session);
+//             console.log('스트림', publisher.stream);
+//           });
+//           setPublisher(publisher);
+
+//           // 로컬 비디오 요소에 스트림을 설정
+//           const newMediaStream = publisher.stream?.getMediaStream();
+//           if (newMediaStream && localVideoRef.current) {
+//             // console.log('여긴오나..?');
+//             localVideoRef.current.srcObject = newMediaStream;
+//           }
+//           console.log(`[${role}] Publisher started streaming`);
+//         }
+//       } catch (error) {
+//         console.error(`Error initializing ${role}:`, error);
+//       }
+//     };
+
+//     initializeSession();
 
 //     return () => {
-//       if (session) session.disconnect();
+//       session.disconnect();
+//       setPublisher(null);
 //     };
-//   }, []);
-
-//   useEffect(() => {
-//     // mainStreamManager와 videoRef가 둘 다 준비되었을 때 비디오 요소 추가
-//     if (mainStreamManager && videoRef.current) {
-//       mainStreamManager.addVideoElement(videoRef.current);
-//     }
-//   }, [mainStreamManager]); // mainStreamManager가 업데이트될 때마다 실행
+//   }, [role, setPublisher]);
 
 //   return (
 //     <div>
-//       {mainStreamManager ? (
-//         <div>
-//           <video ref={videoRef} autoPlay />
-//         </div>
-//       ) : (
-//         <p className={style.container}>Connecting to CCTV...</p>
-//       )}
+//       <video ref={localVideoRef} autoPlay playsInline />
 //     </div>
 //   );
 // }
 
-// 'use client';
-
-// import { OpenVidu, StreamManager, Session } from 'openvidu-browser';
-// import { useEffect, useState, useRef } from 'react';
-// import style from './CCTVWebRTC.module.scss';
-
-// export default function CCTVWebRTC() {
-//   const [session, setSession] = useState<Session | null>(null);
-//   const [mainStreamManager, setMainStreamManager] =
-//     useState<StreamManager | null>(null);
-//   const videoRef = useRef<HTMLVideoElement | null>(null); // 비디오 요소에 대한 참조 생성
-
-//   useEffect(() => {
-//     // OpenVidu 세션 생성
-//     const OV = new OpenVidu();
-//     const session = OV.initSession();
-
-//     // 스트림 생성 시 실행될 이벤트 리스너
-//     session.on('streamCreated', (event) => {
-//       const subscriber = session.subscribe(event.stream, undefined);
-//       setMainStreamManager(subscriber);
-
-//       console.log('Subscriber set:', subscriber);
-
-//       // 비디오 요소가 렌더링된 후에 추가
-//       if (videoRef.current) {
-//         subscriber.addVideoElement(videoRef.current);
-//       }
-//     });
-
-//     // 토큰 요청 및 세션 연결
-//     fetch('/api/webrtc/gettoken', { method: 'POST' })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const token = data.token;
-//         return session.connect(token);
-//       })
-//       .then(() => {
-//         console.log('세션 연결');
-//         setSession(session);
-
-//         // 발행자 생성 및 스트림 발행
-//         const publisher = OV.initPublisher(undefined, {
-//           audioSource: undefined,
-//           videoSource: undefined,
-//           publishAudio: true,
-//           publishVideo: true,
-//           resolution: '640x480',
-//           frameRate: 30,
-//           insertMode: 'APPEND',
-//           mirror: true,
-//         });
-//         session.publish(publisher);
-//       })
-//       .catch((error) => {
-//         console.error('Error connecting to OpenVidu:', error);
-//       });
-
-//     // 컴포넌트 언마운트 시 세션 종료
-//     return () => {
-//       if (session) session.disconnect();
-//     };
-//   }, []);
-
-//   // mainStreamManager가 업데이트될 때마다 비디오 요소에 스트림 추가
-//   useEffect(() => {
-//     if (mainStreamManager && videoRef.current) {
-//       mainStreamManager.addVideoElement(videoRef.current as HTMLVideoElement);
-//     }
-//   }, [mainStreamManager]);
-
-//   return (
-//     <div className={style.container}>
-//       {mainStreamManager ? (
-//         <div>
-//           <video ref={videoRef} autoPlay />
-//         </div>
-//       ) : (
-//         <p>Connecting to CCTV...</p>
-//       )}
-//     </div>
-//   );
-// }
-
-// 'use client';
-
-// import { OpenVidu, StreamManager, Session, Publisher } from 'openvidu-browser';
-// import { useEffect, useState, useRef } from 'react';
-// import style from './CCTVWebRTC.module.scss';
-
-// export default function CCTVWebRTC() {
-//   const [session, setSession] = useState<Session | null>(null);
-//   const [publisher, setPublisher] = useState<Publisher | null>(null);
-//   const videoRef = useRef<HTMLVideoElement | null>(null); // 비디오 요소에 대한 참조 생성
-
-//   useEffect(() => {
-//     const OV = new OpenVidu();
-//     const session = OV.initSession();
-
-//     // 이벤트 리스너를 설정합니다
-//     session.on('streamCreated', (event) => {
-//       const subscriber = session.subscribe(event.stream, undefined);
-//       if (videoRef.current) {
-//         subscriber.addVideoElement(videoRef.current);
-//       }
-//       console.log('Subscriber video added to video element');
-//     });
-
-//     // 토큰 요청 및 세션 연결
-//     fetch('/api/webrtc/gettoken', { method: 'POST' })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const token = data.token;
-//         return session.connect(token);
-//       })
-//       .then(() => {
-//         console.log('세션 연결');
-//         setSession(session);
-
-//         // 발행자 생성 및 스트림 발행
-//         const publisher = OV.initPublisher(undefined, {
-//           audioSource: undefined,
-//           videoSource: undefined,
-//           publishAudio: true,
-//           publishVideo: true,
-//           resolution: '640x480',
-//           frameRate: 30,
-//           insertMode: 'APPEND',
-//           mirror: true,
-//         });
-
-//         setPublisher(publisher);
-//         session.publish(publisher);
-
-//         // 비디오 요소가 렌더링된 후 발행자의 비디오 스트림 추가
-//         if (videoRef.current) {
-//           publisher.addVideoElement(videoRef.current);
-//         }
-//       })
-//       .catch((error) => {
-//         console.error('Error connecting to OpenVidu:', error);
-//       });
-
-//     return () => {
-//       if (session) session.disconnect();
-//     };
-//   }, []);
-
-//   return (
-//     <div className={style.videoContainer}>
-//       {publisher ? (
-//         <div>
-//           <video ref={videoRef} className={style.video} autoPlay playsInline />
-//         </div>
-//       ) : (
-//         <p className={style.container}>Connecting to CCTV...</p>
-//       )}
-//     </div>
-//   );
-// }
-
+// //1분마다 녹화 후 서버에 전송
 'use client';
+import { useEffect, useRef, useState } from 'react';
+import { OpenVidu, Session } from 'openvidu-browser';
+import { useRecoilState } from 'recoil';
+import { publisherState } from '@/state/atoms/webrtcAtoms';
 
-import { OpenVidu, Publisher } from 'openvidu-browser';
-import { useEffect, useState, useRef } from 'react';
-import style from './CCTVWebRTC.module.scss';
+export default function CCTVWebRTC({ role }: { role?: string }) {
+  const localVideoRef = useRef<HTMLVideoElement | null>(null);
+  const [newPublisher, setPublisher] = useRecoilState(publisherState);
+  const sessionRef = useRef<Session | null>(null);
+  const recordedChunks = useRef<Blob[]>([]); // 수집된 데이터 청크를 저장
 
-export default function CCTVWebRTC({ onClick }: { onClick: () => void }) {
-  const [publisher, setPublisher] = useState<Publisher | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const baseUrl = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
   useEffect(() => {
     const OV = new OpenVidu();
-    const session = OV.initSession();
+    sessionRef.current = OV.initSession();
 
-    fetch('/api/webrtc/gettoken', { method: 'POST' })
-      .then((response) => response.json())
-      .then((data) => session.connect(data.token))
-      .then(() => {
-        const publisher = OV.initPublisher(undefined, {
-          audioSource: undefined,
-          videoSource: undefined,
-          publishAudio: true,
-          publishVideo: true,
-          resolution: '640x480',
-          frameRate: 30,
-          insertMode: 'APPEND',
-          mirror: true,
-        });
-        setPublisher(publisher);
-        session.publish(publisher);
+    const sessionId = 'ses_X10xmmKVaK';
 
-        if (videoRef.current) {
-          publisher.addVideoElement(videoRef.current);
+    const initializeSession = async () => {
+      try {
+        const tokenResponse = await fetch(
+          `${baseUrl}/api/session/${sessionId}/connections`,
+          // '/api/webrtc/gettoken',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            // body: JSON.stringify({ role }),
+          },
+        );
+
+        const { token } = await tokenResponse.json();
+        await sessionRef.current?.connect(token);
+
+        if (role === 'PUBLISHER') {
+          const publisher = OV.initPublisher(undefined, {
+            videoSource: undefined,
+            audioSource: false,
+            publishAudio: false,
+            publishVideo: true,
+            resolution: '640x480',
+          });
+
+          await sessionRef.current?.publish(publisher);
+          setPublisher(publisher);
+
+          const newMediaStream = publisher.stream?.getMediaStream();
+          if (newMediaStream && localVideoRef.current) {
+            localVideoRef.current.srcObject = newMediaStream;
+
+            const recorder = new MediaRecorder(newMediaStream, {
+              mimeType: 'video/webm; codecs=vp8',
+            });
+
+            // `ondataavailable`에서 데이터 청크를 수집
+            recorder.ondataavailable = (event) => {
+              if (event.data.size > 0) {
+                console.log('데이터 청크 수집:', event.data.size);
+                recordedChunks.current.push(event.data);
+              }
+            };
+
+            // `onstop`에서 데이터 수집 완료 후 처리
+            recorder.onstop = async () => {
+              if (recordedChunks.current.length === 0) {
+                console.error('녹화된 데이터가 없습니다.');
+                return;
+              }
+
+              const blob = new Blob(recordedChunks.current, {
+                type: 'video/webm',
+              });
+              recordedChunks.current = []; // 청크 배열 초기화
+
+              // // 비디오를 로컬에 저장하기 위한 다운로드 링크 생성
+              // const url = URL.createObjectURL(blob);
+              // const a = document.createElement('a');
+              // a.href = url;
+              // a.download = 'recording.webm';
+              // a.click();
+              // URL.revokeObjectURL(url);
+
+              // 서버로 비디오 Blob 전송
+              const formData = new FormData();
+              formData.append('video', blob, 'recording.webm');
+              // await fetch('/api/upload-video', {
+              //   method: 'POST',
+              //   body: formData,
+              // });
+
+              // 다음 녹화를 시작
+              recorder.start();
+              setTimeout(() => recorder.stop(), 60000); // 1분 후 중지
+            };
+
+            // 첫 번째 1분 녹화 시작
+            recorder.start();
+            setTimeout(() => recorder.stop(), 60000); // 1분 후 중지
+          }
         }
-      })
-      .catch((error) => console.error('Error connecting to OpenVidu:', error));
+      } catch (error) {
+        console.error(`Error initializing ${role}:`, error);
+      }
+    };
+
+    initializeSession();
 
     return () => {
-      if (session) session.disconnect();
+      if (sessionRef.current) {
+        sessionRef.current.disconnect();
+      }
+      setPublisher(null);
     };
-  }, []);
+  }, [role, setPublisher]);
 
   return (
-    <div className={style.video} onClick={onClick}>
-      <video ref={videoRef} autoPlay playsInline />
+    <div>
+      <video ref={localVideoRef} autoPlay playsInline />
     </div>
   );
 }

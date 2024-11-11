@@ -17,7 +17,7 @@ export default function CCTVScreen({
       <div className={style.title}>{`${activeZone} cam0${camNumber}`}</div>
       {videoUrl === 'openvidu-stream' ? (
         <div className={style.video}>
-          <CCTVWebRTC onClick={onClick} />
+          <CCTVWebRTC />
         </div>
       ) : (
         <video

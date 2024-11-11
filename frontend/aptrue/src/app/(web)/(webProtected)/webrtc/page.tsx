@@ -1,5 +1,5 @@
 import CCTVWebRTC from '@/components/homePage/CCTV/CCTVWebRTC';
 
 export default function Page() {
-  return <CCTVWebRTC />;
+  return <CCTVWebRTC role={'PUBLISHER'} />;
 }

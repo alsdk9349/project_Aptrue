@@ -1,7 +1,13 @@
 package aptrue.backend.Sse.Controller;
 
 import aptrue.backend.Clip.Dto.CompleteResponseDto;
+import aptrue.backend.Global.ResultResponse;
 import aptrue.backend.Sse.Service.SseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +28,12 @@ public class SseController {
     private final SseService sseService;
 
     @GetMapping(path = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @Operation(summary = "SSE 연결", description = "SSE 초기에 연결하는 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "SSE 연결 성공",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ResultResponse.class))),
+    })
     public ResponseEntity<SseEmitter> connect(HttpServletRequest httpServletRequest) {
 
         SseEmitter emitter = sseService.connect(httpServletRequest.getSession().getId());

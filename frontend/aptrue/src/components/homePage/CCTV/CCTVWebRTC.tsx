@@ -90,7 +90,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
     const OV = new OpenVidu();
     sessionRef.current = OV.initSession();
 
-    const sessionId = 'ses_X10xmmKVaK';
+    const sessionId = 'ses_JPXttfELkv';
 
     const initializeSession = async () => {
       try {

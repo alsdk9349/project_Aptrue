@@ -1,14 +1,12 @@
 "use client";
 
 import Button from "../common/button/Button";
-import Cookies from 'js-cookie';
 import { revalidateTag } from 'next/cache';
 import { useState } from "react";
 import ErrorModal from "./ErrorModal";
 
 export default function DeleteButton({adminId}:{adminId:number}) {
 
-    const accessToken = Cookies.get('accessToken');
 
     const [ openErrorModal, setOpenErrorModal ] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
@@ -17,9 +15,6 @@ export default function DeleteButton({adminId}:{adminId:number}) {
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/${adminId.toString()}`, {
             method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-            },
             credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
         });
 

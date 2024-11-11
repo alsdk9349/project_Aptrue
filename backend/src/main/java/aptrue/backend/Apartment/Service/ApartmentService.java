@@ -4,5 +4,5 @@ import aptrue.backend.Apartment.Dto.ApartmentResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface ApartmentService {
-    ApartmentResponseDto getApart(int aptId);
+    ApartmentResponseDto getApart(int aptId, HttpServletRequest httpServletRequest);
 }

@@ -42,7 +42,7 @@ export default async function Default() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/1/10`,
     {
-      method: 'POST',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
       },

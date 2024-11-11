@@ -6,7 +6,7 @@ import style from './CCTVHome.module.scss';
 import CCTVButton from './CCTVButton';
 import CCTVScreen from './CCTV/CCTVScreen';
 
-const baseUrl = process.env.NEXT_PUBLIC_API_SERVER_URL;
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const cctvZone = [
   '101동 주변',
@@ -95,7 +95,7 @@ export default function CCTVHome() {
 
       try {
         const tokenResponse = await fetch(
-          `${baseUrl}/api/session/${sessionId}/connections`,
+          `${baseUrl}/session/${sessionId}/connections`,
           // `/api/webrtc/gettoken`,
           {
             method: 'POST',

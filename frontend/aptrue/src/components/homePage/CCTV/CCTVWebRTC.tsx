@@ -86,11 +86,13 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
+  const sessionId = 'sixbee';
+
   useEffect(() => {
     const OV = new OpenVidu();
     sessionRef.current = OV.initSession();
 
-    const sessionId = 'ses_JPXttfELkv';
+    // const sessionId = 'ses_JPXttfELkv';
 
     const initializeSession = async () => {
       try {

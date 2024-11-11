@@ -21,7 +21,7 @@ export default function ErrorModal({
         // 15초 후에 모달을 닫는 타이머 설정
         const timer = setTimeout(()=>{
             onClose();
-        }, 15000)
+        }, 5000)
 
         // 컴포넌트가 언마운트되거나 isOpen이 변경될 때 타이머 정리
         return () => clearTimeout(timer);

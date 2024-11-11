@@ -84,7 +84,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
   const sessionRef = useRef<Session | null>(null);
   const recordedChunks = useRef<Blob[]>([]); // 수집된 데이터 청크를 저장
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_SERVER_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     const OV = new OpenVidu();
@@ -95,7 +95,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
     const initializeSession = async () => {
       try {
         const tokenResponse = await fetch(
-          `${baseUrl}/api/session/${sessionId}/connections`,
+          `${baseUrl}/session/${sessionId}/connections`,
           // '/api/webrtc/gettoken',
           {
             method: 'POST',

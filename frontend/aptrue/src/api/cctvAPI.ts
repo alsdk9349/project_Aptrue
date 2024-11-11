@@ -1,7 +1,3 @@
-import { cookies } from 'next/headers';
-const cookiesObj = cookies();
-const accessToken = cookiesObj.get('accessToken')?.value;
-
 const url = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const cctvDetailApi = async (setDetailInfo, clipRQId) => {
@@ -23,7 +19,7 @@ export const cctvDetailApi = async (setDetailInfo, clipRQId) => {
   }
 };
 
-export const requestDoneAPI = async (clipRQId) => {
+export const requestDoneAPI = async (clipRQId, accessToken) => {
   const response = await fetch(`${url}/clip/complete/${clipRQId}`, {
     method: 'POST',
     // credentials: 'include',

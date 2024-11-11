@@ -44,8 +44,11 @@ export default async function Page({params}:{params: {page:string} }) {
     } catch (error: any) {
         errorMessage = error.message;
     }
+  } catch (error: any) {
+    errorMessage = error.message;
+  }
 
-    const remains: number = 10 - admins.length;
+  const remains: number = 10 - admins.length;
 
     // 관리자 목록 전체 조회 API 불러오기
     return (

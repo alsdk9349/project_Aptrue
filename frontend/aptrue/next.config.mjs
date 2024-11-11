@@ -1,6 +1,6 @@
 // ESM 형식의 Next.js 설정 파일
 const nextConfig = {
-  reactStrictMode: true, // React의 Strict Mode 활성화
+  reactStrictMode: false, // React의 Strict Mode 활성화
 
   // 추가 설정: rewrites
   async rewrites() {

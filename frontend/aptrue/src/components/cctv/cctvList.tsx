@@ -1,7 +1,7 @@
 import CCTVListItem from './cctvListItem';
 
 export default function CCTVList({ data }: { data: CCTVItem[] }) {
-  console.log(data);
+  // console.log(data);
 
   const items = [...data, ...Array(10 - data.length).fill(undefined)];
   return (

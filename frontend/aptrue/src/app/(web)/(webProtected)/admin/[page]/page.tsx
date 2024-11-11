@@ -4,6 +4,7 @@ import Pagination from "@/components/common/pagination/Pagination";
 import styles from './page.module.scss';
 import ErrorHandler from "@/components/admin/ErrorHandler";
 import AdminList from "@/components/admin/AdminList";
+import { cookies } from 'next/headers';
 
 // params값만 받아서 활용하는 서버컴포넌트!
 async function fetchAdminList({
@@ -12,11 +13,17 @@ async function fetchAdminList({
     pageNum:string;
 }) {
 
+    const cookieStore = cookies();
+    const accessToken = cookieStore.get('accessToken')?.value;
+
     // api/admin/list/{page}/{limit}
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
         {
             method: 'GET',
             credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, // Authorization 헤더에 accessToken 추가
+            },
             // next: {tags: ['adminList']}
             cache: 'no-store'
         }

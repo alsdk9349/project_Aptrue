@@ -103,6 +103,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             // body: JSON.stringify({ role }),
+            credentials: 'include',
           },
         );
 

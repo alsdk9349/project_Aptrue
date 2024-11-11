@@ -50,10 +50,10 @@ export default function Upload() {
       }),
     );
 
-    // // FormData에 추가된 파일 확인
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(key, value);
-    // }
+    // FormData에 추가된 파일 확인
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
     // //[todo] 입주민 이미지 업로드 api 호출 로직 작성
     // const response = await fetch(
@@ -61,6 +61,7 @@ export default function Upload() {
     //   {
     //     method: 'POST',
     //     body: formData, // FormData 객체를 사용합니다.
+    //     credentials: 'include',
     //   },
     // );
     // const data = await response.json();

@@ -57,6 +57,7 @@ public class S3Controller {
                 .clipId(optionalClipRQ.getClipRQId())
                 .message("사람 사진 업로드 완료")
                 .name(optionalClipRQ.getName())
+                .status(optionalClipRQ.getStatus())
                 .build();
 
         sseRepository.save("사람 사진 업로드 완료", new SseEmitter());

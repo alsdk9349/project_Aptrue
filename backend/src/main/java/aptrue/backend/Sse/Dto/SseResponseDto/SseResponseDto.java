@@ -17,14 +17,16 @@ public class SseResponseDto {
     private long clipId;
     private String name;
     private String message;
+    private String status;
     private LocalDateTime createdAt;
 
     @Builder
-    private SseResponseDto(long clipId, String name, String message) {
+    private SseResponseDto(long clipId, String name, String message, String status) {
         this.clipId = clipId;
         this.name = name;
         this.createdAt = LocalDateTime.now();;
         this.message = message;
+        this.status = status;
     }
 
     public static SseResponseDto of(ClipRQ clipRQ) {
@@ -36,10 +38,14 @@ public class SseResponseDto {
 
     @Override
     public String toString() {
+
+        this.createdAt = LocalDateTime.now();
+
         StringBuilder sb = new StringBuilder();
         sb.append("{\"message\": ").append(message).append(", ");
         sb.append("\"clipId\": ").append(clipId).append(", ");
         sb.append("\"name\": ").append(name).append(", ");
+        sb.append("\"status\": ").append(status).append(", ");
         sb.append("\"createdAt\": ").append(createdAt).append(" }");
 
         return sb.toString();

@@ -20,24 +20,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SseServiceImpl implements SseService {
 
-
-
     private final SseRepository sseRepository;
 
     public SseEmitter connect(String email) {
         SseEmitter emitter = new SseEmitter();
 
         sseRepository.save(email, emitter);
-
-        List<Object> cachedEvents = sseRepository.getAllEvents();
-        for (Object event : cachedEvents) {
-            try {
-                emitter.send(event); // 캐시된 이벤트 전송
-            } catch (Exception e) {
-                emitter.completeWithError(e); // 에러 처리
-
-            }
-        }
 
         emitter.onCompletion(() -> sseRepository.remove(email));
         emitter.onTimeout(() -> sseRepository.remove(email));
@@ -46,8 +34,16 @@ public class SseServiceImpl implements SseService {
         SseResponseDto data = new SseResponseDto();
         send(data, "연결 성공");
 
+        List<Object> cachedEvents = sseRepository.getAllEvents();
+        for (Object event : cachedEvents) {
+            log.info(event.toString());
+            try {
+                emitter.send(event); // 캐시된 이벤트 전송
+            } catch (Exception e) {
+                emitter.completeWithError(e); // 에러 처리
 
-
+            }
+        }
 
         return emitter;
     }
@@ -88,7 +84,6 @@ public class SseServiceImpl implements SseService {
                 log.info("fail");
                 emitter.completeWithError(e); // 에러 처리
                 sseRepository.remove(key); // 구독 취소
-
                 sseRepository.cacheEvent(key, sseResponseDto);
             }
         };

@@ -53,12 +53,14 @@ public class OpenViduController {
                                                  @RequestBody(required = false) Map<String, Object> params) {
         try {
             String token = openViduService.createConnection(sessionId, params != null ? params : new HashMap<>());
+            log.info("params  : {}", params);
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
             return response;
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e) {
+            log.info(e.getMessage());
             throw new BusinessException(ErrorCode.TOKEN_CREATION_FAILED);
         }
     }

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface SseService {
 
-    SseEmitter connect(String SseId);
+    SseEmitter connect(String email);
     void send(SseResponseDto sseResponseDto, String message);
 
 }

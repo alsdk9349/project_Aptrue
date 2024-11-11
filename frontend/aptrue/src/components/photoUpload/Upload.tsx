@@ -57,7 +57,7 @@ export default function Upload() {
 
     // //[todo] 입주민 이미지 업로드 api 호출 로직 작성
     // const response = await fetch(
-    //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/picture/upload?clipRQId=${clipRQId}`,
+    //   `${process.env.NEXT_PUBLIC_BASE_URL}/picture/upload?clipRQId=${clipRQId}`,
     //   {
     //     method: 'POST',
     //     body: formData, // FormData 객체를 사용합니다.

@@ -33,9 +33,9 @@ import { cookies } from 'next/headers';
 // };
 
 export default async function Default() {
-  const cookiesObj = cookies();
-  const accessToken = cookiesObj.get('accessToken')?.value;
-  console.log('acessToken', accessToken);
+  // const cookiesObj = cookies();
+  // const accessToken = cookiesObj.get('accessToken')?.value;
+  // console.log('acessToken', accessToken);
 
   // API에서 데이터를 가져옵니다.
   // api/clip/list/{page}/{limit}
@@ -44,7 +44,7 @@ export default async function Default() {
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
+        // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
       },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
       cache: 'no-store', // 캐시를 사용하지 않도록 설정 (선택 사항)
@@ -56,9 +56,7 @@ export default async function Default() {
   }
 
   const result = await response.json();
-  if (result) {
-    console.log('[*] default page', result);
-  }
+  console.log('[*] default page', result);
 
   return (
     <>
@@ -69,3 +67,4 @@ export default async function Default() {
     </>
   );
 }
+

@@ -151,24 +151,17 @@ public class ClipRQServiceImpl implements ClipRQService {
     @Transactional
     public List<ClipListResponseDto> getClipList(int page, int limit) {
 
-        List<ClipRQ> clipRQS = clipRQRepository.findAll();
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.ASC, "clipRQId"));
+        Page<ClipRQ> clipRQS = clipRQRepository.findAll(pageable);
 
-        List<ClipListResponseDto> clipListResponseDtoList = new ArrayList<>();
-        int start = (page-1)*limit;
-        for (int i=start;i<start+limit;i++) {
-            if (i>=clipRQS.size()) {
-                break;
-            }
-            ClipRQ clipRQ = clipRQS.get(i);
-            ClipListResponseDto clipListResponseDto = ClipListResponseDto.builder()
-                    .clipRQId(clipRQ.getClipRQId())
-                    .status(clipRQ.getStatus())
-                    .address(clipRQ.getAddress())
-                    .name(clipRQ.getName())
-                    .createdAt(clipRQ.getCreatedAt())
-                    .build();
-            clipListResponseDtoList.add(clipListResponseDto);
-        }
+
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQS.stream().map(clipRQ -> ClipListResponseDto.builder()
+                .clipRQId(clipRQ.getClipRQId())
+                .status(clipRQ.getStatus())
+                .address(clipRQ.getAddress())
+                .name(clipRQ.getName())
+                .createdAt(clipRQ.getCreatedAt())
+                .build()).collect(Collectors.toList());
 
         return clipListResponseDtoList;
     }

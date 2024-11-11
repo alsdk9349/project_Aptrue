@@ -145,16 +145,14 @@ public class ClipRQServiceImpl implements ClipRQService {
                 break;
             }
             ClipRQ clipRQ = clipRQS.get(i);
-            if (clipRQ.getAdmin().getApartment()==admin.getApartment()) {
-                ClipListResponseDto clipListResponseDto = ClipListResponseDto.builder()
-                        .clipRQId(clipRQ.getClipRQId())
-                        .status(clipRQ.getStatus())
-                        .address(clipRQ.getAddress())
-                        .name(clipRQ.getName())
-                        .createdAt(clipRQ.getCreatedAt())
-                        .build();
-                clipListResponseDtoList.add(clipListResponseDto);
-            }
+            ClipListResponseDto clipListResponseDto = ClipListResponseDto.builder()
+                    .clipRQId(clipRQ.getClipRQId())
+                    .status(clipRQ.getStatus())
+                    .address(clipRQ.getAddress())
+                    .name(clipRQ.getName())
+                    .createdAt(clipRQ.getCreatedAt())
+                    .build();
+            clipListResponseDtoList.add(clipListResponseDto);
         }
 
         return clipListResponseDtoList;

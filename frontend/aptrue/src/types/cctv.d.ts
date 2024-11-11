@@ -6,7 +6,7 @@ interface CCTVItem {
   createdAt: string;
 }
 
-type ClipList = string[]
+type ClipList = string[];
 
 interface requestDetailInfo {
   clipRQId: number;
@@ -20,4 +20,5 @@ interface requestDetailInfo {
   photoStatus: boolean;
   password: string;
   clipList: ClipList;
+  status: string;
 }

@@ -1,7 +1,9 @@
 package aptrue.backend.Sse.Controller;
 
+import aptrue.backend.Clip.Dto.ClipRQResponseDto;
 import aptrue.backend.Clip.Dto.CompleteResponseDto;
 import aptrue.backend.Global.ResultResponse;
+import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import aptrue.backend.Sse.Service.SseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,7 +42,7 @@ public class SseController {
         return ResponseEntity.ok(emitter);
     }
 
-    public void send(CompleteResponseDto completeResponseDto, String message) {
-        sseService.send(completeResponseDto, message);
+    public void send(SseResponseDto sseResponseDto, String message) {
+        sseService.send(sseResponseDto, message);
     }
 }

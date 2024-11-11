@@ -1,12 +1,15 @@
 package aptrue.backend.Sse.Service;
 
+import aptrue.backend.Clip.Dto.ClipRQResponseDto;
 import aptrue.backend.Clip.Dto.CompleteResponseDto;
+import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import aptrue.backend.Sse.Repository.SseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.sound.sampled.Clip;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +52,7 @@ public class SseServiceImpl implements SseService {
         return emitter;
     }
 
-    public void send(CompleteResponseDto completeResponseDto, String message) {
+    public void send(SseResponseDto sseResponseDto, String message) {
         log.info("Sending report to Sse");
 
         List<Map.Entry<String, SseEmitter>> emittersList = new ArrayList<>(sseRepository.getAll().entrySet());
@@ -64,10 +67,10 @@ public class SseServiceImpl implements SseService {
                 log.info("{}", key);
                 SseEmitter.SseEventBuilder event = SseEmitter.event()
                         .name(message) // 이벤트 이름
-                        .data(completeResponseDto);
+                        .data(sseResponseDto);
                 //.reconnectTime(3000L);
                 emitter.send(event); // 데이터 전송
-                log.info("zzz{}", completeResponseDto);
+                log.info("zzz{}", sseResponseDto);
 
                 // 캐시된 이벤트도 함께 전송
                 List<Object> cachedEvents = sseRepository.getEvents(key); // 해당 키로 캐시된 이벤트 가져오기
@@ -86,7 +89,7 @@ public class SseServiceImpl implements SseService {
                 emitter.completeWithError(e); // 에러 처리
                 sseRepository.remove(key); // 구독 취소
 
-                sseRepository.cacheEvent(key, completeResponseDto);
+                sseRepository.cacheEvent(key, sseResponseDto);
             }
         };
     }

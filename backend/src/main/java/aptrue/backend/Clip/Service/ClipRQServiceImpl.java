@@ -9,11 +9,15 @@ import aptrue.backend.Clip.Repository.ClipRQRepository;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Global.Util.CookieUtil;
+import aptrue.backend.Sse.Controller.SseController;
+import aptrue.backend.Sse.Repository.SseRepository;
+import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +31,8 @@ public class ClipRQServiceImpl implements ClipRQService {
     private final ClipRQRepository clipRQRepository;
     private final CookieUtil cookieUtil;
     private final AdminRepository adminRepository;
+    private final SseRepository sseRepository;
+    private final SseController sseController;
 
     @Transactional
     public ClipRQResponseDto newClipRQ(ClipRQRequestDto clipRQRequestDto, HttpServletRequest httpServletRequest) {
@@ -72,6 +78,15 @@ public class ClipRQServiceImpl implements ClipRQService {
                 .startDate(optionalClipRQ.getStartDate())
                 .endDate(optionalClipRQ.getEndDate())
                 .build();
+
+        SseResponseDto responseDto = SseResponseDto.builder()
+                        .clipId(optionalClipRQ.getClipRQId())
+                                .message("CCTV 요청 처리 완료")
+                                        .name(optionalClipRQ.getName())
+                                                .build();
+
+        sseRepository.save("CCTV 요청 처리 완료", new SseEmitter());
+        sseController.send(clipRQResponseDto, "CCTV 요천 처리 완료");
 
         return clipRQResponseDto;
     }

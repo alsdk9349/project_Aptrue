@@ -1,11 +1,13 @@
 package aptrue.backend.Sse.Service;
 
+import aptrue.backend.Clip.Dto.ClipRQResponseDto;
 import aptrue.backend.Clip.Dto.CompleteResponseDto;
+import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface SseService {
 
     SseEmitter connect(String SseId);
-    void send(CompleteResponseDto completeResponseDto, String message);
+    void send(SseResponseDto sseResponseDto, String message);
 
 }

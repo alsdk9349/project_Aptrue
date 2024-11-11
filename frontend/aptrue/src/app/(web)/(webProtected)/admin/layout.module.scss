@@ -2,15 +2,17 @@
 
 .layout {
     margin-left: 210px;
-    margin-top: 50px;
+    // margin-top: 50px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-color: colors.$gray1;
+    overflow: hidden; // 스크롤 비활성화
 
     .container {
-        margin-top: 100px;
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -39,17 +41,6 @@
             }
 
         }
-
-    }
-
-    @media (max-width: 1500px) {
-
-        .container {
-
-            margin-top: 40px;
-
-        }
-
 
     }
 

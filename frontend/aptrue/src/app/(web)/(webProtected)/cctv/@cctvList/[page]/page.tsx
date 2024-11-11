@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { page: string } }) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,
     {
-      method: 'GET',
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
       },

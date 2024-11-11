@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@OpenAPIDefinition(servers = {@Server(url = "https://ssafy-aptrue.co.kr", description = "진짜 서버")})
 public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {

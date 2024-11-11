@@ -27,9 +27,20 @@ export default function WebNav() {
     try {
       resetAdminState(); // 로컬스토리지 비우기
       localStorage.removeItem('recoil-persist'); // persist된 데이터 삭제
-      await fetch('/api/logout', { method: 'POST' });
-      console.log('로그아웃 성공');
-      router.push('/login'); // 로그인 페이지로 이동
+
+      // 로그아웃 API 호출로 쿠키 제거
+      const response = await fetch('/api/logout', {
+          method: 'POST',
+          credentials: 'include', // 쿠키 포함 설정
+      });
+
+      if (response.ok) {
+          console.log('로그아웃 성공');
+          router.push('/login'); // 로그인 페이지로 이동
+      } else {
+          console.log('로그아웃 실패');
+      }
+
     } catch (error) {
       console.log('로그아웃 에러', error);
     }

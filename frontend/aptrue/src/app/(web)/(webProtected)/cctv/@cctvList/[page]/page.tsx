@@ -34,17 +34,17 @@ import { cookies } from 'next/headers';
 export default async function Page({ params }: { params: { page: string } }) {
   const { page } = params;
   ('[* todo] page에 맞는 데이터 불러와서 캐싱하기');
-  const cookiesObj = cookies();
-  const accessToken = cookiesObj.get('accessToken')?.value;
-  console.log('acessToken', accessToken);
+  // const cookiesObj = cookies();
+  // const accessToken = cookiesObj.get('accessToken')?.value;
+  // console.log('acessToken', accessToken);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,
     {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
-      },
+      // headers: {
+      // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
+      // },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
     },
   );
@@ -55,9 +55,7 @@ export default async function Page({ params }: { params: { page: string } }) {
 
   const result = await response.json();
 
-  if (result) {
-    console.log(`[*] detail [Page] 페이지네이션 ${page}`, result);
-  }
+  console.log(`[*] detail [Page] 페이지네이션 ${page}`, result);
 
   return (
     <>

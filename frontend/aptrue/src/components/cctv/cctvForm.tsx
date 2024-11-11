@@ -37,7 +37,7 @@ export default function CCTVForm() {
   const isFormValid = () => {
     // 비밀번호 검증: 특수문자, 대문자, 숫자를 포함한 8자 이상
     const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     // 이메일 검증: @ 포함
     const emailRegex = /@/;
     // 주소 검증: '숫자 + 동 + 공백 + 숫자 + 호' 형식

@@ -1,7 +1,5 @@
-import NextAuth, {DefaultSession, User} from 'next-auth';
-
-interface Admin {
-    adminId: number;
+interface GetAdmin {
+    adminID: number;
     name: string;
     account: string;
     password:string;
@@ -9,23 +7,21 @@ interface Admin {
     createdAt:string;
 }
 
-interface postAdmin {
+interface PostAdmin {
     account:string;
     name:string;
     password:string;
     phone:string;
 }
 
-interface postLogin {
+interface PostLogin {
     account:string;
     password:string;
 }
 
-declare module 'next-auth' {
-    interface Session extends DefaultSession {
-        user: {
-            account:string
-        } & DefaultSession['user'];
-        accessToken:string;
-    }
+interface ResultAdmin {
+    adminID: number;
+    account:string;
+    name:string;
+    isSuperAdmin:boolean;
 }

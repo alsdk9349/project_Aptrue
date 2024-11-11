@@ -35,6 +35,14 @@
         }
     }
 
+    .error {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: colors.$red;
+        font-family: 'regular';
+    }
+
     button {
         max-width: 100%;
         width: 415px;
@@ -49,18 +57,10 @@
         font-family: 'semibold';
         font-size: 24px;
         margin: 10px 0;
-
+    
         &:hover {
             background-color: colors.$blue5;
         }
-    }
-
-    .error {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: colors.$red;
-        font-family: 'regular';
     }
 }
 
@@ -69,4 +69,5 @@
   .container button {
     width: 100%; // 더 작은 화면에서는 너비를 전체로 확장
   }
+
 }

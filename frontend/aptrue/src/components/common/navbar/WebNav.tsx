@@ -4,9 +4,14 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation'; // App Router용 훅
 import style from './WebNav.module.scss';
 import ApartCard from './ApartCard';
+import { adminState } from '@/state/atoms/admins';
+import { useResetRecoilState } from 'recoil';
 
 export default function WebNav() {
+  const resetAdminState = useResetRecoilState(adminState);
+
   const pathname = usePathname(); // 현재 경로 가져오기
+  const router = useRouter();
 
   // 현재 경로를 기반으로 activeItem 설정
   const getActiveItem = () => {
@@ -18,7 +23,17 @@ export default function WebNav() {
 
   const activeItem = getActiveItem();
 
-  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      resetAdminState(); // 로컬스토리지 비우기
+      localStorage.removeItem('recoil-persist'); // persist된 데이터 삭제
+      await fetch('/api/logout', { method: 'POST' });
+      console.log('로그아웃 성공');
+      router.push('/login'); // 로그인 페이지로 이동
+    } catch (error) {
+      console.log('로그아웃 에러', error);
+    }
+  };
 
   return (
     <div className={style.navbar}>
@@ -90,7 +105,7 @@ export default function WebNav() {
             <span className={style.text}>관리자 계정</span>
           </Link>
         </div>
-        <div className={style.logout}>
+        <div className={style.logout} onClick={handleLogout}>
           <div className={style.iconWrapper}>
             <img src="/icons/logout.png" alt="" className={style.icon} />
           </div>

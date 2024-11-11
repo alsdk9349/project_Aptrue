@@ -1,107 +1,87 @@
-import NextAuth  from "next-auth";
-import CredentialsProvider from 'next-auth/providers/credentials';
-import {parse} from 'cookie';
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { NextApiRequest } from "next";
 
+// 사용자가 입력한 계정 정보를 타입으로 정의
+interface UserInfo {
+  account: string;
+  password: string;
+}
 
 export const {
-    handlers: {GET, POST}, // api 라우트
-    auth,
-    signIn // 로그인용
+  handlers, // API 라우트
+  auth,     // 세션 반환 함수
+  signIn,   // 로그인 함수
+  signOut   // 로그아웃 함수
 } = NextAuth({
-    pages: {
-        // 우리는 여기서 로그인 하므로 로그인하는 페이지를 등록하기
-        signIn: '/login'
-    },
-    // 로그아웃했을때 로그인 필요한 페이지 막는 방법!!! 
-    callbacks:{
-        // session검사했을떄 session이 없다면 redirect시키기
-        // async authorized({auth}) {
-        //     if (!auth) {
-        //         return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/login`)
-        //     }
-        //     return true;
-        // }
-        // 세션에 엑세스 토큰 추가
-        async session({session, token}) {
-            session.accessToken = token.accessToken;
-            return session
-        },
-        async jwt({token, user}) {
-
-            // 사용자 정보있으면 토큰 추가
-            if (user) {
-                token.accessToken = (user as any).accessToken; // 타입 단언 사용
-            }
-            return token
+  pages: {
+    signIn: '/login' // 로그인 페이지 경로
+  },
+  providers: [
+    Credentials({
+      authorize: async (credentials) => {
+        const userInfo = credentials as unknown as UserInfo;
+        try {
+          const user = await _login(userInfo); // 로그인 요청
+          return user ? { ...user } : null;
+        } catch (error) {
+          throw new Error("로그인 실패");
         }
-    },
-    providers: [
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-              account: { label: "account", type: "text" },
-              // TO DO type : "password"
-              password: { label: "password", type: "text" },
-            },
-            // 세션을 생성할때 반환 값들 사용할 수 있음.
-        authorize: async (credentials : any) => {
-            console.log('authorize 부분')
-            
-            try {
-                    // TODO ${process.env.NEXT_PUBLIC_BASE_URL}
-                const authResponse = await fetch(`http://k11c101.p.ssafy.io/api/login`, {
-                method:"POST",
-                headers: {
-                    "Content-Type":"application/json",
-                },
-                body: JSON.stringify({
-                    // credentials안에 username 이랑 password로 고정되어 있음. 그래서 바꿔주기
-                    account: credentials.account ,
-                    password:credentials.password
-                    }),
-                })
-
-                if (!authResponse.ok) {
-                    console.error("서버에서 인증 실패:", authResponse.statusText);
-                    return null;
-                  }
-
-                const cookies = authResponse.headers.get('set-cookie');
-                if (!cookies) {
-                    console.error('쿠키가 없습니다')
-                    return null;
-                }
-
-                const parsedCookies = parse(cookies);
-                const accessToken = parsedCookies["accessToken"]
-                const refreshToken = parsedCookies["refreshToken"]
-                console.log('토큰?')
-
-                if (!accessToken) {
-                    console.error("엑세스토큰이 없습니다.")
-                }
-
-                const response = await authResponse.json();
-                console.log('로그인 후 response 반환 값', response)
-                const user = response.data;
-                console.log('로그인 성공 후 반환', user)
-
-                return {
-                    id: user.adminID,
-                    account : user.account,
-                    name: user.name,
-                    isSuperAdmin:user.isSuperAdmin,
-                    accessToken: accessToken
-                }
-            } catch (error) {
-                console.log('로그인 실패', error)
-                throw new Error('로그인 실패')
-                // return null
-            }
-        },
-        }),
+      },
+    }),
   ],
-  // TO DO
-      //secret: process.env.AUTH_SECRET
-      secret: '11111'
+  callbacks: {
+    // jwt 콜백은 서버에서 실행됨
+    async jwt({ token, user, req }: { token: any; user?: any; req?: NextApiRequest }) {
+      if (user) {
+        // 서버에서 쿠키로부터 accessToken을 읽음
+        const accessToken = req?.cookies.accessToken;
+        if (accessToken) {
+          token.accessToken = accessToken;
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.accessToken) {
+        session.accessToken = token.accessToken;
+      }
+      return session;
+    },
+    // url이 baseUrl('https://ssafy-aptrue.co.kr')로 시작하면, 그대로 url로 리디렉션
+    async redirect({url, baseUrl}) {
+
+        if (url.startsWith(baseUrl)) {
+            return url;
+        }
+        return baseUrl
+    }
+  },
+  secret: process.env.AUTH_SECRET || "default_secret_key",
 });
+
+async function _login(body: { account: string; password: string }) {
+  console.log("로그인 시도 중:", body);
+  const response = await fetch(`https://ssafy-aptrue.co.kr/api/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await response.json();
+  console.log("로그인 응답:", data);
+
+  if (response.ok && data && typeof data !== "string") {
+    const { adminID, account, name, isSupserAdmin } = data.data;
+    return {
+      id: adminID,
+      adminID: adminID,
+      account: account,
+      name: name,
+      isSupserAdmin: isSupserAdmin,
+    };
+  }
+  throw new Error("로그인 요청에 실패했습니다.");
+}

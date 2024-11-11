@@ -14,7 +14,7 @@ const data = {
 export default async function ApartCard() {
   // // [todo]아파트 카드 API 호출 로직 작성
   // const response = await fetch(
-  //   `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/apart/?aptId=${aptId}`,
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/apart/?aptId=${aptId}`,
   // )
   // if(!response.ok){
   //   notFound();

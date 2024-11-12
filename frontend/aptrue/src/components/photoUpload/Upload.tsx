@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import style from './Upload.module.scss';
 import Button from '../common/button/Button';
 
@@ -11,6 +11,7 @@ export default function Upload() {
 
   const { clipRQId } = useParams();
 
+  const router = useRouter();
   // 클릭 핸들러
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -56,27 +57,22 @@ export default function Upload() {
     }
 
     //[todo] 입주민 이미지 업로드 api 호출 로직 작성
-    try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/picture/upload?clipRQId=${clipRQId}`,
+      {
+        method: 'POST',
+        body: formData, // FormData 객체를 사용합니다.
+        // credentials: 'include',
+      },
+    );
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/picture/upload?clipRQId=${clipRQId}`,
-        {
-          method: 'POST',
-          body: formData, // FormData 객체를 사용합니다.
-          credentials: 'include'
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error('업로드 실패');
-      }
-      const data = await response.json();
-      console.log('업로드 성공 반환', data)
-      console.log(previews);
-    } catch (error) {
-      console.error('업로드 중 오류 발생:', error)
+    if (!response.ok) {
+      throw new Error('업로드 실패');
+    } else {
+      router.push('/resident/complete');
     }
-    
+    const data = await response.json();
+    console.log(previews);
   };
 
   return (

@@ -70,7 +70,7 @@ public class ClipRQServiceImpl implements ClipRQService {
 
         ClipRQ optionalClipRQ = clipRQRepository.findByPhone(clipRQRequestDto.getPhone())
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
-
+        log.info("laksjdklasjdaskljdklasjdaskldjalksdj");
         ClipRQResponseDto clipRQResponseDto = ClipRQResponseDto.builder()
                 .clipRQId(optionalClipRQ.getClipRQId())
                 .sections(optionalClipRQ.getSections())
@@ -90,8 +90,10 @@ public class ClipRQServiceImpl implements ClipRQService {
                                         .name(optionalClipRQ.getName())
                                                 .build();
 
+        log.info("sdjfhsakjlfhaslkjdhfaksjldfhaskjldhf");
         sseRepository.save("CCTV 요청 처리 완료", new SseEmitter());
         sseController.send(responseDto, "CCTV 요천 처리 완료");
+        log.info("waeilukhrfeajklghjklfdshglkjsdfhgkjldfshg");
 
         return clipRQResponseDto;
     }

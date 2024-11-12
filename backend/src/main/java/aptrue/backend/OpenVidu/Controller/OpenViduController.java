@@ -60,7 +60,7 @@ public class OpenViduController {
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.error("Token creation failed", e);
             throw new BusinessException(ErrorCode.TOKEN_CREATION_FAILED);
         }
     }

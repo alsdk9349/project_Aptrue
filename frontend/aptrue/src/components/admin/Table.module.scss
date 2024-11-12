@@ -7,7 +7,8 @@
     align-items: center;
     width: fit-content;
     z-index: 1;
-    height: 50px;
+    height: 45px;
+    position: relative; //
 
     input {
         width: 137px;
@@ -33,16 +34,28 @@
     }
 
     .validation {
-        padding-top: 2px;
+        background-color: colors.$white;
+        border-radius: 5px;
+        position:absolute;//
+        top:33px; //
+        box-sizing: border-box;
+        z-index: 9999;
+        padding: 7px;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         color:colors.$red;
         border: solid 0;
-        background-color: transparent;
         font-family: 'regular';
         font-size: 10px;
+        max-width: 150px;
+        word-wrap: break-word; // Enable text wrapping within the box
+        white-space: normal;
+    }
+
+    .password, .phoneNumber {
+        position: relative;
     }
 
     .buttonContainer {
@@ -213,6 +226,7 @@
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
+    z-index: 10;
 }
 
 .isTableInput {
@@ -220,4 +234,5 @@
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
+    z-index: 15;
 }

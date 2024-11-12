@@ -51,48 +51,50 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   const [detailInfo, setDetailInfo] = useState<requestDetailInfo | null>(null);
 
   const router = useRouter();
-  // const cookiesObj = cookies();
-  // const accessToken = cookiesObj.get('accessToken')?.value;
   const accessToken = Cookies.get('accessToken');
 
-  // const cctvDetailApi = async (setDetailInfo, clipRQId) => {
-  //   const response = await fetch(
-  //     `${process.env.NEXT_PUBLIC_BASE_URL}/clip/detail/${clipRQId}`,
-  //     {
-  //       method: 'GET',
-  //       credentials: 'include',
-  //     },
-  //   );
-
-  //   if (!response.ok) {
-  //     throw new Error(`Failed to fetch data, status: ${response.status}`);
-  //   }
-
-  //   const result = await response.json();
-  //   if (result) {
-  //     console.log('[*] result', result);
-
-  //     setDetailInfo(result.data);
-  //     console.log(`[*] detail [Page] 페이지네이션 ${clipRQId}`, result);
-  //   }
-  // };
-
+  // useEffect(() => {
+  //   cctvDetailApi(setDetailInfo, clipRQId);
+  // }, []);
+  // 서버 액션을 사용하여 데이터를 가져옴
   useEffect(() => {
-    cctvDetailApi(setDetailInfo, clipRQId);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const data = await cctvDetailApi(clipRQId);
+        setDetailInfo(data);
+      } catch (error) {
+        console.error('Error fetching CCTV details:', error);
+      }
+    };
+
+    fetchData();
+  }, [clipRQId]);
 
   useEffect(() => {
     console.log('[*] detailInfo', detailInfo);
   }, [detailInfo]);
 
-  const handleDone = () => {
-    // [* todo] 완료 처리 api 연결
-    requestDoneAPI(clipRQId, accessToken);
-    handleClose();
+  // const handleDone = () => {
+  //   // [* todo] 완료 처리 api 연결
+  //   requestDoneAPI(clipRQId, accessToken);
+  //   handleClose();
+  // };
+  const handleDone = async () => {
+    try {
+      await requestDoneAPI(clipRQId, accessToken);
+      handleClose();
+    } catch (error) {
+      console.error('Error completing request:', error);
+    }
   };
+
   const handleClose = () => {
     router.push('/cctv/form');
   };
+
+  useEffect(() => {
+    console.log('[*]detailInfo', detailInfo);
+  }, [detailInfo]);
 
   return (
     <>
@@ -163,9 +165,9 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
                   : '사진이 아직 등록되지 않았습니다.'}
               </div>
             </div>
-            {!detailInfo.photoStatus && (
-              <CCTVUploadLink detailInfo={detailInfo} />
-            )}
+
+            <CCTVUploadLink detailInfo={detailInfo} />
+
             {detailInfo.clipList.length > 0 && (
               <CCTVVideoLink detailInfo={detailInfo} />
             )}

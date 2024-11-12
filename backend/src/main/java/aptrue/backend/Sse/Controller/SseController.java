@@ -35,10 +35,11 @@ public class SseController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ResultResponse.class))),
     })
-    public ResponseEntity<SseEmitter> connect(@AuthenticationPrincipal CustomAdminDetails userDetail,
+    public ResponseEntity<SseEmitter> connect(HttpServletRequest request,
                                               @RequestHeader(value = "Last-Event-Id", required = false, defaultValue = "") String lastEventId) {
 
-        SseEmitter emitter = sseService.connect(userDetail.getAccount());
+        SseEmitter emitter = sseService.connect(request.getSession().getId());
+        log.info("connection id : {}", request.getSession().getId());
         return ResponseEntity.ok(emitter);
     }
 

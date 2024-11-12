@@ -43,20 +43,28 @@ export default function TableInput() {
         setPhoneErrorMessage('')
         const {name, value} = event.target;
 
-        if (name==='password') {
-            if (!isValidPassword(value)) {
-                setpasswordErrorMessage('특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
-            } else {
-                setpasswordErrorMessage('')
-            }
-        }
+        if (value === '') {
+            if (name === 'password') setpasswordErrorMessage('');
+            if (name === 'phone') setPhoneErrorMessage('');
+            
+        } else {
 
-        if (name==='phone') {
-            if (!isValidPhoneNumber(value)) {
-                setPhoneErrorMessage('010-0000-0000 형식이어야 합니다')
-            } else {
-                setPhoneErrorMessage('')
+            if (name==='password') {
+                if (!isValidPassword(value)) {
+                    setpasswordErrorMessage('특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
+                } else {
+                    setpasswordErrorMessage('')
+                }
             }
+
+            if (name==='phone') {
+                if (!isValidPhoneNumber(value)) {
+                    setPhoneErrorMessage('010-0000-0000 형식이어야 합니다')
+                } else {
+                    setPhoneErrorMessage('')
+                }
+            }
+
         }
 
         setNewAdmin((prevData) => ({
@@ -120,7 +128,7 @@ export default function TableInput() {
                 onChange={handleChange}
                 required
                 />
-                <div className={styles.validation}>{passwordErrorMessage}</div>
+                { passwordErrorMessage && <div className={styles.validation}>{passwordErrorMessage}</div>}
             </div>
             <div className={styles.phoneNumber}>
                 <input 
@@ -131,7 +139,7 @@ export default function TableInput() {
                 onChange={handleChange}
                 required
                 />
-                <div className={styles.validation}>{phoneErrorMessage}</div>
+                {phoneErrorMessage && <div className={styles.validation}>{phoneErrorMessage}</div>}
             </div>
             <div className={styles.date}>
                 <input 

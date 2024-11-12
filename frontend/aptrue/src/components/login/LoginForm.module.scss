@@ -62,6 +62,16 @@
             background-color: colors.$blue5;
         }
     }
+    
+    .password {
+        width: 415px;
+        padding: 10px 2px;
+        color:colors.$gray6;
+        font-family: 'regular';
+        display: flex;
+        justify-content: right;
+        align-items: center;
+    }
 }
 
 @media (max-width: 768px) {

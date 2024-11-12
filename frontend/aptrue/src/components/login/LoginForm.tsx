@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.scss';
 import { useRecoilState } from 'recoil';
 import { adminState } from '@/state/atoms/admins';
+import Link from 'next/link';
 
 export default function LoginPage() {
 
@@ -60,8 +61,15 @@ export default function LoginPage() {
         }
     };
 
+     // Enter 키로 로그인 처리를 위한 onKeyDown 핸들러
+     const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleLogin(e as any); // onSubmit과 동일하게 처리
+        }
+    };
+
     return (
-        <form onSubmit={handleLogin} className={styles.container}>
+        <form onSubmit={handleLogin} className={styles.container} onKeyDown={handleKeyDown}>
             <input
                 type="text"
                 placeholder="아이디"
@@ -77,6 +85,7 @@ export default function LoginPage() {
                 // required
             />
             <button type="submit">로그인</button>
+            <Link href={'/login/changePassword'} className={styles.password}>비밀번호 변경</Link>
 
             <div className={styles.error}>
                 {message}

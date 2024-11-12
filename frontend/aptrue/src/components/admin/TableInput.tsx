@@ -5,25 +5,22 @@ import classNames from 'classnames';
 import {format} from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useState } from 'react';
-import Button from '../common/button/Button';
-import Cookies from 'js-cookie';
+import { useParams } from 'next/navigation';
+import { formatPhoneNumber, isValidPassword, isValidPhoneNumber } from '@/utils/formatters';
 // import { revalidateTag } from 'next/cache';
 import ErrorModal from './ErrorModal';
+import Cookies from 'js-cookie';
+import { createAdminAction } from '@/serverActions/create-admin.action';
 
-function formatPhoneNumber(value:string) {
-
-    const phoneNumber = value.replace(/\D/g, ''); // 숫자만 남기기
-
-     // 전화번호 길이에 따라 포맷팅 적용
-    if (phoneNumber.length <= 3) return phoneNumber;
-    if (phoneNumber.length <= 7) return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
-    return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
-
-};
 
 export default function TableInput() {
 
     const accessToken = Cookies.get('accessToken');
+    const {page} : {page:string}  = useParams();
+
+    // 유효성 검사 errorMessage
+    const [passwordErrorMessage, setpasswordErrorMessage] =useState<string>('');
+    const [phoneErrorMessage, setPhoneErrorMessage] =useState<string>('');
 
     // 에러 메세지
     const [message, setMessage] = useState<string>('');
@@ -36,8 +33,31 @@ export default function TableInput() {
         phone:''
     })
 
+    // 필수 입력값이 모두 비어있지 않고 오류 메시지가 없는 경우
+    const canCreate = newAdmin.name.trim() && newAdmin.account.trim() && !passwordErrorMessage && !phoneErrorMessage;
+
+    // 비밀번호 전화번호 유효성검사
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+
+        setpasswordErrorMessage('')
+        setPhoneErrorMessage('')
         const {name, value} = event.target;
+
+        if (name==='password') {
+            if (!isValidPassword(value)) {
+                setpasswordErrorMessage('특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
+            } else {
+                setpasswordErrorMessage('')
+            }
+        }
+
+        if (name==='phone') {
+            if (!isValidPhoneNumber(value)) {
+                setPhoneErrorMessage('010-0000-0000 형식이어야 합니다')
+            } else {
+                setPhoneErrorMessage('')
+            }
+        }
 
         setNewAdmin((prevData) => ({
             ...prevData,
@@ -46,44 +66,17 @@ export default function TableInput() {
 
     }
 
+    // 새로운 관리자 등록 (서버 액션)
     const submitNewAdmin = async () => {
+        const result = await createAdminAction({
+            ...newAdmin, 
+            accessToken, 
+            page
+        })
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify(newAdmin),
-            credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
-        });
-
-        const result = await response.json();
-
-        if (result.status === 200 && result.code==="A005") {
-
-            // 입력 필드 초기화
-            setNewAdmin({
-                name: '',
-                account: '',
-                password: '',
-                phone: ''
-            });
-
-            setMessage(result.message)
-            setIsOpenErrorModal(true);
-            console.log(result.message) //  "새로운 관리자를 등록했습니다."
-            // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동하지 않음)
-
-        } else if (result.code === "E003") {
-            setMessage(result.message)
-            setIsOpenErrorModal(true);
-            console.log('이미 등록된 관리자')
-
-        } else {
-            setMessage('관리자 등록 실패')
-            setIsOpenErrorModal(true);
-        }
+        setNewAdmin({ name: '', account: '', password: '', phone: '' }); // 인풋 초기화
+        setMessage(result.message);
+        setIsOpenErrorModal(true)
     }
 
     const closeModal = () => {
@@ -120,13 +113,14 @@ export default function TableInput() {
             </div>
             <div className={styles.password}>
                 <input 
-                type="text" 
+                type="password" 
                 name="password"
                 value={newAdmin.password}
                 placeholder='비밀번호' 
                 onChange={handleChange}
                 required
                 />
+                <div className={styles.validation}>{passwordErrorMessage}</div>
             </div>
             <div className={styles.phoneNumber}>
                 <input 
@@ -137,6 +131,7 @@ export default function TableInput() {
                 onChange={handleChange}
                 required
                 />
+                <div className={styles.validation}>{phoneErrorMessage}</div>
             </div>
             <div className={styles.date}>
                 <input 
@@ -146,15 +141,14 @@ export default function TableInput() {
                 readOnly
                 />
             </div>
-            <div className={styles.blank}>
-                <Button 
-                size='webTiny' 
-                color='blue' 
+            <div className={classNames(styles.blank, styles.buttonContainer)}>
+                <button 
                 onClick={submitNewAdmin} 
-                disabled={!newAdmin.name.trim() || !newAdmin.account.trim() || !newAdmin.password.trim() || !newAdmin.phone.trim()}
+                className={canCreate ? styles.blue : styles.gray}
+                disabled={!canCreate}
                 >
                     등록
-                </Button>
+                </button>
             </div>
             {isOpenErrorModal && 
             <ErrorModal message={message} isOpen={isOpenErrorModal} onClose={closeModal}/>

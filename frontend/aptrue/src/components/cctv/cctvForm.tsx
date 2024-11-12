@@ -2,6 +2,7 @@
 import style from './cctvForm.module.scss';
 import GeneralInput from '../common/input/GeneralInput';
 import { useEffect, useState } from 'react';
+import { submitCCTVRequest } from '@/api/cctvAPI';
 import TimeInput from '../common/input/TimeInput';
 import Button from '../common/button/Button';
 import Cookies from 'js-cookie';
@@ -28,57 +29,57 @@ export default function CCTVForm() {
   const [endDate, setEndDate] = useState<string>('');
   const [showDate, setShowDate] = useState<string>('');
   const [sections, setSections] = useState<string[]>(['101동 주변']);
-  const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
+  const [activeSubmit, setActiveSubmit] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
 
   const accessToken = Cookies.get('accessToken');
 
   // 유효성 검증 함수
-  const isFormValid = () => {
-    // 비밀번호 검증: 특수문자, 대문자, 숫자를 포함한 8자 이상
-    const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    // 이메일 검증: @ 포함
-    const emailRegex = /@/;
-    // 주소 검증: '숫자 + 동 + 공백 + 숫자 + 호' 형식
-    const addressRegex = /^\d+동 \d+호$/;
-    // 전화번호 검증: '010-0000-0000' 형식
-    const phoneRegex = /^010-\d{4}-\d{4}$/;
+  // const isFormValid = () => {
+  //   // 비밀번호 검증: 특수문자, 대문자, 숫자를 포함한 8자 이상
+  //   const passwordRegex =
+  //     /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  //   // 이메일 검증: @ 포함
+  //   const emailRegex = /@/;
+  //   // 주소 검증: '숫자 + 동 + 공백 + 숫자 + 호' 형식
+  //   const addressRegex = /^\d+동 \d+호$/;
+  //   // 전화번호 검증: '010-0000-0000' 형식
+  //   const phoneRegex = /^010-\d{4}-\d{4}$/;
 
-    if (name.trim() === '') {
-      setMessage('이름을 입력해 주세요.');
-      return false;
-    }
-    if (!phoneRegex.test(phone)) {
-      setMessage("전화번호는 '010-0000-0000' 형식으로 입력해 주세요.");
-      return false;
-    }
-    if (!emailRegex.test(email)) {
-      setMessage('유효한 이메일 주소를 입력해 주세요.');
-      return false;
-    }
-    if (!addressRegex.test(address)) {
-      setMessage("주소는 '101동 203호' 형식으로 입력해 주세요.");
-      return false;
-    }
-    if (!passwordRegex.test(password)) {
-      setMessage(
-        '비밀번호는 특수문자, 대문자, 숫자를 포함한 8자 이상이어야 합니다.',
-      );
-      return false;
-    }
-    if (startDate.trim() === '' || endDate.trim() === '') {
-      setMessage('시작 날짜와 종료 날짜를 선택해 주세요.');
-      return false;
-    }
+  //   if (name.trim() === '') {
+  //     setMessage('이름을 입력해 주세요.');
+  //     return false;
+  //   }
+  //   if (!phoneRegex.test(phone)) {
+  //     setMessage("전화번호는 '010-0000-0000' 형식으로 입력해 주세요.");
+  //     return false;
+  //   }
+  //   if (!emailRegex.test(email)) {
+  //     setMessage('유효한 이메일 주소를 입력해 주세요.');
+  //     return false;
+  //   }
+  //   if (!addressRegex.test(address)) {
+  //     setMessage("주소는 '101동 203호' 형식으로 입력해 주세요.");
+  //     return false;
+  //   }
+  //   if (!passwordRegex.test(password)) {
+  //     setMessage(
+  //       '비밀번호는 특수문자, 대문자, 숫자를 포함한 8자 이상이어야 합니다.',
+  //     );
+  //     return false;
+  //   }
+  //   if (startDate.trim() === '' || endDate.trim() === '') {
+  //     setMessage('시작 날짜와 종료 날짜를 선택해 주세요.');
+  //     return false;
+  //   }
 
-    setMessage('제출이 가능합니다.'); // 모든 조건을 만족하면 에러 메시지를 비웁니다.
-    return true;
-  };
+  //   setMessage('제출이 가능합니다.'); // 모든 조건을 만족하면 에러 메시지를 비웁니다.
+  //   return true;
+  // };
 
   // 입력 값이 변경될 때마다 activeSubmit 상태를 업데이트
   useEffect(() => {
-    setActiveSubmit(isFormValid());
+    // setActiveSubmit(isFormValid());
   }, [name, phone, email, address, password, startDate, endDate]);
 
   const reset = () => {
@@ -93,6 +94,54 @@ export default function CCTVForm() {
     setActiveSubmit(false);
   };
 
+  // const handleSubmitClick = async () => {
+  //   const requestBody = {
+  //     name,
+  //     phone,
+  //     email,
+  //     address,
+  //     password,
+  //     startDate,
+  //     endDate,
+  //     sections,
+  //   };
+  //   console.log('[*]', requestBody);
+
+  //   try {
+  //     console.log('[*] fetch 전');
+
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/clipRQ/new`,
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //         body: JSON.stringify(requestBody), // JSON 문자열로 변환하여 전송
+  //         credentials: 'include',
+  //       },
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to submit form');
+  //       console.log('[*] 에러임');
+  //     }
+
+  //     console.log('[*] result', response);
+
+  //     const result = await response.json();
+  //     console.log('[*] result', result);
+
+  //     console.log('Form submitted successfully:', result);
+  //     setMessage('제출이 완료되었습니다!');
+  //     reset(); // 제출 후 폼 리셋
+  //   } catch (error) {
+  //     console.error('Error submitting form:', error);
+  //     setMessage('제출에 실패했습니다. 다시 시도해 주세요.');
+  //   }
+  // };
+
   const handleSubmitClick = async () => {
     const requestBody = {
       name,
@@ -104,34 +153,9 @@ export default function CCTVForm() {
       endDate,
       sections,
     };
-    console.log('[*]', requestBody);
 
     try {
-      console.log('[*] fetch 전');
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/clipRQ/new`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(requestBody), // JSON 문자열로 변환하여 전송
-          credentials: 'include',
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to submit form');
-        console.log('[*] 에러임');
-      }
-
-      console.log('[*] result', response);
-
-      const result = await response.json();
-      console.log('[*] result', result);
-
+      const result = await submitCCTVRequest(requestBody, accessToken);
       console.log('Form submitted successfully:', result);
       setMessage('제출이 완료되었습니다!');
       reset(); // 제출 후 폼 리셋

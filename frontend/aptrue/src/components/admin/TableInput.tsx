@@ -7,10 +7,9 @@ import { ko } from 'date-fns/locale';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { formatPhoneNumber, isValidPassword, isValidPhoneNumber } from '@/utils/formatters';
-// import { revalidateTag } from 'next/cache';
 import ErrorModal from './ErrorModal';
 import Cookies from 'js-cookie';
-import { createAdminAction } from '@/serverActions/create-admin.action';
+// import { createAdminAction } from '@/serverActions/create-admin.action';
 
 
 export default function TableInput() {
@@ -75,17 +74,62 @@ export default function TableInput() {
     }
 
     // 새로운 관리자 등록 (서버 액션)
-    const submitNewAdmin = async () => {
-        const result = await createAdminAction({
-            ...newAdmin, 
-            accessToken, 
-            page
-        })
+    // const submitNewAdmin = async () => {
+    //     const result = await createAdminAction({
+    //         ...newAdmin, 
+    //         accessToken, 
+    //         page
+    //     })
 
-        setNewAdmin({ name: '', account: '', password: '', phone: '' }); // 인풋 초기화
-        setMessage(result.message);
-        setIsOpenErrorModal(true)
+    //     setNewAdmin({ name: '', account: '', password: '', phone: '' }); // 인풋 초기화
+    //     setMessage(result.message);
+    //     setIsOpenErrorModal(true)
+    // }
+
+
+    const submitNewAdmin = async () => {
+        
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`, // accessToken을 Authorization 헤더에 추가
+                },
+                body: JSON.stringify(newAdmin),
+                credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
+            });
+    
+            const result = await response.json();
+    
+            if (result.status === 200 && result.code==="A005") {
+    
+                // 입력 필드 초기화
+                setNewAdmin({
+                    name: '',
+                    account: '',
+                    password: '',
+                    phone: ''
+                });
+    
+                setMessage(result.message);
+                setIsOpenErrorModal(true);
+                // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동하지 않음)
+    
+            } else if (result.code === "E003") {
+                setMessage(result.message);
+                setIsOpenErrorModal(true);
+    
+            } else {
+                setMessage('관리자 등록 실패');
+                setIsOpenErrorModal(true);
+            }
+        } catch (error) {
+            setMessage('오류가 발생했습니다');
+            setIsOpenErrorModal(true);
+        }
     }
+
 
     const closeModal = () => {
         setIsOpenErrorModal(false);

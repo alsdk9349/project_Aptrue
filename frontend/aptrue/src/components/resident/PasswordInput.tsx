@@ -2,15 +2,14 @@
 
 import { useState } from 'react';
 import styles from './PasswordInput.module.scss';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-export default function PasswordInput() {
+export default function PasswordInput({clipRQId}:{clipRQId:string}) {
 
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [ inputType, setInputType] = useState<string>('password');
   const router = useRouter();
-  const { clipRQId } = useParams();
-  console.log('clipRQId',clipRQId)
 
   const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -58,14 +57,25 @@ export default function PasswordInput() {
     }
   };
 
+  const changeInputType = () => 
+    setInputType((prev) => (prev==='password' ? 'text' : 'password'))
+
+
   return (
     <div className={styles.container}>
-      <input 
-      type="password" 
-      value={password}
-      onChange={changePassword} 
-      onKeyDown={onKeyDown}
-      />
+      <div className={styles.inputContainer}>
+        <input 
+        type={inputType} 
+        value={password}
+        onChange={changePassword} 
+        onKeyDown={onKeyDown}
+        />
+        {inputType==='password' ? 
+        <img onClick={changeInputType} src="/icons/eye-closed.png" alt="" /> 
+        : 
+        <img onClick={changeInputType} src="/icons/eye-opened.png" alt="" />
+        }
+      </div>
       <button onClick={onSubmit}>확인</button>
       <div className={styles.message}>{message}</div>
     </div>

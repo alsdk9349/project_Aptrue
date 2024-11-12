@@ -1,10 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AlarmCard from './AlarmCard';
 import Dropdown from './Dropdown';
 import style from './Notification.module.scss';
 import Emergency from './Emergency';
+
+interface SSE {
+  name: string;
+  clipRQId: number;
+  message: string;
+  createdAt: string;
+}
 
 const data: Alarm[] = [
   {
@@ -36,11 +43,35 @@ const data: Alarm[] = [
   },
 ];
 
+const LOCAL_STORAGE_KEY = 'notifications';
+
+const initialData: SSE[] = JSON.parse(
+  localStorage.getItem(LOCAL_STORAGE_KEY) || '[]',
+);
+
 export default function Notification() {
   const [selectedFilter, setSelectedFilter] = useState<string>('전체');
+  const [sseData, setSseData] = useState<SSE[]>(initialData); // 초기 알림 데이터
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] =
     useState<boolean>(false);
   const [selectedAlarm, setSelectedAlarm] = useState<Alarm | null>(null);
+
+  useEffect(() => {
+    const eventSource = new EventSource(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/connect`,
+    );
+
+    eventSource.onmessage = (event) => {
+      console.log(event);
+      const newAlarm = JSON.parse(event.data);
+      console.log('new alarm', newAlarm);
+      setSseData((prevData) => {
+        const updatedData = [newAlarm, ...prevData];
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedData));
+        return updatedData;
+      });
+    };
+  }, []);
 
   const filteredData = data.filter((alarm) => {
     if (selectedFilter === '전체') return true;

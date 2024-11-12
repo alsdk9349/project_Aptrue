@@ -86,7 +86,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const sessionId = 'sixbee';
+  const sessionId = 'aptrue';
 
   useEffect(() => {
     const OV = new OpenVidu();
@@ -103,6 +103,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             // body: JSON.stringify({ role }),
+            credentials: 'include',
           },
         );
 

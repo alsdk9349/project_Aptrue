@@ -15,8 +15,12 @@ export default async function ApartCard() {
   // // [todo]아파트 카드 API 호출 로직 작성
   // const response = await fetch(
   //   `${process.env.NEXT_PUBLIC_BASE_URL}/apart/?aptId=${aptId}`,
-  // )
-  // if(!response.ok){
+  //   {
+  //     method: 'GET',
+  //     credentials: 'include',
+  //   },
+  // );
+  // if (!response.ok) {
   //   notFound();
   // }
 

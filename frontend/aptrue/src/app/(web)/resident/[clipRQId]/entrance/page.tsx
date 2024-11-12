@@ -2,7 +2,10 @@ import { Suspense } from "react";
 import PasswordInput from "@/components/resident/PasswordInput";
 import styles from './page.module.scss'
 
-export default function Page() {
+
+export default function Page({params}:{params: {clipQRId:string}}) {
+
+    const clipQRId = params.clipQRId;
 
     return (
         <div className={styles.layout}>
@@ -15,5 +18,4 @@ export default function Page() {
             </div>
         </div>
     )
-
 }

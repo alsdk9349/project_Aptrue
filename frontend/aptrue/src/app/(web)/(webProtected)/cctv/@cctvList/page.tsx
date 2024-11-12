@@ -1,7 +1,7 @@
 import CCTVList from '@/components/cctv/cctvList';
 import Pagination from '@/components/common/pagination/Pagination';
 import style from './cctvList.module.scss';
-import { cookies } from 'next/headers';
+import { CCTVPage } from '@/api/cctvAPI';
 
 // [* todo] 1page 정보 가져오기
 // const response = {
@@ -33,42 +33,43 @@ import { cookies } from 'next/headers';
 // };
 
 export default async function Page() {
-  const cookiesObj = cookies();
-  const accessToken = cookiesObj.get('accessToken')?.value;
-  console.log('[*] acessToken, cctvList 기본 page', accessToken);
+  // const cookiesObj = cookies();
+  // const accessToken = cookiesObj.get('accessToken')?.value;
+  // console.log('[*] acessToken, cctvList 기본 page', accessToken);
   console.log('[*] NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL);
 
   // API에서 데이터를 가져옵니다.
   // api/clip/list/{page}/{limit}
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/1/10`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
-      },
-      credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
-      cache: 'no-store', // 캐시를 사용하지 않도록 설정 (선택 사항)
-    },
-  );
+  // const page = 1;
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,
+  //   {
+  //     method: 'GET',
+  //     headers: {
+  //       // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
+  //     },
+  //     credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
+  //     cache: 'no-store', // 캐시를 사용하지 않도록 설정 (선택 사항)
+  //   },
+  // );
 
-  if (!response.ok) {
-    console.error(
-      `Failed to fetch data, status: ${response.status}`,
-      await response.text(),
-    );
-    throw new Error(`Failed to fetch data, status: ${response.status}`);
-  }
+  // if (!response.ok) {
+  //   console.error(
+  //     `Failed to fetch data, status: ${response.status}`,
+  //     await response.text(),
+  //   );
+  //   throw new Error(`Failed to fetch data, status: ${response.status}`);
+  // }
 
-  const result = await response.json();
+  // const result = await response.json();
 
-  if (result) {
-    console.log('[*] cctv page', result);
-  }
+  // console.log('[*] cctv page', result);
+
+  const result: CCTVItem[] = await CCTVPage(1);
 
   return (
     <>
-      <CCTVList data={result.data} />
+      <CCTVList data={result} />
       <div className={style['cctv-list-pagination']}>
         <Pagination urlPath="cctv/" />
       </div>

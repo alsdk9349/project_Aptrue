@@ -22,3 +22,4 @@ interface requestDetailInfo {
   clipList: ClipList;
   status: string;
 }
+

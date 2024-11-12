@@ -1,6 +1,7 @@
 import CCTVList from '@/components/cctv/cctvList';
 import style from '@/app/(web)/(webProtected)/cctv/@cctvList/cctvList.module.scss';
 import Pagination from '@/components/common/pagination/Pagination';
+import { CCTVPage } from '@/api/cctvAPI';
 import { cookies } from 'next/headers';
 
 // const response = {
@@ -38,28 +39,30 @@ export default async function Page({ params }: { params: { page: string } }) {
   // const accessToken = cookiesObj.get('accessToken')?.value;
   // console.log('acessToken', accessToken);
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,
-    {
-      method: 'GET',
-      // headers: {
-      // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
-      // },
-      credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
-    },
-  );
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,
+  //   {
+  //     method: 'GET',
+  //     // headers: {
+  //     // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
+  //     // },
+  //     credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
+  //   },
+  // );
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch data, status: ${response.status}`);
-  }
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch data, status: ${response.status}`);
+  // }
 
-  const result = await response.json();
+  // const result = await response.json();
 
-  console.log(`[*] detail [Page] 페이지네이션 ${page}`, result);
+  // console.log(`[*] detail [Page] 페이지네이션 ${page}`, result);
+
+  const result: CCTVItem[] = await CCTVPage(Number(page));
 
   return (
     <>
-      <CCTVList data={result.data} />
+      <CCTVList data={result} />
       <div className={style['cctv-list-pagination']}>
         <Pagination urlPath="cctv/" pageNum={page} />
       </div>

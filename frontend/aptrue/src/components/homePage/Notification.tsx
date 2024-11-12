@@ -45,13 +45,13 @@ const data: Alarm[] = [
 
 const LOCAL_STORAGE_KEY = 'notifications';
 
-const initialData: SSE[] = JSON.parse(
-  localStorage.getItem(LOCAL_STORAGE_KEY) || '[]',
-);
+// const initialData: SSE[] = JSON.parse(
+//   localStorage.getItem(LOCAL_STORAGE_KEY) || '[]',
+// );
 
 export default function Notification() {
   const [selectedFilter, setSelectedFilter] = useState<string>('전체');
-  const [sseData, setSseData] = useState<SSE[]>(initialData); // 초기 알림 데이터
+  const [sseData, setSseData] = useState<SSE[]>([]); // 초기 알림 데이터
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] =
     useState<boolean>(false);
   const [selectedAlarm, setSelectedAlarm] = useState<Alarm | null>(null);
@@ -67,7 +67,7 @@ export default function Notification() {
       console.log('new alarm', newAlarm);
       setSseData((prevData) => {
         const updatedData = [newAlarm, ...prevData];
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedData));
+        // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedData));
         return updatedData;
       });
     };

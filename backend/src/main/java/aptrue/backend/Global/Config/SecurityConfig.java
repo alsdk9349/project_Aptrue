@@ -96,7 +96,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(Arrays.asList("https://ssafy-aptrue.co.kr/", "https://k11c101.p.ssafy.io/","http://localhost:3000/"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT","OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
 

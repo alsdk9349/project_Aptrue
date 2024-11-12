@@ -41,13 +41,13 @@ export default function CCTVUploadLink({
     );
   };
   return (
-    detailInfo.photoStatus && (
+    !detailInfo.photoStatus && (
       <div className={style.uploadInfo}>
         <div>사진 업로드 링크</div>
         <div>
           <UploadBox
             label="사진 첨부 링크"
-            copy={`resident/${detailInfo.clipRQId}/entrance`}
+            copy={`${process.env.NEXT_PUBLIC_BASE_URL.replace('/api', '')}/resident/${detailInfo.clipRQId}/entrance`}
           />
           <UploadBox label="사진 첨부 비밀번호" copy={detailInfo.password} />
         </div>

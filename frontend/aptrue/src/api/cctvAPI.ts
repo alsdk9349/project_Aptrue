@@ -81,3 +81,41 @@ export const requestDoneAPI = async (clipRQId, accessToken) => {
   console.log(`[*] detail 민원처리 완료 ${clipRQId}`, result);
   return result.data;
 };
+
+// CCTV request
+type CCTVRequestBody = Omit<
+  requestDetailInfo,
+  'clipRQId' | 'photoStatus' | 'clipList' | 'status'
+>;
+
+export const submitCCTVRequest = async (
+  requestBody: CCTVRequestBody,
+  accessToken,
+) => {
+  const response = await fetch(`${url}/clipRQ/new`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(requestBody),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(
+      `Failed to submit form, status: ${response.status}`,
+      errorText,
+    );
+    throw new Error(`Failed to submit form, status: ${response.status}`);
+  }
+
+  // 무효화 태그 호출
+  revalidateTag(`cctvList-1`);
+
+  const result = await response.json();
+  console.log('[*] Form submission result:', result);
+
+  return result;
+};

@@ -3,9 +3,9 @@ import PasswordInput from "@/components/resident/PasswordInput";
 import styles from './page.module.scss'
 
 
-export default function Page({params}:{params: {clipQRId:string}}) {
+export default function Page({params}:{params: {clipRQId:string}}) {
 
-    const clipQRId = params.clipQRId;
+    const clipRQId = params.clipRQId;
 
     return (
         <div className={styles.layout}>
@@ -13,7 +13,7 @@ export default function Page({params}:{params: {clipQRId:string}}) {
                 <div className={styles.title}>사진 업로드 비밀번호 확인</div>
                 <div className={styles.content}>사진 업로드를 위해 비밀번호를 확인해주세요</div>
                 <Suspense fallback={<div>Loading...</div>}>
-                    <PasswordInput/>
+                    <PasswordInput clipRQId={clipRQId}/>
                 </Suspense>
             </div>
         </div>

@@ -62,14 +62,16 @@ export default function Notification() {
     );
 
     eventSource.onmessage = (event) => {
+      console.log(event);
       const newAlarm = JSON.parse(event.data);
+      console.log('new alarm', newAlarm);
       setSseData((prevData) => {
         const updatedData = [newAlarm, ...prevData];
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedData));
         return updatedData;
       });
     };
-  });
+  }, []);
 
   const filteredData = data.filter((alarm) => {
     if (selectedFilter === '전체') return true;

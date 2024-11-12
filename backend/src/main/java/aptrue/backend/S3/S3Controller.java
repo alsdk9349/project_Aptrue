@@ -35,6 +35,7 @@ public class S3Controller {
     public String pictureUpload(
             @RequestParam("clipRQId") int clipRQId,
             @RequestParam("files") List<MultipartFile> photos) throws FileNotFoundException {
+        log.info("1111111111111111111111, {}, {}", clipRQId, photos);
         int len = photos.size();
         if (len > 9) {
             throw new IllegalArgumentException("You can upload a maximum of 9 photos.");
@@ -48,8 +49,9 @@ public class S3Controller {
 
             bucketClient.uploadPhoto(photos.get(i), fullPath); // 파일을 경로 포함해서 업로드
         }
+        log.info("222222222222222222222222, {}, {}", clipRQId, photos);
         s3Service.updateImages(clipRQId, len);
-
+        log.info("3333333333333333333333333, {}, {}", clipRQId, photos);
         ClipRQ optionalClipRQ = clipRQRepository.findById(clipRQId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
 

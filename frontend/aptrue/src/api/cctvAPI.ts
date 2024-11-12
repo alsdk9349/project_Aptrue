@@ -92,6 +92,9 @@ export const submitCCTVRequest = async (
   requestBody: CCTVRequestBody,
   accessToken,
 ) => {
+  console.log('[*] request Body', requestBody);
+  console.log('[*] accessToken', accessToken);
+
   const response = await fetch(`${url}/clipRQ/new`, {
     method: 'POST',
     headers: {

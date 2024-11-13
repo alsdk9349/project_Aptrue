@@ -205,6 +205,7 @@ export default function TableInput() {
                     등록
                 </button>
             </div>
+            <div className={styles.blank}><span></span></div>
             {isOpenErrorModal && 
             <ErrorModal message={message} isOpen={isOpenErrorModal} onClose={closeModal}/>
             }

@@ -173,4 +173,20 @@ public class ClipRQServiceImpl implements ClipRQService {
 
         return clipListResponseDtoList;
     }
+
+    @Transactional
+    public List<ClipListResponseDto> getClipAll() {
+
+        List<ClipRQ> clipRQS = clipRQRepository.findAll();
+
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQS.stream().map(clipRQ -> ClipListResponseDto.builder()
+                .clipRQId(clipRQ.getClipRQId())
+                .status(clipRQ.getStatus())
+                .address(clipRQ.getAddress())
+                .name(clipRQ.getName())
+                .createdAt(clipRQ.getCreatedAt())
+                .build()).collect(Collectors.toList());
+
+        return clipListResponseDtoList;
+    }
 }

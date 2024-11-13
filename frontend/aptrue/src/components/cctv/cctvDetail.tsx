@@ -199,6 +199,7 @@ import CCTVVideoLink from './cctvVideoLink';
 import { useEffect, useState } from 'react';
 import { cctvDetailApi, requestDoneAPI } from '@/api/cctvAPI';
 import Cookies from 'js-cookie';
+import PenTrue from '../common/loadingSpinner/penTrue';
 
 // const response = {
 //   status: 200,
@@ -231,10 +232,6 @@ function formatDate(dateString: string) {
   const minutes = twoDigitFormat(date.getMinutes());
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
-
-function FormLoading() {
-  return <div className={style['cctv-form-container']}>Loading...</div>;
 }
 
 export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
@@ -282,12 +279,17 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   };
   const handleClose = () => {
     router.push('/cctv/form');
+    router.refresh();
   };
 
   return (
     <>
-      {!detailInfo && <FormLoading />}
-
+      {!detailInfo && (
+        <div className={style['cctv-form-container']}>
+          <PenTrue />
+        </div>
+      )}
+      {/* <PenTrue /> */}
       {detailInfo && (
         <div className={style['cctv-form-container']}>
           <div className={style.header}>CCTV 열람 요청</div>

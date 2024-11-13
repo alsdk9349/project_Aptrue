@@ -7,6 +7,7 @@ import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Sse.Controller.SseController;
 import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import aptrue.backend.Sse.Repository.SseRepository;
+import aptrue.backend.Sse.Service.SseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,8 @@ public class S3Controller {
     private final S3BucketClient bucketClient;
     private final S3Service s3Service;
     private final ClipRQRepository clipRQRepository;
-    private final SseController sseController;
     private final SseRepository sseRepository;
+    private final SseService sseService;
 
     @PostMapping("/picture/upload")
     public String pictureUpload(
@@ -60,7 +61,7 @@ public class S3Controller {
                 .build();
 
         sseRepository.save("사람 사진 업로드 완료", new SseEmitter());
-        sseController.send(responseDto, "사람 사진 업로드");
+        sseService.sendEvent("사람 사진 업로드 완료", responseDto);
 
         return "success";
     }

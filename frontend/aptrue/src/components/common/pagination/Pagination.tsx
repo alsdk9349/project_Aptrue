@@ -27,6 +27,7 @@ export default function Pagination({ urlPath, pageNum }: PageProps) {
   const handlePageChange = (newPage: number) => {
     const baseURL = window.location.origin;
     router.push(`${baseURL}/${urlPath}/${newPage}/`);
+    router.refresh();
   };
 
   return (

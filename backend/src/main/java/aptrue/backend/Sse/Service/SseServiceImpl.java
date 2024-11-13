@@ -36,18 +36,18 @@ public class SseServiceImpl implements SseService {
         sendEvent("연결 성공1", responseDto);
 
         // 캐시된 이벤트 전송
-        if (!sseRepository.getAllEmitters().isEmpty()) {
-            sseRepository.getCachedEvents(clientId).forEach(eventWrapper -> {
-                try {
-                    emitter.send(SseEmitter.event()
-                            .name(eventWrapper.getEventName())
-                            .data(eventWrapper.getData()));
-                } catch (Exception e) {
-                    log.error("Failed to send cached event to client {}: {}", clientId, e.getMessage());
-                }
-            });
-            sseRepository.clearCachedEvents(clientId);
-        }
+//        if (!sseRepository.getAllEmitters().isEmpty()) {
+//            sseRepository.getCachedEvents(clientId).forEach(eventWrapper -> {
+//                try {
+//                    emitter.send(SseEmitter.event()
+//                            .name(eventWrapper.getEventName())
+//                            .data(eventWrapper.getData()));
+//                } catch (Exception e) {
+//                    log.error("Failed to send cached event to client {}: {}", clientId, e.getMessage());
+//                }
+//            });
+//            sseRepository.clearCachedEvents(clientId);
+//        }
 
         return emitter;
     }

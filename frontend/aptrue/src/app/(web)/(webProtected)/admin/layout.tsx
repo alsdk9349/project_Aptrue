@@ -2,7 +2,6 @@ import { ReactNode, Suspense } from "react";
 import TableColumn from "@/components/admin/TableColumn";
 import TableInput from "@/components/admin/TableInput";
 import styles from './layout.module.scss';
-import TableItem from "@/components/admin/TableItem";
 
 // 맨 밖의 레이아웃으로 Suspense안에는 나중에 클라이언트와 상호작용하는 tableinput만 넣어주기
 
@@ -21,15 +20,6 @@ export default function Layout({
                 <TableColumn />
                 <Suspense>
                     <TableInput />
-                <TableItem 
-                name='육비'
-                account='sixbee'
-                password="sixbee101"
-                createdAt="2024-11-08T04:35:07.202652"
-                phone="010-0000-0000"
-                adminID={0}
-                index={0}
-                />
                 </Suspense>
                 {children}
             </div>

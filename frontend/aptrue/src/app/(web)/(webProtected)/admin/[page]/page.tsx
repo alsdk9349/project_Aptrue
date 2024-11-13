@@ -15,21 +15,24 @@ async function fetchAdminList({
 
     const cookieStore = cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
+    console.log('getList', accessToken)
+    console.log('111111')
 
     // api/admin/list/{page}/{limit}
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
         {
             method: 'GET',
             credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
-            headers: {
-                'Authorization': `Bearer ${accessToken}`, // Authorization 헤더에 accessToken 추가
-            },
+            // headers: {
+            //     'Authorization': `Bearer ${accessToken}`, // Authorization 헤더에 accessToken 추가
+            // },
             // next: {tags: ['adminList']}
             cache: 'no-store'
         }
     )
 
     const result = await response.json();
+    console.log('status', result.status)
 
     if (!response.ok) {
         // const errorData = await response.json();

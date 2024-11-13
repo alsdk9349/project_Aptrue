@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation';
 import { formatPhoneNumber, isValidPassword, isValidPhoneNumber } from '@/utils/formatters';
 import ErrorModal from './ErrorModal';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 // import { createAdminAction } from '@/serverActions/create-admin.action';
 
 
@@ -16,6 +17,7 @@ export default function TableInput() {
 
     const accessToken = Cookies.get('accessToken');
     const {page} : {page:string}  = useParams();
+    const router = useRouter();
 
     // 유효성 검사 errorMessage
     const [passwordErrorMessage, setpasswordErrorMessage] =useState<string>('');
@@ -114,6 +116,7 @@ export default function TableInput() {
     
                 setMessage(result.message);
                 setIsOpenErrorModal(true);
+                router.refresh(); // 페이지를 새로고침하지 않고 캐시 데이터를 새로고침
                 // revalidateTag('adminList'); // adminList 캐시 태그가 붙은 모든 항목을 무효화(클라이언트 컴포넌트에서 작동하지 않음)
     
             } else if (result.code === "E003") {

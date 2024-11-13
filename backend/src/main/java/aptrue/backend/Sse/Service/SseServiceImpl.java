@@ -26,6 +26,15 @@ public class SseServiceImpl implements SseService {
         emitter.onCompletion(() -> sseRepository.remove(clientId));
         emitter.onTimeout(() -> sseRepository.remove(clientId));
 
+        SseResponseDto responseDto = SseResponseDto.builder()
+                .clipId(0)
+                        .name("전가현이다")
+                                .message("연결 성공")
+                                        .status("연결이다")
+                                                .build();
+
+        sendEvent("연결 성공", responseDto);
+
         // 캐시된 이벤트 전송
         sseRepository.getCachedEvents(clientId).forEach(eventWrapper -> {
             try {

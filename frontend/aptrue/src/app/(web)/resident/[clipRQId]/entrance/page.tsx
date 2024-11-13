@@ -1,21 +1,22 @@
-import { Suspense } from "react";
-import PasswordInput from "@/components/resident/PasswordInput";
-import styles from './page.module.scss'
+import { Suspense } from 'react';
+import PasswordInput from '@/components/resident/PasswordInput';
+import styles from './page.module.scss';
+import PenTrue from '@/components/common/loadingSpinner/penTrue';
 
+export default function Page({ params }: { params: { clipQRId: string } }) {
+  const clipQRId = params.clipQRId;
 
-export default function Page({params}:{params: {clipQRId:string}}) {
-
-    const clipQRId = params.clipQRId;
-
-    return (
-        <div className={styles.layout}>
-            <div className={styles.container}>
-                <div className={styles.title}>사진 업로드 비밀번호 확인</div>
-                <div className={styles.content}>사진 업로드를 위해 비밀번호를 확인해주세요</div>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <PasswordInput/>
-                </Suspense>
-            </div>
+  return (
+    <div className={styles.layout}>
+      <div className={styles.container}>
+        <div className={styles.title}>사진 업로드 비밀번호 확인</div>
+        <div className={styles.content}>
+          사진 업로드를 위해 비밀번호를 확인해주세요
         </div>
-    )
+        <Suspense fallback={<PenTrue />}>
+          <PasswordInput />
+        </Suspense>
+      </div>
+    </div>
+  );
 }

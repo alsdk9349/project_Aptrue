@@ -32,9 +32,9 @@ export default function CCTVHome() {
   const [streamReady, setStreamReady] = useState<boolean>(false);
   let addedVideoElement: HTMLVideoElement | null = null;
   let isSubscribed = false; // 중복 구독 방지 플래그
-  const sessionId = 'sixbee';
 
   useEffect(() => {
+    const sessionId = 'sixbee';
     const OV = new OpenVidu();
     const session = OV.initSession();
 

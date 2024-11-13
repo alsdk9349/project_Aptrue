@@ -92,7 +92,6 @@ public class ClipRQServiceImpl implements ClipRQService {
                                                 .build();
 
         log.info("sdjfhsakjlfhaslkjdhfaksjldfhaskjldhf");
-        sseRepository.save("CCTV 요청 처리 완료", new SseEmitter());
         sseService.sendEvent("CCTV 요청처리 완료", responseDto);
         log.info("waeilukhrfeajklghjklfdshglkjsdfhgkjldfshg");
 

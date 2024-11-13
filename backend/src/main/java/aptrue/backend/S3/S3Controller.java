@@ -60,7 +60,6 @@ public class S3Controller {
                 .status(optionalClipRQ.getStatus())
                 .build();
 
-        sseRepository.save("사람 사진 업로드 완료", new SseEmitter());
         sseService.sendEvent("사람 사진 업로드 완료", responseDto);
 
         return "success";

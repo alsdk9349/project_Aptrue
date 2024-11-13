@@ -166,7 +166,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
                 formData.append('video', blob, filename);
 
                 try {
-                  const uploadResponse = await fetch('/api/upload-video', {
+                  const uploadResponse = await fetch('/api/video/upload', {
                     method: 'POST',
                     body: formData,
                   });

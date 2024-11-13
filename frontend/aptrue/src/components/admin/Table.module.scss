@@ -68,10 +68,14 @@
             color: colors.$white;
             font-family: 'medium';
             font-size: 12px;
+
+            &:hover {
+                opacity: 0.8;
+            }
         }
 
         .blue {
-            background-color: colors.$blue4;
+            background-color: colors.$blue5;
         }
 
         .gray {
@@ -226,7 +230,7 @@
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
-    z-index: 10;
+    // z-index: 10;
 }
 
 .isTableInput {
@@ -234,5 +238,5 @@
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
-    z-index: 15;
+    // z-index: 15;
 }

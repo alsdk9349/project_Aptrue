@@ -21,9 +21,8 @@ export default function AdminList({
             {admins.map((admin, index) => 
                 <TableItem 
                 key={index}
-                adminID={
-                    (Number(pageNum)-1)*10+index+1
-                }
+                index={(Number(pageNum)-1)*10+index+1}
+                adminID={admin.adminID}
                 name={admin.name}
                 account={admin.account}
                 password={'*************'}

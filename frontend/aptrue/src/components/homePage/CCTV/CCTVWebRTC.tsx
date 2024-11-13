@@ -163,7 +163,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
 
                 // 서버로 비디오 Blob 전송
                 const formData = new FormData();
-                formData.append('video', blob, filename);
+                formData.append('file', blob, filename);
 
                 try {
                   const uploadResponse = await fetch('/api/video/upload', {

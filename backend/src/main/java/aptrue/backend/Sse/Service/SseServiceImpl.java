@@ -48,7 +48,7 @@ public class SseServiceImpl implements SseService {
 //            });
 //            sseRepository.clearCachedEvents(clientId);
 //        }
-
+        log.info("connect 마지막");
         return emitter;
     }
 
@@ -73,5 +73,6 @@ public class SseServiceImpl implements SseService {
                 sseRepository.remove(clientId);
             }
         }
+        log.info("Sending event444 '{}' to all clients", eventName);
     }
 }

@@ -27,6 +27,7 @@ public class SseController {
         String clientId = adminDetails.getAccount();
         log.info("Connection established with client ID: {}", clientId);
         SseEmitter emitter = sseService.connect(clientId);
+        log.info("Connection established with client ID 연결 성공: {}", clientId);
         return ResponseEntity.ok(emitter);
     }
 }

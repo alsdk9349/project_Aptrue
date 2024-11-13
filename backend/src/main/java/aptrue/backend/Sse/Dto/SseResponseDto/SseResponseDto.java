@@ -29,10 +29,12 @@ public class SseResponseDto {
         this.status = status;
     }
 
-    public static SseResponseDto of(ClipRQ clipRQ) {
+    public static SseResponseDto of(ClipRQ clipRQ, String message) {
         return SseResponseDto.builder()
                 .clipId(clipRQ.getClipRQId())
                 .name(clipRQ.getName())
+                .status(clipRQ.getStatus())
+                .message(message)
                 .build();
     }
 

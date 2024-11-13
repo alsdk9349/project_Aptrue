@@ -14,6 +14,7 @@ export default function TableColumn() {
             <div className={styles.phoneNumber}>전화번호</div>
             <div className={styles.date}>등록일</div>
             <div className={styles.blank}><span></span></div>
+            <div className={styles.blank}><span></span></div>
         </div>
     )
 }

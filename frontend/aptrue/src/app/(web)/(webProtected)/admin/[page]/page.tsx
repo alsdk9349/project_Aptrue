@@ -5,6 +5,8 @@ import styles from './page.module.scss';
 import ErrorHandler from "@/components/admin/ErrorHandler";
 import AdminList from "@/components/admin/AdminList";
 import { cookies } from 'next/headers';
+import TableItem from "@/components/admin/TableItem";
+import DefaultTableItem from "@/components/admin/DefaultTableItem";
 
 // params값만 받아서 활용하는 서버컴포넌트!
 async function fetchAdminList({
@@ -56,17 +58,17 @@ export default async function Page({params}:{params: {page:string} }) {
         errorMessage = error.message;
     } 
 
-  const remains: number = 10 - admins.length;
+    const remains: number = 10 - admins.length;
 
     // 관리자 목록 전체 조회 API 불러오기
     return (
-        <>
+        <div className={styles.container}>
             <AdminList admins={admins} remainsNum={remains} pageNum={page}/>
             <div className={styles.pagination}>
                 <Pagination pageNum={page} urlPath="admin" />
             </div>
             <ErrorHandler message={errorMessage} />
-        </>
+        </div>
     )
 }
 

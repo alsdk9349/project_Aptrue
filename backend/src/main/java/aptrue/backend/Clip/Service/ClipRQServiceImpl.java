@@ -12,6 +12,7 @@ import aptrue.backend.Global.Util.CookieUtil;
 import aptrue.backend.Sse.Controller.SseController;
 import aptrue.backend.Sse.Repository.SseRepository;
 import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
+import aptrue.backend.Sse.Service.SseService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class ClipRQServiceImpl implements ClipRQService {
     private final CookieUtil cookieUtil;
     private final AdminRepository adminRepository;
     private final SseRepository sseRepository;
-    private final SseController sseController;
+    private final SseService sseService;
 
     @Transactional
     public ClipRQResponseDto newClipRQ(ClipRQRequestDto clipRQRequestDto, HttpServletRequest httpServletRequest) {
@@ -92,7 +93,7 @@ public class ClipRQServiceImpl implements ClipRQService {
 
         log.info("sdjfhsakjlfhaslkjdhfaksjldfhaskjldhf");
         sseRepository.save("CCTV 요청 처리 완료", new SseEmitter());
-        sseController.send(responseDto, "CCTV 요천 처리 완료");
+        sseService.sendEvent("CCTV 요청처리 완료", responseDto);
         log.info("waeilukhrfeajklghjklfdshglkjsdfhgkjldfshg");
 
         return clipRQResponseDto;

@@ -2,6 +2,7 @@ import LoginBackground from "@/components/login/LoginBackground";
 import LoginForm from "@/components/login/LoginForm";
 import { Suspense } from "react";
 import styles from './layout.module.scss';
+import PenTrue from "@/components/common/loadingSpinner/penTrue";
 
 export default function Layout({children}:{children:React.ReactNode;}) {
 
@@ -10,7 +11,7 @@ export default function Layout({children}:{children:React.ReactNode;}) {
         <LoginBackground />
             <div className={styles.ch}>
                 <div className={styles.title}>APTrue.</div>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<PenTrue/>}>
                 {children}
                 </Suspense>
             </div>

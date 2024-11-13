@@ -1,7 +1,10 @@
-import { Suspense } from "react";
-import PasswordInput from "@/components/resident/PasswordInput";
-import styles from './page.module.scss'
+import { Suspense } from 'react';
+import PasswordInput from '@/components/resident/PasswordInput';
+import styles from './page.module.scss';
+import PenTrue from '@/components/common/loadingSpinner/penTrue';
 
+export default function Page({ params }: { params: { clipQRId: string } }) {
+  const clipQRId = params.clipQRId;
 
 export default function Page({params}:{params: {clipRQId:string}}) {
 
@@ -17,5 +20,10 @@ export default function Page({params}:{params: {clipRQId:string}}) {
                 </Suspense>
             </div>
         </div>
-    )
+        <Suspense fallback={<PenTrue />}>
+          <PasswordInput />
+        </Suspense>
+      </div>
+    </div>
+  );
 }

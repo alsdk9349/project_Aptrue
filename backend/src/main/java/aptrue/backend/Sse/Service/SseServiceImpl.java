@@ -54,11 +54,12 @@ public class SseServiceImpl implements SseService {
 
     @Override
     public void sendEvent(String eventName, SseResponseDto data) {
+        SseEmitter emitter = new SseEmitter(TIMEOUT);
+        sseRepository.save(eventName, emitter);
         log.info("Sending event '{}' to all clients", eventName);
 
         for (Map.Entry<String, SseEmitter> entry : sseRepository.getAllEmitters().entrySet()) {
             String clientId = entry.getKey();
-            SseEmitter emitter = entry.getValue();
 
             try {
                 emitter.send(SseEmitter.event()

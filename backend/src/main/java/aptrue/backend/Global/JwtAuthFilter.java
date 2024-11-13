@@ -73,6 +73,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 newAccessTokenCookie.setMaxAge(14 * 24 * 60 * 60);
 
                 response.addCookie(newAccessTokenCookie);
+                response.addHeader("Set-Cookie", String.format("%s=%s; Max-Age=%d; Path=%s; Secure; HttpOnly; SameSite=None",
+                        newAccessTokenCookie.getName(),
+                        newAccessTokenCookie.getValue(),
+                        newAccessTokenCookie.getMaxAge(),
+                        newAccessTokenCookie.getPath()));
             }
         }
         filterChain.doFilter(request, response); // 다음 필터로 넘기기

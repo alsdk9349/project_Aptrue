@@ -35,6 +35,7 @@ public class SseResponseDto {
                 .name(clipRQ.getName())
                 .status(clipRQ.getStatus())
                 .message(message)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 

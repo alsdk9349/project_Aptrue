@@ -22,7 +22,7 @@ public class SseController {
     @Operation(summary = "SSE 연결", description = "SSE 초기에 연결하는 API")
     @ApiResponse(responseCode = "200", description = "SSE 연결 성공")
     public ResponseEntity<SseEmitter> connect(HttpServletRequest request) {
-        String clientId = request.getSession().getId();
+        String clientId = request.getParameter("clientId");
         log.info("Connection established with client ID: {}", clientId);
         SseEmitter emitter = sseService.connect(clientId);
         return ResponseEntity.ok(emitter);

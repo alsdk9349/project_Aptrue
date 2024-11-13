@@ -130,50 +130,64 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
               mimeType: 'video/webm; codecs=vp8',
             });
 
-            // `ondataavailable`에서 데이터 청크를 수집
-            recorder.ondataavailable = (event) => {
+            // 1분(60000ms)마다 ondataavailable 이벤트 발생
+            recorder.start(60000);
+
+            recorder.ondataavailable = async (event) => {
               if (event.data.size > 0) {
                 console.log('데이터 청크 수집:', event.data.size);
-                recordedChunks.current.push(event.data);
+
+                // 녹화된 Blob 생성
+                const blob = event.data;
+
+                // 현재 날짜와 시간을 가져옵니다.
+                const now = new Date();
+
+                // 날짜를 YYMMDD 형식으로 변환합니다.
+                const date =
+                  now.getFullYear().toString().slice(2) + // 연도의 마지막 두 자리
+                  ('0' + (now.getMonth() + 1)).slice(-2) + // 월 (두 자리 수)
+                  ('0' + now.getDate()).slice(-2); // 일 (두 자리 수)
+
+                // 시간을 HHMMSS 형식으로 변환합니다.
+                const time =
+                  ('0' + now.getHours()).slice(-2) + // 시 (두 자리 수)
+                  ('0' + now.getMinutes()).slice(-2) + // 분 (두 자리 수)
+                  ('0' + now.getSeconds()).slice(-2); // 초 (두 자리 수)
+
+                // 장소 정보를 설정합니다. 예를 들어 'around101'
+                const place = 'around101';
+
+                // 파일 이름을 생성합니다.
+                const filename = `${date}-${place}-${time}.webm`;
+
+                // 서버로 비디오 Blob 전송
+                const formData = new FormData();
+                formData.append('video', blob, filename);
+
+                try {
+                  const uploadResponse = await fetch('/api/upload-video', {
+                    method: 'POST',
+                    body: formData,
+                  });
+
+                  if (uploadResponse.ok) {
+                    console.log('비디오 업로드 성공:', filename);
+                  } else {
+                    console.error(
+                      '비디오 업로드 실패:',
+                      uploadResponse.statusText,
+                    );
+                  }
+                } catch (uploadError) {
+                  console.error('비디오 업로드 중 에러 발생:', uploadError);
+                }
               }
             };
 
-            // `onstop`에서 데이터 수집 완료 후 처리
-            recorder.onstop = async () => {
-              if (recordedChunks.current.length === 0) {
-                console.error('녹화된 데이터가 없습니다.');
-                return;
-              }
-
-              const blob = new Blob(recordedChunks.current, {
-                type: 'video/webm',
-              });
-              recordedChunks.current = []; // 청크 배열 초기화
-
-              // // 비디오를 로컬에 저장하기 위한 다운로드 링크 생성
-              // const url = URL.createObjectURL(blob);
-              // const a = document.createElement('a');
-              // a.href = url;
-              // a.download = 'recording.webm';
-              // a.click();
-              // URL.revokeObjectURL(url);
-
-              // 서버로 비디오 Blob 전송
-              const formData = new FormData();
-              formData.append('video', blob, 'recording.webm');
-              // await fetch('/api/upload-video', {
-              //   method: 'POST',
-              //   body: formData,
-              // });
-
-              // 다음 녹화를 시작
-              recorder.start();
-              setTimeout(() => recorder.stop(), 60000); // 1분 후 중지
+            recorder.onerror = (event: ErrorEvent) => {
+              console.error('녹화 중 에러 발생:', event.error);
             };
-
-            // 첫 번째 1분 녹화 시작
-            recorder.start();
-            setTimeout(() => recorder.stop(), 60000); // 1분 후 중지
           }
         }
       } catch (error) {
@@ -189,7 +203,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
       }
       setPublisher(null);
     };
-  }, [role, setPublisher]);
+  }, [role, setPublisher, baseUrl, sessionId]);
 
   return (
     <div>

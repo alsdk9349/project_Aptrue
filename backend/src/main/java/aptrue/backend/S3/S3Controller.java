@@ -71,6 +71,7 @@ public class S3Controller {
         if (fileName == null || fileName.isEmpty()) {
             fileName = "default.video"; // 기본 파일 이름 설정
         }
+        fileName = fileName.replace("-","/");
         log.info("Received file: Name={}, Size={}", fileName, video.getSize());
         bucketClient.uploadVideo(video, fileName); // 파일 이름 전달
         return "success";

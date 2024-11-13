@@ -69,7 +69,7 @@ export default function Upload() {
     if (!response.ok) {
       throw new Error('업로드 실패');
     } else {
-      router.push('/resident/complete');
+      router.push(`/resident/${clipRQId}/complete`);
     }
     const data = await response.json();
     console.log(previews);

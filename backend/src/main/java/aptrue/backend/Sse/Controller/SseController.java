@@ -28,6 +28,7 @@ public class SseController {
         log.info("Connection established with client ID: {}", clientId);
         SseEmitter emitter = sseService.connect(clientId);
         log.info("Connection established with client ID 연결 성공: {}", clientId);
+        emitter.onError(e -> log.info("SSE 에러", e));
         return ResponseEntity.ok(emitter);
     }
 }

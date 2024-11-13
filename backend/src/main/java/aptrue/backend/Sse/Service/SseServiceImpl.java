@@ -15,11 +15,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SseServiceImpl implements SseService {
 
+    private static final long TIMEOUT = 30 * 60 * 1000L;
     private final SseRepository sseRepository;
 
     @Override
     public SseEmitter connect(String clientId) {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(TIMEOUT);
         sseRepository.save(clientId, emitter);
 
         emitter.onCompletion(() -> sseRepository.remove(clientId));
@@ -53,7 +54,7 @@ public class SseServiceImpl implements SseService {
 
     @Override
     public void sendEvent(String eventName, SseResponseDto data) {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(TIMEOUT);
         sseRepository.save(eventName, emitter);
         log.info("Sending event '{}' to all clients", eventName);
 

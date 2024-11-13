@@ -58,21 +58,33 @@ public class SseServiceImpl implements SseService {
         sseRepository.save(eventName, emitter);
         log.info("Sending event '{}' to all clients", eventName);
 
-        for (Map.Entry<String, SseEmitter> entry : sseRepository.getAllEmitters().entrySet()) {
-            String clientId = entry.getKey();
-
-            try {
-                log.info("Sending event222 '{}' to all clients", eventName);
-                emitter.send(SseEmitter.event()
-                        .name(eventName)
-                        .data(data));
-                log.info("Sending event333 '{}' to all clients", eventName);
-            } catch (Exception e) {
-                log.warn("Failed to send event to client {}: {}", clientId, e.getMessage());
-                sseRepository.cacheEvent(clientId, new SseEventWrapper(eventName, data));
-                sseRepository.remove(clientId);
-            }
+        try {
+            log.info("Sending event222 '{}', {}, {} to all clients", eventName, data.getClipId(), data.getName());
+            emitter.send(SseEmitter.event()
+                    .name(eventName)
+                    .data(data));
+            log.info("Sending event333 '{}' to all clients", eventName);
+        } catch (Exception e) {
+            log.warn("Failed to send event to client {}: {}", eventName, e.getMessage());
+            sseRepository.cacheEvent(eventName, new SseEventWrapper(eventName, data));
+            sseRepository.remove(eventName);
         }
+
+//        for (Map.Entry<String, SseEmitter> entry : sseRepository.getAllEmitters().entrySet()) {
+//            String clientId = entry.getKey();
+//
+//            try {
+//                log.info("Sending event222 '{}' to all clients", eventName);
+//                emitter.send(SseEmitter.event()
+//                        .name(eventName)
+//                        .data(data));
+//                log.info("Sending event333 '{}' to all clients", eventName);
+//            } catch (Exception e) {
+//                log.warn("Failed to send event to client {}: {}", clientId, e.getMessage());
+//                sseRepository.cacheEvent(clientId, new SseEventWrapper(eventName, data));
+//                sseRepository.remove(clientId);
+//            }
+//        }
         log.info("Sending event444 '{}' to all clients", eventName);
     }
 }

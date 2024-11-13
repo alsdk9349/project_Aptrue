@@ -62,9 +62,11 @@ public class SseServiceImpl implements SseService {
             String clientId = entry.getKey();
 
             try {
+                log.info("Sending event222 '{}' to all clients", eventName);
                 emitter.send(SseEmitter.event()
                         .name(eventName)
                         .data(data));
+                log.info("Sending event333 '{}' to all clients", eventName);
             } catch (Exception e) {
                 log.warn("Failed to send event to client {}: {}", clientId, e.getMessage());
                 sseRepository.cacheEvent(clientId, new SseEventWrapper(eventName, data));

@@ -20,15 +20,23 @@
 
     .leftLine {
         position: relative;
+        // background-color: colors.$blue3;
         background-color: colors.$blue3;
         border: 0;
-        width: 10px;
-        height: 100%;
+        // width: 10px;
+        // height: 100%;
+        width: 0px;
+        height: 0px;
     }
 
     .content {
         flex: 1;
         border: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
         font-size: 12px;
         font-family: 'regular';
         color: colors.$gray8;

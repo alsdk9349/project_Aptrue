@@ -33,8 +33,9 @@ export default function CCTVHome() {
   let addedVideoElement: HTMLVideoElement | null = null;
   let isSubscribed = false; // 중복 구독 방지 플래그
 
+  const sessionId = 'aptrue';
+
   useEffect(() => {
-    const sessionId = 'sixbee';
     const OV = new OpenVidu();
     const session = OV.initSession();
 
@@ -102,6 +103,7 @@ export default function CCTVHome() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             // body: JSON.stringify({ role: 'SUBSCRIBER' }),
+            credentials: 'include',
           },
         );
 

@@ -34,6 +34,9 @@ export default function WebNav() {
           credentials: 'include', // 쿠키 포함 설정
       });
 
+      console.log('응답 상태 코드:', response.status); // 상태 코드 확인
+      console.log('응답 데이터:', await response.json());
+
       if (response.ok) {
           console.log('로그아웃 성공');
           router.push('/login'); // 로그인 페이지로 이동

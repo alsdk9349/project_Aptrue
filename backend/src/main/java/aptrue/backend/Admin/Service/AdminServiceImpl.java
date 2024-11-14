@@ -171,6 +171,27 @@ public class AdminServiceImpl implements AdminService {
         }
         return adminList;
     }
+    @Transactional
+    public List<AdminListResponseDto> getAdminListv1(int page, int limit) {
+        int start = (page-1)*limit;
+        List<Admin> adminAll = adminRepository.findAll();
+        List<AdminListResponseDto> adminList = new ArrayList<>();
+        for (int i=start;i<start+limit;i++) {
+            if (i>=adminAll.size()) {
+                break;
+            }
+            Admin admin = adminAll.get(i);
+            AdminListResponseDto adminListResponseDto = AdminListResponseDto.builder()
+                    .account(admin.getAccount())
+                    .adminID(admin.getAdminId())
+                    .createdAt(admin.getCreatedAt())
+                    .name(admin.getName())
+                    .phone(admin.getPhone())
+                    .build();
+            adminList.add(adminListResponseDto);
+        }
+        return adminList;
+    }
 
     @Transactional
     public void deleteAdmin(HttpServletRequest httpServletRequest, int adminId) {

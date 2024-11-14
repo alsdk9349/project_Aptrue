@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 
 export default async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value; // 서버에서 사용하는 방법
-  console.log('accessToken', accessToken);
+  console.log('middleware-accessToken', accessToken);
 
   // 정적 파일이나 API 요청을 건너뛰도록 조건 추가
   const isPublicFile = /\.(.*)$/.test(request.nextUrl.pathname);
@@ -12,7 +12,7 @@ export default async function middleware(request: NextRequest) {
 
   // 토큰이 없고, 로그인 페이지 또는 정적 파일, /resident/:path가 아닌 경우에만 리다이렉트
   if (!accessToken && !isLoginPath && !isPublicFile && !isResidentPath) {
-    return NextResponse.redirect(`${request.nextUrl.origin}/login`);
+    // return NextResponse.redirect(`${request.nextUrl.origin}/login`);
   }
 
   return NextResponse.next(); // 인증 성공시 요청을 계속 진행

@@ -123,7 +123,7 @@ export default function WebNav() {
           <div className={style.iconWrapper}>
             <img src="/icons/logout.png" alt="" className={style.icon} />
           </div>
-          <span className={style.text}>로그아웃</span>
+          <span className={style.logoutText}>로그아웃</span>
         </div>
       </div>
     </div>

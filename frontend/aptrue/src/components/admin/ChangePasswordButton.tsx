@@ -1,13 +1,22 @@
 "use client";
 
 import styles from './ChangePasswordButton.module.scss';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ChangePasswordForm from "./ChangePasswordForm";
 
 export default function ChangePasswordButton({account}:{account:string}) {
 
-    const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
     const [openChangePasswordForm, setChangePasswordForm] = useState<boolean>(false);
+
+    useEffect(() => {
+        // 모달이 열릴 때 body 스크롤을 막음
+        if (openChangePasswordForm) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [openChangePasswordForm]);
+
 
     const changePassword = () => {
         setChangePasswordForm(true);
@@ -26,12 +35,10 @@ export default function ChangePasswordButton({account}:{account:string}) {
                     비밀번호 변경
             </button>
             {openChangePasswordForm &&
-                <div className={styles.formLayout}>
                     <ChangePasswordForm 
                     account={account}
                     onClose={onClose}
                     />
-                </div>
             }
         </>
     )

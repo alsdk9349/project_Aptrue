@@ -144,7 +144,6 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest,int page, int limit) {
         int superAdminId = cookieUtil.getAdminId(httpServletRequest);
-        log.info("SuperAdmin ID: {}", superAdminId);
         Admin superAdmin = adminRepository.findByAdminId(superAdminId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 

@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server';
 
 export default async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value; // 서버에서 사용하는 방법
+  const refreshToken = request.cookies.get('refreshToken')?.value;
   console.log('accessToken', accessToken);
 
   // 정적 파일이나 API 요청을 건너뛰도록 조건 추가
@@ -15,7 +16,11 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(`${request.nextUrl.origin}/login`);
   }
 
-  return NextResponse.next(); // 인증 성공시 요청을 계속 진행
+  const res = NextResponse.next()
+  res.cookies.set('accessToken', accessToken);
+  res.cookies.set('refreshToken', refreshToken)
+
+  return res; // 인증 성공시 요청을 계속 진행
 }
 
 

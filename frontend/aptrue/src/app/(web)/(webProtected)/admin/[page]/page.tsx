@@ -6,6 +6,7 @@ import ErrorHandler from "@/components/admin/ErrorHandler";
 import { cookies } from 'next/headers';
 import TableItem from "@/components/admin/TableItem";
 import DefaultTableItem from "@/components/admin/DefaultTableItem";
+import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 
 // params값만 받아서 활용하는 서버컴포넌트!
 async function fetchAdminList({

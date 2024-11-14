@@ -23,8 +23,8 @@ public class SseController {
     @GetMapping(path = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Operation(summary = "SSE 연결", description = "SSE 초기에 연결하는 API")
     @ApiResponse(responseCode = "200", description = "SSE 연결 성공")
-    public ResponseEntity<SseEmitter> connect(HttpServletRequest request) {
-        String clientId = request.getSession().getId();
+    public ResponseEntity<SseEmitter> connect(@AuthenticationPrincipal CustomAdminDetails adminDetails) {
+        String clientId = adminDetails.getAccount();
         log.info("Connection established with client ID: {}", clientId);
         SseEmitter emitter = sseService.connect(clientId);
         log.info("Connection established with client ID 연결 성공: {}", clientId);

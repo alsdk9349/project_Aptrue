@@ -5,6 +5,9 @@ import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isValidPassword } from '@/utils/formatters';
 import ErrorModal from './ErrorModal';
+import Cookies from 'js-cookie';
+import ReactDOM from 'react-dom';
+
 
 export default function ChangePasswordForm({
     account,
@@ -19,6 +22,8 @@ export default function ChangePasswordForm({
     const [message, setMessage] = useState('');
     const [remessage, setRemessage]=useState('');
     const router = useRouter();
+
+    const accessToken = Cookies.get('accessToken');
 
     const [resultMessage, setResultMessage] = useState('');
 
@@ -62,7 +67,8 @@ export default function ChangePasswordForm({
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/change/password`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 id: account,
@@ -86,7 +92,7 @@ export default function ChangePasswordForm({
         }
     };
 
-    return (
+    return ReactDOM.createPortal(
         <div className={styles.layout}>
             <form onSubmit={submitPassword} className={styles.container}>
                 <div className={styles.title}>비밀번호 변경</div>
@@ -126,6 +132,7 @@ export default function ChangePasswordForm({
                 </div>
                 {/* {message && <ErrorModal message={resultMessage}/>} */}
             </form>
-        </div>
+        </div>,
+        document.body
     )
 }

@@ -1,14 +1,40 @@
 @use './../../styles/constants/colors.scss' as colors;
 
+.isColumnName {
+    background-color: colors.$gray2;
+    font-family: 'semibold';
+    font-size: 16px;
+    color: colors.$gray7;
+    border-bottom: solid 1px colors.$gray5;
+    z-index: 0;
+}
+
+.isTableItem {
+    background-color: colors.$white;
+    font-family: 'regular';
+    font-size: 12px;
+    color: colors.$gray6;
+    z-index: 0;
+}
+
+.isTableInput {
+    background-color: colors.$gray1;
+    font-family: 'regular';
+    font-size: 12px;
+    color: colors.$gray6;
+    z-index: 0;
+}
+
 .container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: fit-content;
-    z-index: 1;
+    z-index: 0;
     height: 45px;
-    position: relative; //
+    // position: relative;
+    position: static;
 
     input {
         width: 137px;
@@ -21,6 +47,7 @@
         font-size: 12px;
         font-family: 'regular';
         color: colors.$gray6;
+        z-index: 1;
 
         &::placeholder {
             font-size: 12px;
@@ -32,14 +59,19 @@
             border-color: colors.$gray5;
         }
     }
+    
+    .password, .phoneNumber {
+        position: relative;
+        // z-index: 1;
+    }
 
     .validation {
         background-color: colors.$white;
         border-radius: 5px;
-        position:absolute;//
-        top:33px; //
+        position:absolute;
+        top: 35px;
+        z-index: 10;
         box-sizing: border-box;
-        z-index: 9999;
         padding: 7px;
         display: flex;
         align-items: center;
@@ -52,10 +84,6 @@
         max-width: 150px;
         word-wrap: break-word; // Enable text wrapping within the box
         white-space: normal;
-    }
-
-    .password, .phoneNumber {
-        position: relative;
     }
 
     .buttonContainer {
@@ -90,6 +118,7 @@
         align-items: center;
         box-sizing: border-box;
         border: solid 1px colors.$gray4;
+        z-index: 0;
     }
 
     .no {
@@ -121,12 +150,12 @@
         width: 170px;
         height: 100%;
         .validation {
-    display: flex;
-    align-items: center;
-    color:colors.$red;
-    border: solid 0;
-    background-color: transparent;
-}
+        display: flex;
+        align-items: center;
+        color:colors.$red;
+        border: solid 0;
+        background-color: transparent;
+    }
     }
 
     .blank {
@@ -134,109 +163,7 @@
         height: 100%;
     }
 
-    @media (max-width: 1200px) {
-
-        input {
-            width: 110px;
-        }
-        .no {
-            width: 40px;
-        }
-        .name {
-            width: 120px;
-        }
-        .id {
-            width: 140px;
-        }
-        .password {
-            width: 150px;
-        }
-        .phoneNumber {
-            width: 160px;
-        }
-        .date {
-            width: 140px;
-        }
-        .blank {
-            width: 70px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        input {
-            width: 90px;
-        }
-        .no {
-            width: 35px;
-        }
-        .name {
-            width: 100px;
-        }
-        .id {
-            width: 120px;
-        }
-        .password {
-            width: 130px;
-        }
-        .phoneNumber {
-            width: 140px;
-        }
-        .date {
-            width: 120px;
-        }
-        .blank {
-            width: 60px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        input {
-            width: 90px;
-        }
-        .no {
-            width: 30px;
-        }
-        .name {
-            width: 80px;
-        }
-        .id {
-            width: 100px;
-        }
-        .password {
-            width: 110px;
-        }
-        .phoneNumber {
-            width: 120px;
-        }
-        .date {
-            width: 100px;
-        }
-        .blank {
-            width: 50px;
-        }
-    }
 }
 
-.isColumnName {
-    background-color: colors.$gray2;
-    font-family: 'semibold';
-    font-size: 16px;
-    color: colors.$gray7;
-    border-bottom: solid 1px colors.$gray5;
-}
 
-.isTableItem {
-    background-color: colors.$white;
-    font-family: 'regular';
-    font-size: 12px;
-    color: colors.$gray6;
-    // z-index: 10;
-}
 
-.isTableInput {
-    background-color: colors.$gray1;
-    font-family: 'regular';
-    font-size: 12px;
-    color: colors.$gray6;
-    // z-index: 15;
-}

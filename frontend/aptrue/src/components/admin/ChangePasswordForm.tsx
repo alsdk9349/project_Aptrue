@@ -78,6 +78,7 @@ export default function ChangePasswordForm({
             console.log('비밀번호 변경 성공')
             router.refresh();
             setMessage(result.message)
+            onClose();
 
         } else {
 
@@ -86,43 +87,45 @@ export default function ChangePasswordForm({
     };
 
     return (
-        <form onSubmit={submitPassword} className={styles.container}>
-            <div className={styles.title}>비밀번호 변경</div>
-            <input
-                type="text"
-                placeholder="아이디"
-                value={account}
-                readOnly
-            />
-            <input
-                type="password"
-                placeholder="새 비밀번호 입력"
-                value={password}
-                onChange={changePassword}
-                // required
-            />
-            {message && 
-            <div className={styles.error}>
-                {message}
-            </div>
-            }
-            <input
-                type="password"
-                placeholder="새 비밀번호 확인"
-                value={repassword}
-                onChange={changeRepassword}
-                // required
-            />
-            {remessage && 
-            <div className={styles.error}>
-                {remessage}
-            </div>
-            }
-            <div className={styles.buttonContainer}>
-                <button type="button" className={styles.closeButton} onClick={onClose}>닫기</button>
-                <button type="submit" className={styles.changeButton}>저장</button>
-            </div>
-            {/* {message && <ErrorModal message={resultMessage}/>} */}
-        </form>
+        <div className={styles.layout}>
+            <form onSubmit={submitPassword} className={styles.container}>
+                <div className={styles.title}>비밀번호 변경</div>
+                <input
+                    type="text"
+                    placeholder="아이디"
+                    value={account}
+                    readOnly
+                />
+                <input
+                    type="password"
+                    placeholder="새 비밀번호 입력"
+                    value={password}
+                    onChange={changePassword}
+                    // required
+                />
+                {message && 
+                <div className={styles.error}>
+                    {message}
+                </div>
+                }
+                <input
+                    type="password"
+                    placeholder="새 비밀번호 확인"
+                    value={repassword}
+                    onChange={changeRepassword}
+                    // required
+                />
+                {remessage && 
+                <div className={styles.error}>
+                    {remessage}
+                </div>
+                }
+                <div className={styles.buttonContainer}>
+                    <button type="button" className={styles.closeButton} onClick={onClose}>닫기</button>
+                    <button type="submit" className={styles.changeButton}>저장</button>
+                </div>
+                {/* {message && <ErrorModal message={resultMessage}/>} */}
+            </form>
+        </div>
     )
 }

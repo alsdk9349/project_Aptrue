@@ -26,7 +26,7 @@ async function fetchAdminList({
             method: 'GET',
             credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
             headers: {
-                Cookie: cookies().toString()
+                Cookie: cookies().toString(),
             },
             // next: {tags: ['adminList']}
             cache: 'no-store'

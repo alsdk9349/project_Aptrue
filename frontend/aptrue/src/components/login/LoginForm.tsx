@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.scss';
 import { useRecoilState } from 'recoil';
 import { adminState } from '@/state/atoms/admins';
-import Link from 'next/link';
 
 export default function LoginPage() {
 
@@ -85,8 +84,6 @@ export default function LoginPage() {
                 // required
             />
             <button type="submit">로그인</button>
-            <Link href={'/login/changePassword'} className={styles.password}>비밀번호 변경</Link>
-
             <div className={styles.error}>
                 {message}
             </div>

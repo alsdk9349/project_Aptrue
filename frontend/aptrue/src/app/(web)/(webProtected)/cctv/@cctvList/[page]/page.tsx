@@ -114,9 +114,9 @@ export default async function Page({ params }: { params: { page: string } }) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${page}/10`,
     {
       method: 'GET',
-      // headers: {
-      // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
-      // },
+      headers: {
+        Cookie: cookies().toString(),
+      },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
       cache: 'no-store',
     },

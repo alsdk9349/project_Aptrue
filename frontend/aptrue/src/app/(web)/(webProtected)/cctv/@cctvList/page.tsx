@@ -80,6 +80,7 @@
 import CCTVList from '@/components/cctv/cctvList';
 import Pagination from '@/components/common/pagination/Pagination';
 import style from './cctvList.module.scss';
+import { cookies } from 'next/headers';
 
 // [* todo] 1page 정보 가져오기
 // const response = {
@@ -124,7 +125,7 @@ export default async function Page() {
     {
       method: 'GET',
       headers: {
-        // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
+        Cookie: cookies().toString(),
       },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
       cache: 'no-store', // 캐시를 사용하지 않도록 설정 (선택 사항)

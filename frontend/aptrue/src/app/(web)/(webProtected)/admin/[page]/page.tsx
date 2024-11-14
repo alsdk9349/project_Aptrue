@@ -16,7 +16,9 @@ async function fetchAdminList({
 
     const cookieStore = cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
     console.log('getList-accessToken', accessToken)
+    console.log('getList-refreshToken', refreshToken)
 
     // api/admin/list/{page}/{limit}
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
@@ -29,10 +31,10 @@ async function fetchAdminList({
             // next: {tags: ['adminList']}
             cache: 'no-store'
         }
-    )
+    )   
 
     const result = await response.json();
-    console.log('getList-status', result.status)
+    console.log(response)
 
     if (!response.ok) {
         
@@ -50,6 +52,7 @@ export default async function Page({params}:{params: {page:string} }) {
     let admins: GetAdmin[] = [];
     let errorMessage = '';
 
+    console.log("시작?");
     try {
         admins = await fetchAdminList({pageNum : page});
     } catch (error: any) {

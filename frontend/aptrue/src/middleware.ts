@@ -15,7 +15,11 @@ export default async function middleware(request: NextRequest) {
     // return NextResponse.redirect(`${request.nextUrl.origin}/login`);
   }
 
-  return NextResponse.next(); // 인증 성공시 요청을 계속 진행
+  const res = NextResponse.next()
+  res.cookies.set('accessToken', accessToken);
+  res.cookies.set('refreshToken', refreshToken)
+
+  return res; // 인증 성공시 요청을 계속 진행
 }
 
 

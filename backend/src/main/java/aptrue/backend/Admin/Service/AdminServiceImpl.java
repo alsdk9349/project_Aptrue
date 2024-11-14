@@ -142,7 +142,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Transactional
-    public List<AdminListResponseDto> getAdminList(int page, int limit) {
+    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest,int page, int limit) {
+        int superAdminId = cookieUtil.getAdminId(httpServletRequest);
+        log.info("SuperAdmin ID: {}", superAdminId);
+        Admin superAdmin = adminRepository.findByAdminId(superAdminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
+
+        if (!superAdmin.isSuperAdmin()) {
+            throw new BusinessException(ErrorCode.NOT_SUPER_ADMIN);
+        }
 
         int start = (page-1)*limit;
         List<Admin> adminAll = adminRepository.findAll();
@@ -158,7 +166,27 @@ public class AdminServiceImpl implements AdminService {
                     .createdAt(admin.getCreatedAt())
                     .name(admin.getName())
                     .phone(admin.getPhone())
-                    .password(admin.getPassword())
+                    .build();
+            adminList.add(adminListResponseDto);
+        }
+        return adminList;
+    }
+    @Transactional
+    public List<AdminListResponseDto> getAdminListv1(int page, int limit) {
+        int start = (page-1)*limit;
+        List<Admin> adminAll = adminRepository.findAll();
+        List<AdminListResponseDto> adminList = new ArrayList<>();
+        for (int i=start;i<start+limit;i++) {
+            if (i>=adminAll.size()) {
+                break;
+            }
+            Admin admin = adminAll.get(i);
+            AdminListResponseDto adminListResponseDto = AdminListResponseDto.builder()
+                    .account(admin.getAccount())
+                    .adminID(admin.getAdminId())
+                    .createdAt(admin.getCreatedAt())
+                    .name(admin.getName())
+                    .phone(admin.getPhone())
                     .build();
             adminList.add(adminListResponseDto);
         }

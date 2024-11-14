@@ -21,8 +21,8 @@ public class ApartmentController {
     private final ApartmentService apartmentService;
 
     @GetMapping("/apart")
-    public ResponseEntity<?> getApartment(@RequestParam("aptId") int aptId) {
-        ApartmentResponseDto apartmentResponseDto = apartmentService.getApart(aptId);
+    public ResponseEntity<?> getApartment(@RequestParam("aptId") int aptId, HttpServletRequest httpServletRequest) {
+        ApartmentResponseDto apartmentResponseDto = apartmentService.getApart(aptId, httpServletRequest);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.APT_OK, apartmentResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }

@@ -21,7 +21,11 @@ public class ApartmentServiceImpl implements ApartmentService {
     private final CookieUtil cookieUtil;
     private final AdminRepository adminRepository;
 
-    public ApartmentResponseDto getApart(int aptId) {
+    public ApartmentResponseDto getApart(int aptId, HttpServletRequest httpServletRequest) {
+        int AdminId = cookieUtil.getAdminId(httpServletRequest);
+
+        adminRepository.findByAdminId(AdminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
 
         Apartment apartment = apartmentRepository.findByAptId(aptId)

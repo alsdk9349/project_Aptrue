@@ -84,6 +84,7 @@ public class SecurityConfig {
                             .requestMatchers("/api/clip/detail/**").permitAll()
                             .requestMatchers("/api/**").permitAll()
                             .requestMatchers("/jenkins/**").permitAll()
+                            .requestMatchers("/api/clip/upload/**").permitAll()
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 
@@ -94,8 +95,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOriginPatterns(Arrays.asList("https://ssafy-aptrue.co.kr/", "https://k11c101.p.ssafy.io/","http://localhost:3000/"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+//        config.setAllowedOriginPatterns(Arrays.asList("https://ssafy-aptrue.co.kr/", "https://k11c101.p.ssafy.io/","http://localhost:3000/"));
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT","OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
 

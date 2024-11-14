@@ -55,4 +55,11 @@ public class ClipRQController {
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.CLIP_LIST_OK, clipListResponseDtoList);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
+
+    @GetMapping("/clip/list")
+    public ResponseEntity<?> getClipAll() {
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQService.getClipAll();
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.CLIP_LIST_OK, clipListResponseDtoList);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
 }

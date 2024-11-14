@@ -67,12 +67,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 
                 Cookie newAccessTokenCookie = new Cookie("accessToken", newAccessToken);
-                newAccessTokenCookie.setHttpOnly(true);
+                newAccessTokenCookie.setHttpOnly(false);
                 newAccessTokenCookie.setSecure(true);
                 newAccessTokenCookie.setPath("/");
-                newAccessTokenCookie.setMaxAge(60 * 60); // 1시간
+                newAccessTokenCookie.setMaxAge(14 * 24 * 60 * 60);
 
                 response.addCookie(newAccessTokenCookie);
+                response.addHeader("Set-Cookie", String.format("%s=%s; Max-Age=%d; Path=%s; Secure; HttpOnly; SameSite=None",
+                        newAccessTokenCookie.getName(),
+                        newAccessTokenCookie.getValue(),
+                        newAccessTokenCookie.getMaxAge(),
+                        newAccessTokenCookie.getPath()));
             }
         }
         filterChain.doFilter(request, response); // 다음 필터로 넘기기

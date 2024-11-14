@@ -9,15 +9,25 @@ import aptrue.backend.Clip.Repository.ClipRQRepository;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Global.Util.CookieUtil;
+import aptrue.backend.Sse.Controller.SseController;
+import aptrue.backend.Sse.Repository.SseRepository;
+import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
+import aptrue.backend.Sse.Service.SseService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -27,6 +37,8 @@ public class ClipRQServiceImpl implements ClipRQService {
     private final ClipRQRepository clipRQRepository;
     private final CookieUtil cookieUtil;
     private final AdminRepository adminRepository;
+    private final SseRepository sseRepository;
+    private final SseService sseService;
 
     @Transactional
     public ClipRQResponseDto newClipRQ(ClipRQRequestDto clipRQRequestDto, HttpServletRequest httpServletRequest) {
@@ -59,7 +71,7 @@ public class ClipRQServiceImpl implements ClipRQService {
 
         ClipRQ optionalClipRQ = clipRQRepository.findByPhone(clipRQRequestDto.getPhone())
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
-
+        log.info("laksjdklasjdaskljdklasjdaskldjalksdj");
         ClipRQResponseDto clipRQResponseDto = ClipRQResponseDto.builder()
                 .clipRQId(optionalClipRQ.getClipRQId())
                 .sections(optionalClipRQ.getSections())
@@ -73,15 +85,21 @@ public class ClipRQServiceImpl implements ClipRQService {
                 .endDate(optionalClipRQ.getEndDate())
                 .build();
 
+        SseResponseDto responseDto = SseResponseDto.builder()
+                        .clipId(optionalClipRQ.getClipRQId())
+                                .message("CCTV 요청 처리 완료")
+                                        .name(optionalClipRQ.getName())
+                                                .build();
+
+        log.info("sdjfhsakjlfhaslkjdhfaksjldfhaskjldhf");
+        sseService.sendEvent("CCTV 요청처리 완료", responseDto);
+        log.info("waeilukhrfeajklghjklfdshglkjsdfhgkjldfshg");
+
         return clipRQResponseDto;
     }
 
     @Transactional
     public ClipDetailResponseDto getDetail(int clip_id) {
-        int adminId = cookieUtil.getAdminId(httpServletRequest);
-
-        Admin admin = adminRepository.findByAdminId(adminId)
-                .orElseThrow(()->new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         ClipRQ optionalClipRQ = clipRQRepository.findById(clip_id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
@@ -98,6 +116,7 @@ public class ClipRQServiceImpl implements ClipRQService {
                 .photoStatus(optionalClipRQ.isPhotoStatus())
                 .password(optionalClipRQ.getPassword())
                 .clipList(optionalClipRQ.getClipList())
+                .status(optionalClipRQ.getStatus())
                 .build();
 
         return clipDetailResponseDto;
@@ -126,10 +145,6 @@ public class ClipRQServiceImpl implements ClipRQService {
 
     @Transactional
     public ClipOnlyResponseDto getVideosOnly(int clip_id) {
-        int adminId = cookieUtil.getAdminId(httpServletRequest);
-
-        Admin admin = adminRepository.findByAdminId(adminId)
-                .orElseThrow(()->new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         ClipRQ optionalClipRQ = clipRQRepository.findById(clip_id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
@@ -143,31 +158,34 @@ public class ClipRQServiceImpl implements ClipRQService {
 
     @Transactional
     public List<ClipListResponseDto> getClipList(int page, int limit) {
-        int adminId = cookieUtil.getAdminId(httpServletRequest);
 
-        Admin admin = adminRepository.findByAdminId(adminId)
-                .orElseThrow(()->new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.ASC, "clipRQId"));
+        Page<ClipRQ> clipRQS = clipRQRepository.findAll(pageable);
+
+
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQS.stream().map(clipRQ -> ClipListResponseDto.builder()
+                .clipRQId(clipRQ.getClipRQId())
+                .status(clipRQ.getStatus())
+                .address(clipRQ.getAddress())
+                .name(clipRQ.getName())
+                .createdAt(clipRQ.getCreatedAt())
+                .build()).collect(Collectors.toList());
+
+        return clipListResponseDtoList;
+    }
+
+    @Transactional
+    public List<ClipListResponseDto> getClipAll() {
 
         List<ClipRQ> clipRQS = clipRQRepository.findAll();
 
-        List<ClipListResponseDto> clipListResponseDtoList = new ArrayList<>();
-        int start = (page-1)*limit;
-        for (int i=start;i<start+limit;i++) {
-            if (i>=clipRQS.size()) {
-                break;
-            }
-            ClipRQ clipRQ = clipRQS.get(i);
-            if (clipRQ.getAdmin().getApartment()==admin.getApartment()) {
-                ClipListResponseDto clipListResponseDto = ClipListResponseDto.builder()
-                        .clipRQId(clipRQ.getClipRQId())
-                        .status(clipRQ.getStatus())
-                        .address(clipRQ.getAddress())
-                        .name(clipRQ.getName())
-                        .createdAt(clipRQ.getCreatedAt())
-                        .build();
-                clipListResponseDtoList.add(clipListResponseDto);
-            }
-        }
+        List<ClipListResponseDto> clipListResponseDtoList = clipRQS.stream().map(clipRQ -> ClipListResponseDto.builder()
+                .clipRQId(clipRQ.getClipRQId())
+                .status(clipRQ.getStatus())
+                .address(clipRQ.getAddress())
+                .name(clipRQ.getName())
+                .createdAt(clipRQ.getCreatedAt())
+                .build()).collect(Collectors.toList());
 
         return clipListResponseDtoList;
     }

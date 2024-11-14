@@ -50,8 +50,15 @@ public class AdminController {
     }
 
     @GetMapping("/admin/list/{page}/{limit}")
-    public ResponseEntity<?> adminList(@PathVariable int page, @PathVariable int limit) {
-        List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminList(page, limit);
+    public ResponseEntity<?> adminList(HttpServletRequest httpServletRequest, @PathVariable int page, @PathVariable int limit) {
+        List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminList(httpServletRequest,page, limit);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_ADMIN_LIST, adminListResponseDtos);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
+
+    @GetMapping("/admin/list/{page}/{limit}/v1")
+    public ResponseEntity<?> adminListv1(@PathVariable int page, @PathVariable int limit) {
+        List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminListv1(page, limit);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_ADMIN_LIST, adminListResponseDtos);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }

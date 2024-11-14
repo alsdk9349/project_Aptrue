@@ -36,4 +36,6 @@ public class ClipDetailResponseDto {
 
     private List<String> clipList;
 
+    private String status;
+
 }

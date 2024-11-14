@@ -12,4 +12,5 @@ public interface ClipRQService {
     CompleteResponseDto completeRQ(int clip_id, HttpServletRequest httpServletRequest);
     ClipOnlyResponseDto getVideosOnly(int clip_id);
     List<ClipListResponseDto> getClipList(int page, int limit);
+    List<ClipListResponseDto> getClipAll();
 }

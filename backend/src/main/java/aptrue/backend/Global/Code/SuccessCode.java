@@ -27,7 +27,11 @@ public enum SuccessCode {
     VIDEOS_OK(HttpStatus.OK, "C009", "영상 조회를 완료했습니다."),
 
     // APT
-    APT_OK(HttpStatus.OK, "B006", "아파트 정보 조회가 완료되었습니다.");
+    APT_OK(HttpStatus.OK, "B006", "아파트 정보 조회가 완료되었습니다."),
+
+    // PW
+    PW_OK(HttpStatus.OK, "P001", "비밀번호가 확인되었습니다."),
+    PW_CHANGE_OK(HttpStatus.OK, "P002", "비밀번호가 변경되었습니다.");
 
     private final HttpStatus status;
     private final String code;

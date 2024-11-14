@@ -2,6 +2,7 @@ import { ReactNode, Suspense } from "react";
 import TableColumn from "@/components/admin/TableColumn";
 import TableInput from "@/components/admin/TableInput";
 import styles from './layout.module.scss';
+import PenTrue from '@/components/common/loadingSpinner/penTrue';
 
 // 맨 밖의 레이아웃으로 Suspense안에는 나중에 클라이언트와 상호작용하는 tableinput만 넣어주기
 
@@ -18,7 +19,7 @@ export default function Layout({
                     계정 생성 테이블
                 </div>
                 <TableColumn />
-                <Suspense>
+                <Suspense fallback={<PenTrue />}>
                     <TableInput />
                 </Suspense>
                 {children}

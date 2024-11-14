@@ -1,6 +1,7 @@
 @use '@/styles/constants/colors.scss' as colors;
 
 .layout {
+    z-index: 999;
     margin-left: 210px;
     // margin-top: 50px;
     height: 100vh;

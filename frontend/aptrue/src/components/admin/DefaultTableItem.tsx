@@ -13,8 +13,8 @@ export default function DefaultTableItem({id}:{id:number}) {
             <div className={styles.password}></div>
             <div className={styles.phoneNumber}></div>
             <div className={styles.date}></div>
-            <div className={styles.blank}>
-            </div>
+            <div className={styles.blank}></div>
+            <div className={styles.blank}></div>
         </div>
     )
 }

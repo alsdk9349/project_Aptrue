@@ -303,7 +303,6 @@
 //   );
 // }
 
-
 'use client';
 import style from './cctvForm.module.scss';
 import GeneralInput from '../common/input/GeneralInput';
@@ -311,6 +310,7 @@ import { useEffect, useState } from 'react';
 import TimeInput from '../common/input/TimeInput';
 import Button from '../common/button/Button';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 const cctvZone = [
   '101동 주변',
@@ -335,10 +335,11 @@ export default function CCTVForm() {
   const [showDate, setShowDate] = useState<string>('');
   const [sections, setSections] = useState<string[]>(['101동 주변']);
   // 유효성검사 우선 풀기
-  const [activeSubmit, setActiveSubmit] = useState<boolean>(true); 
+  const [activeSubmit, setActiveSubmit] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
 
   const accessToken = Cookies.get('accessToken');
+  const router = useRouter();
 
   // 유효성 검증 함수
   const isFormValid = () => {
@@ -397,6 +398,8 @@ export default function CCTVForm() {
     setStartDate('');
     setEndDate('');
     setShowDate('');
+    setMessage('');
+    setSections(['101동 주변']);
     setActiveSubmit(false);
   };
 
@@ -442,6 +445,8 @@ export default function CCTVForm() {
       console.log('Form submitted successfully:', result);
       setMessage('제출이 완료되었습니다!');
       reset(); // 제출 후 폼 리셋
+      router.push('/cctv');
+      router.refresh();
     } catch (error) {
       console.error('Error submitting form:', error);
       setMessage('제출에 실패했습니다. 다시 시도해 주세요.');

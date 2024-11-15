@@ -199,6 +199,8 @@ import CCTVVideoLink from './cctvVideoLink';
 import { useEffect, useState } from 'react';
 import { cctvDetailApi, requestDoneAPI } from '@/api/cctvAPI';
 import Cookies from 'js-cookie';
+import PenTrue from '../common/loadingSpinner/penTrue';
+import CCTVOrigin from './cctvOriginal';
 
 // const response = {
 //   status: 200,
@@ -231,10 +233,6 @@ function formatDate(dateString: string) {
   const minutes = twoDigitFormat(date.getMinutes());
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
-
-function FormLoading() {
-  return <div className={style['cctv-form-container']}>Loading...</div>;
 }
 
 export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
@@ -271,9 +269,9 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
     cctvDetailApi(setDetailInfo, clipRQId);
   }, []);
 
-  useEffect(() => {
-    console.log('[*] detailInfo', detailInfo);
-  }, [detailInfo]);
+  // useEffect(() => {
+  //   console.log('[*] detailInfo', detailInfo);
+  // }, [detailInfo]);
 
   const handleDone = () => {
     // [* todo] 완료 처리 api 연결
@@ -282,12 +280,17 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   };
   const handleClose = () => {
     router.push('/cctv/form');
+    router.refresh();
   };
 
   return (
     <>
-      {!detailInfo && <FormLoading />}
-
+      {!detailInfo && (
+        <div className={style['cctv-form-container']}>
+          <PenTrue />
+        </div>
+      )}
+      {/* <PenTrue /> */}
       {detailInfo && (
         <div className={style['cctv-form-container']}>
           <div className={style.header}>CCTV 열람 요청</div>
@@ -356,8 +359,12 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
             {!detailInfo.photoStatus && (
               <CCTVUploadLink detailInfo={detailInfo} />
             )}
+            {/* <CCTVOrigin detailInfo={detailInfo} /> */}
             {detailInfo.clipList.length > 0 && (
-              <CCTVVideoLink detailInfo={detailInfo} />
+              <>
+                <CCTVOrigin detailInfo={detailInfo} />
+                <CCTVVideoLink detailInfo={detailInfo} />
+              </>
             )}
           </div>
           <div className={style.buttons}>

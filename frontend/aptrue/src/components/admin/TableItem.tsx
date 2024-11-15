@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import {format} from 'date-fns';
 import { ko } from 'date-fns/locale';
 import DeleteButton from './DeleteButton';
+import ChangePasswordButton from './ChangePasswordButton';
 
 export default function TableItem({
     index,
@@ -13,6 +14,7 @@ export default function TableItem({
     phone,
     createdAt
 } : {index:number} & GetAdmin) {
+
 
     return (
         <div className={ classNames(
@@ -26,6 +28,9 @@ export default function TableItem({
             <div className={styles.date}>{format(createdAt, 'yyyy-MM-dd', {locale: ko})}</div>
             <div className={styles.blank}>
                 <DeleteButton adminId={adminID}/>
+            </div>
+            <div className={styles.blank}>
+                <ChangePasswordButton account={account} />
             </div>
         </div>
     )

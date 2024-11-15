@@ -17,15 +17,16 @@ export default function ChangePasswordForm({
     onClose:()=>void
 }) {
 
-    const [password, setPassword] = useState('');
-    const [repassword, setRepassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [remessage, setRemessage]=useState('');
+    const [password, setPassword] = useState<string>('');
+    const [repassword, setRepassword] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
+    const [remessage, setRemessage]=useState<string>('');
     const router = useRouter();
 
     const accessToken = Cookies.get('accessToken');
 
-    const [resultMessage, setResultMessage] = useState('');
+    const [resultMessage, setResultMessage] = useState<string>('');
+    const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
 
     const changePassword = (event:ChangeEvent<HTMLInputElement>) => {
 
@@ -83,7 +84,7 @@ export default function ChangePasswordForm({
 
             console.log('비밀번호 변경 성공')
             router.refresh();
-            setMessage(result.message)
+            setResultMessage(result.message)
             onClose();
 
         } else {
@@ -91,6 +92,10 @@ export default function ChangePasswordForm({
             console.log('비밀번호 변경 실패', result.message)
         }
     };
+
+    const handleErrorModal = () => {
+        setOpenErrorModal(!openErrorModal)
+    }
 
     return ReactDOM.createPortal(
         <div className={styles.layout}>
@@ -130,7 +135,7 @@ export default function ChangePasswordForm({
                     <button type="button" className={styles.closeButton} onClick={onClose}>닫기</button>
                     <button type="submit" className={styles.changeButton}>저장</button>
                 </div>
-                {/* {message && <ErrorModal message={resultMessage}/>} */}
+                {message && openErrorModal && <ErrorModal message={resultMessage} onClose={handleErrorModal} isOpen={!!message} />}
             </form>
         </div>,
         document.body

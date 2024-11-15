@@ -7,6 +7,7 @@
     color: colors.$gray7;
     border-bottom: solid 1px colors.$gray5;
     z-index: 0;
+    min-height: 45px; // 최소 높이 설정
 }
 
 .isTableItem {
@@ -22,7 +23,8 @@
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
-    z-index: 0;
+    z-index: 5;
+    min-height: 45px; // 최소 높이 설정
 }
 
 .container {
@@ -31,10 +33,9 @@
     justify-content: center;
     align-items: center;
     width: fit-content;
-    z-index: 0;
-    height: 45px;
-    // position: relative;
+    height: 45px; // 높이를 고정
     position: static;
+    overflow: hidden; // 내부 요소가 높이를 넘어서지 않도록 설정
 
     input {
         width: 137px;
@@ -42,7 +43,6 @@
         border-radius: 5px;
         border: 0;
         background-color: colors.$white;
-        display: flex;
         text-align: center;
         font-size: 12px;
         font-family: 'regular';
@@ -59,16 +59,16 @@
             border-color: colors.$gray5;
         }
     }
-    
+
     .password, .phoneNumber {
         position: relative;
-        // z-index: 1;
+        z-index: 6;
     }
 
     .validation {
         background-color: colors.$white;
         border-radius: 5px;
-        position:absolute;
+        position: absolute;
         top: 35px;
         z-index: 10;
         box-sizing: border-box;
@@ -77,14 +77,16 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        color:colors.$red;
+        color: colors.$red;
         border: solid 0;
         font-family: 'regular';
         font-size: 10px;
         max-width: 150px;
-        word-wrap: break-word; // Enable text wrapping within the box
+        word-wrap: break-word;
         white-space: normal;
+        pointer-events: none; // `.validation`이 레이아웃에 영향 주지 않도록 설정
     }
+
 
     .buttonContainer {
         button {
@@ -121,49 +123,23 @@
         z-index: 0;
     }
 
-    .no {
-        width: 52px;
-        height: 100%;
-    }
+    // 기본 너비 설정
+    .no { width: 52px; height: 100%; }
+    .name { width: 150px; height: 100%; }
+    .id { width: 170px; height: 100%; }
+    .password { width: 185px; height: 100%; }
+    .phoneNumber { width: 190px; height: 100%; }
+    .date { width: 170px; height: 100%; }
+    .blank { width: 90px; height: 100%; }
 
-    .name {
-        width: 150px;
-        height: 100%;
+    // 화면 크기가 768px 이하로 줄어들 때 반응형 설정
+    @media (max-width: 768px) {
+        .no { width: 45px; }
+        .name { width: 120px; }
+        .id { width: 140px; }
+        .password { width: 150px; }
+        .phoneNumber { width: 160px; }
+        .date { width: 140px; }
+        .blank { width: 70px; }
     }
-
-    .id {
-        width: 170px;
-        height: 100%;
-    }
-
-    .password {
-        width: 185px;
-        height: 100%;
-    }
-
-    .phoneNumber {
-        width: 190px;
-        height: 100%;
-    }
-
-    .date {
-        width: 170px;
-        height: 100%;
-        .validation {
-        display: flex;
-        align-items: center;
-        color:colors.$red;
-        border: solid 0;
-        background-color: transparent;
-    }
-    }
-
-    .blank {
-        width: 90px;
-        height: 100%;
-    }
-
 }
-
-
-

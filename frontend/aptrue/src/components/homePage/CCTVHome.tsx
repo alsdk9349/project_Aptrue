@@ -75,6 +75,7 @@ export default function CCTVHome() {
 
   // 객체 탐지 함수
   const startDetection = (videoElement: HTMLVideoElement) => {
+    console.log('객체 탐지 시작', model);
     if (!model) return;
 
     const detect = async () => {
@@ -110,6 +111,9 @@ export default function CCTVHome() {
   };
 
   useEffect(() => {
+    console.log(model);
+    console.log(addedVideoElement);
+    console.log(streamReady);
     if (model && addedVideoElement && streamReady) {
       const detectionInterval = setInterval(() => {
         startDetection(addedVideoElement);

@@ -12,7 +12,7 @@ export default async function middleware(request: NextRequest) {
 
   // 토큰이 없고, 로그인 페이지 또는 정적 파일, /resident/:path가 아닌 경우에만 리다이렉트
   if (!accessToken && !isLoginPath && !isPublicFile && !isResidentPath) {
-    // return NextResponse.redirect(`${request.nextUrl.origin}/login`);
+    return NextResponse.redirect(`${request.nextUrl.origin}/login`);
   }
 
   const res = NextResponse.next()

@@ -17,6 +17,7 @@
     font-size: 12px;
     color: colors.$gray6;
     z-index: 0;
+    min-height: 45px; // 최소 높이 설정
 }
 
 .isTableInput {

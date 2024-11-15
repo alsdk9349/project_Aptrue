@@ -22,7 +22,7 @@ export default function Layout({
                 <TableColumn />
                 <Suspense fallback={<PenTrue />}>
                     <TableInput />
-                    {/* <TableItem 
+                    <TableItem 
                     index={0}
                     adminID={0}
                     name="아"
@@ -30,7 +30,7 @@ export default function Layout({
                     password="아"
                     phone="010-9999-9999"
                     createdAt="2024-11-08T04:35:07.202652"
-                    /> */}
+                    />
                 </Suspense>
                 {children}
             </div>

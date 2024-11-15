@@ -10,4 +10,7 @@ public class CheckPasswordRequestDto {
 
     @NotNull
     private String password;
+
+    @NotNull
+    private int clipRQId;
 }

@@ -5,6 +5,7 @@ import aptrue.backend.Admin.Service.AdminService;
 import aptrue.backend.Global.Code.SuccessCode;
 import aptrue.backend.Global.ResultResponse;
 import aptrue.backend.Password.Dto.Request.PWVerifyRequestDto;
+import aptrue.backend.Password.Dto.Response.CheckPasswordResponseDto;
 import aptrue.backend.Password.Dto.Response.PWVerifyResponseDto;
 import aptrue.backend.Password.Dto.Request.PWChangeRequestDto;
 import aptrue.backend.Password.Dto.Response.PWChangeResponseDto;
@@ -40,8 +41,8 @@ public class PasswordController {
 
     @PostMapping("/checkPassword")
     public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest) {
-        boolean check = passwordService.checkPassword(requestDto, httpServletRequest);
-        ResultResponse resultResponse = ResultResponse.of(SuccessCode.CHECK_PASSWORD, check);
+        CheckPasswordResponseDto checkPasswordResponseDto = passwordService.checkPassword(requestDto, httpServletRequest);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.CHECK_PASSWORD, checkPasswordResponseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 

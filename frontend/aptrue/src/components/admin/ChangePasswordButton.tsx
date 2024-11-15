@@ -4,7 +4,7 @@ import styles from './ChangePasswordButton.module.scss';
 import { useState, useEffect } from "react";
 import ChangePasswordForm from "./ChangePasswordForm";
 
-export default function ChangePasswordButton({account}:{account:string}) {
+export default function ChangePasswordButton({adminID, account}:{adminID:number, account:string}) {
 
     const [openChangePasswordForm, setChangePasswordForm] = useState<boolean>(false);
 
@@ -36,6 +36,7 @@ export default function ChangePasswordButton({account}:{account:string}) {
             </button>
             {openChangePasswordForm &&
                     <ChangePasswordForm 
+                    adminID={adminID}
                     account={account}
                     onClose={onClose}
                     />

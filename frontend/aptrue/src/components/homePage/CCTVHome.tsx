@@ -111,6 +111,9 @@ export default function CCTVHome() {
   };
 
   useEffect(() => {
+    console.log(model);
+    console.log(addedVideoElement);
+    console.log(streamReady);
     if (model && addedVideoElement && streamReady) {
       const detectionInterval = setInterval(() => {
         startDetection(addedVideoElement);

@@ -37,16 +37,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  // align-items: flex-start; // 세로는 시작 부분에 맞춤 (필요에 따라 조정 가능)
   z-index: 10;
 }
 
 .modalContent {
   background-color: white;
   // padding: 20px;
-  padding: 30px 70px;
+  padding: 20px 60px;
+  margin-top: 50px;
+  display: flex;
+  left: 40%;
+  // top: 40%;
+  transform: translateX(-50%);
+  // transform: translateY(-50%);
   max-width: 1005px;
   width: 90%;
-  position: absolute;
+  // height: 80%;
+  position: relative;
 }
 
 .xbutton {

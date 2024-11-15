@@ -330,7 +330,7 @@ export default function CCTVHome() {
 
   const now = new Date();
 
-  const sessionId = `aptrue${now}`;
+  const sessionId = `aptrue${now.getDate()}`;
 
   useEffect(() => {
     async function loadModel() {

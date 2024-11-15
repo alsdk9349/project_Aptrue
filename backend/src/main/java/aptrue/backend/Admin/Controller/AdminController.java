@@ -1,6 +1,5 @@
 package aptrue.backend.Admin.Controller;
 
-import aptrue.backend.Admin.Dto.RequestDto.CheckPasswordRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.LoginRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.SignupRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.SuperAdminRequestDto;
@@ -73,13 +72,6 @@ public class AdminController {
     public ResponseEntity<?> deleteAdmin(HttpServletRequest httpServletRequest, @PathVariable int admin_id) {
         adminService.deleteAdmin(httpServletRequest, admin_id);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.DELETE_ADMIN, admin_id);
-        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
-    }
-
-    @PostMapping("/checkPassword")
-    public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest) {
-        boolean check = adminService.checkPassword(requestDto, httpServletRequest);
-        ResultResponse resultResponse = ResultResponse.of(SuccessCode.CHECK_PASSWORD, check);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 

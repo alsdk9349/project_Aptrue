@@ -1,6 +1,5 @@
 package aptrue.backend.Admin.Service;
 
-import aptrue.backend.Admin.Dto.RequestDto.CheckPasswordRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.LoginRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.SignupRequestDto;
 import aptrue.backend.Admin.Dto.ResponseDto.AdminListResponseDto;
@@ -216,20 +215,4 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Transactional
-    public boolean checkPassword(CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest) {
-         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-         String requestPassword = requestDto.getPassword();
-
-         int adminId = cookieUtil.getAdminId(httpServletRequest);
-         Optional<Admin> admin = adminRepository.findByAdminId(adminId);
-
-         if (admin.isEmpty()) {
-             throw new BusinessException(ErrorCode.ADMIN_NOT_FOUND);
-         }
-
-        String logInPassword = admin.get().getPassword();
-
-         return passwordEncoder.matches(requestPassword, logInPassword);
-    }
 }

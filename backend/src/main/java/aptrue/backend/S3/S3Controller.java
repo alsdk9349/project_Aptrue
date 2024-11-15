@@ -43,14 +43,10 @@ public class S3Controller {
             String fileName = i+1+"";
             String directoryPath = "request_" + clipRQId; // clipRQ 번호로 디렉토리 경로 설정
             String fullPath = directoryPath + "/images/" + fileName;
-
-            log.info("Received file: ClipRQ={}, Name={}, Size={}", clipRQId, fileName, photos.get(i).getSize());
             images.add("https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/request/" + fullPath);
             bucketClient.uploadPhoto(photos.get(i), fullPath); // 파일을 경로 포함해서 업로드
         }
-        log.info("222222222222222222222222, {}, {}", clipRQId, photos);
         s3Service.updateImages(clipRQId, len);
-        log.info("3333333333333333333333333, {}, {}", clipRQId, photos);
         ClipRQ optionalClipRQ = clipRQRepository.findById(clipRQId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
 
@@ -77,7 +73,6 @@ public class S3Controller {
             fileName = "default.video"; // 기본 파일 이름 설정
         }
         fileName = fileName.replace("-","/");
-        log.info("Received file: Name={}, Size={}", fileName, video.getSize());
         bucketClient.uploadVideo(video, fileName); // 파일 이름 전달
         return "success";
     }

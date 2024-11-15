@@ -1,6 +1,5 @@
 package aptrue.backend.Admin.Service;
 
-import aptrue.backend.Admin.Dto.RequestDto.CheckPasswordRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.LoginRequestDto;
 import aptrue.backend.Admin.Dto.RequestDto.SignupRequestDto;
 import aptrue.backend.Admin.Dto.ResponseDto.AdminListResponseDto;
@@ -17,5 +16,4 @@ public interface AdminService {
     List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest, int page, int limit);
     List<AdminListResponseDto> getAdminListv1(int page, int limit);
     void deleteAdmin(HttpServletRequest httpServletRequest, int adminId);
-    boolean checkPassword(CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest);
 }

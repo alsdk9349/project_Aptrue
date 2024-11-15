@@ -2,14 +2,13 @@ package aptrue.backend.Clip.Service;
 
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
-import aptrue.backend.Clip.Dto.*;
 import aptrue.backend.Clip.Dto.Request.ClipRQRequestDto;
+import aptrue.backend.Clip.Dto.Response.*;
 import aptrue.backend.Clip.Entity.ClipRQ;
 import aptrue.backend.Clip.Repository.ClipRQRepository;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Global.Util.CookieUtil;
-import aptrue.backend.Sse.Controller.SseController;
 import aptrue.backend.Sse.Repository.SseRepository;
 import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import aptrue.backend.Sse.Service.SseService;
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -120,6 +118,7 @@ public class ClipRQServiceImpl implements ClipRQService {
                 .password(optionalClipRQ.getPassword())
                 .clipList(optionalClipRQ.getClipList())
                 .status(optionalClipRQ.getStatus())
+                .images(optionalClipRQ.getImages())
                 .build();
 
         return clipDetailResponseDto;

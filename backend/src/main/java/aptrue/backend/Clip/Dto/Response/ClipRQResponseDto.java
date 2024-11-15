@@ -1,4 +1,4 @@
-package aptrue.backend.Clip.Dto;
+package aptrue.backend.Clip.Dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

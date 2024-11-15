@@ -5,6 +5,10 @@ import { OpenVidu } from 'openvidu-browser';
 import style from './CCTVHome.module.scss';
 import CCTVButton from './CCTVButton';
 import CCTVScreen from './CCTV/CCTVScreen';
+import * as tmImage from '@teachablemachine/image';
+import AlertModal from './AlertModal';
+
+const moedelUrl = 'https://teachablemachine.withgoogle.com/models/MoKOK2ts6';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -33,6 +37,77 @@ export default function CCTVHome() {
   let addedVideoElement: HTMLVideoElement | null = null;
   let isSubscribed = false; // 중복 구독 방지 플래그
   const sessionId = 'aptrue';
+  const [model, setModel] = useState(null);
+  const [detectionCount, setDetectionCount] = useState<number>(0);
+  const [alertVisible, setAlertVisible] = useState<boolean>(false);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const targetDetectionCnt = 10;
+
+  useEffect(() => {
+    async function loadModel() {
+      // console.log('모델 연결');
+      try {
+        const modelURL = `${moedelUrl}/model.json`;
+        const metadataURL = `${moedelUrl}/metadata.json`;
+        const loadedModel = await tmImage.load(modelURL, metadataURL);
+        setModel(loadedModel);
+        console.log('모델 로딩 완료');
+      } catch (error) {
+        console.log('모델 로딩 오류', error);
+      }
+    }
+
+    loadModel();
+  }, []);
+
+  //캡처 함수
+  const captureImage = (videoElement: HTMLVideoElement) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      const imageDataUrl = canvas.toDataURL('image/png');
+      setCapturedImage(imageDataUrl);
+    }
+  };
+
+  // 객체 탐지 함수
+  const startDetection = (videoElement: HTMLVideoElement) => {
+    if (!model) return;
+
+    const detect = async () => {
+      const predictions = await model.predict(videoElement);
+      console.log('!!!', predictions);
+      const isTargetDetected = predictions.some(
+        (prediction) =>
+          prediction.className === 'Fire' && prediction.probability > 0.9,
+      );
+
+      if (isTargetDetected) {
+        setDetectionCount((prevCount) => prevCount + 1);
+      } else {
+        setDetectionCount(0);
+      }
+
+      if (detectionCount >= targetDetectionCnt && !alertVisible) {
+        setAlertVisible(true);
+        captureImage(videoElement);
+        console.log('알림: 객체가 반복적으로 탐지되었습니다.');
+      }
+
+      // requestAnimationFrame(detect);
+    };
+
+    // detect();
+    // 일정 주기로 탐지 함수 실행
+    const detectionInterval = setInterval(() => {
+      detect();
+    }, 1000); // 1000ms (1초) 간격으로 탐지 실행
+
+    return () => clearInterval(detectionInterval); // 컴포넌트가 언마운트될 때 인터벌 해제
+  };
 
   useEffect(() => {
     const OV = new OpenVidu();
@@ -73,6 +148,9 @@ export default function CCTVHome() {
             videoContainerRef.current.appendChild(videoElement);
             addedVideoElement = videoElement;
             setStreamReady(true);
+
+            if (model) startDetection(videoElement);
+
             console.log('MediaStream을 사용하여 비디오 요소가 추가되었습니다.');
             console.log(videoContainerRef.current);
             console.log('비디오요소', videoElement);
@@ -132,6 +210,12 @@ export default function CCTVHome() {
     setActiveZone(zone);
   };
 
+  const handleCloseAlert = () => {
+    setAlertVisible(false);
+    setDetectionCount(0); // 탐지 카운트 초기화
+    setCapturedImage(null);
+  };
+
   return (
     <div>
       <div className={style.button}>
@@ -162,6 +246,25 @@ export default function CCTVHome() {
           </div>
         ))}
       </div>
+
+      {/* <AlertModal
+        category="화재"
+        imgUrl="/images/cctv_fire.png"
+        activeZone={activeZone}
+        onClick={handleCloseAlert}
+      /> */}
+
+      {/* 알림 모달 */}
+      {alertVisible && (
+        <div className={style.alertModal}>
+          <AlertModal
+            category="화재"
+            imgUrl={capturedImage}
+            activeZone={activeZone}
+            onClick={handleCloseAlert}
+          />
+        </div>
+      )}
     </div>
   );
 }

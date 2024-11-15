@@ -69,4 +69,11 @@
   align-items: center; /* 수직 중앙 정렬 */
   position: fixed;
   bottom: 18px;
+
+  .logoutText {
+    font-family: 'medium';
+    font-size: 16px;
+    color: colors.$gray6;
+  }
 }
+

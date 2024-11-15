@@ -70,7 +70,6 @@
 //   );
 // }
 
-
 import CCTVList from '@/components/cctv/cctvList';
 import Pagination from '@/components/common/pagination/Pagination';
 import style from './cctvList.module.scss';
@@ -117,7 +116,7 @@ export default async function Default() {
     {
       method: 'GET',
       headers: {
-        // Authorization: `Bearer ${accessToken}`, // 환경 변수에서 토큰 가져오기
+        Cookie: cookies().toString(),
       },
       credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
       cache: 'no-store', // 캐시를 사용하지 않도록 설정 (선택 사항)
@@ -140,4 +139,3 @@ export default async function Default() {
     </>
   );
 }
-

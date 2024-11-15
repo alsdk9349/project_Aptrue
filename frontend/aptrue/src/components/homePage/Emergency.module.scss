@@ -1,14 +1,18 @@
 @use '@/styles/constants/colors.scss' as colors;
 
-.page {
-  background-color: colors.$gray1;
-}
-
-// .container {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
+// .page {
+//   background-color: colors.$gray1;
 // }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  // align-items: flex-start;
+
+  img {
+    max-width: 100%;
+  }
+}
 
 .title {
   font-family: 'medium';

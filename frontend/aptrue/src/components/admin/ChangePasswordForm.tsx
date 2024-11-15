@@ -5,6 +5,9 @@ import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isValidPassword } from '@/utils/formatters';
 import ErrorModal from './ErrorModal';
+import Cookies from 'js-cookie';
+import ReactDOM from 'react-dom';
+
 
 export default function ChangePasswordForm({
     account,
@@ -14,13 +17,16 @@ export default function ChangePasswordForm({
     onClose:()=>void
 }) {
 
-    const [password, setPassword] = useState('');
-    const [repassword, setRepassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [remessage, setRemessage]=useState('');
+    const [password, setPassword] = useState<string>('');
+    const [repassword, setRepassword] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
+    const [remessage, setRemessage]=useState<string>('');
     const router = useRouter();
 
-    const [resultMessage, setResultMessage] = useState('');
+    const accessToken = Cookies.get('accessToken');
+
+    const [resultMessage, setResultMessage] = useState<string>('');
+    const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
 
     const changePassword = (event:ChangeEvent<HTMLInputElement>) => {
 
@@ -62,7 +68,8 @@ export default function ChangePasswordForm({
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/change/password`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 id: account,
@@ -77,7 +84,8 @@ export default function ChangePasswordForm({
 
             console.log('비밀번호 변경 성공')
             router.refresh();
-            setMessage(result.message)
+            setResultMessage(result.message)
+            onClose();
 
         } else {
 
@@ -85,44 +93,51 @@ export default function ChangePasswordForm({
         }
     };
 
-    return (
-        <form onSubmit={submitPassword} className={styles.container}>
-            <div className={styles.title}>비밀번호 변경</div>
-            <input
-                type="text"
-                placeholder="아이디"
-                value={account}
-                readOnly
-            />
-            <input
-                type="password"
-                placeholder="새 비밀번호 입력"
-                value={password}
-                onChange={changePassword}
-                // required
-            />
-            {message && 
-            <div className={styles.error}>
-                {message}
-            </div>
-            }
-            <input
-                type="password"
-                placeholder="새 비밀번호 확인"
-                value={repassword}
-                onChange={changeRepassword}
-                // required
-            />
-            {remessage && 
-            <div className={styles.error}>
-                {remessage}
-            </div>
-            }
-            <div className={styles.buttonContainer}>
-                <button type="button" className={styles.closeButton} onClick={onClose}>닫기</button>
-                <button type="submit" className={styles.changeButton}>저장</button>
-            </div>
-            {/* {message && <ErrorModal message={resultMessage}/>} */}
-        </form>
+    const handleErrorModal = () => {
+        setOpenErrorModal(!openErrorModal)
+    }
+
+    return ReactDOM.createPortal(
+        <div className={styles.layout}>
+            <form onSubmit={submitPassword} className={styles.container}>
+                <div className={styles.title}>비밀번호 변경</div>
+                <input
+                    type="text"
+                    placeholder="아이디"
+                    value={account}
+                    readOnly
+                />
+                <input
+                    type="password"
+                    placeholder="새 비밀번호 입력"
+                    value={password}
+                    onChange={changePassword}
+                    // required
+                />
+                {message && 
+                <div className={styles.error}>
+                    {message}
+                </div>
+                }
+                <input
+                    type="password"
+                    placeholder="새 비밀번호 확인"
+                    value={repassword}
+                    onChange={changeRepassword}
+                    // required
+                />
+                {remessage && 
+                <div className={styles.error}>
+                    {remessage}
+                </div>
+                }
+                <div className={styles.buttonContainer}>
+                    <button type="button" className={styles.closeButton} onClick={onClose}>닫기</button>
+                    <button type="submit" className={styles.changeButton}>저장</button>
+                </div>
+                {message && openErrorModal && <ErrorModal message={resultMessage} onClose={handleErrorModal} isOpen={!!message} />}
+            </form>
+        </div>,
+        document.body
     )
 }

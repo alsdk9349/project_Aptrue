@@ -1,13 +1,14 @@
 import style from './video.module.scss';
 import CCTVClip from '@/components/cctv/cctvClip';
-import { cookies } from 'next/headers';
 
-export default async function Page({
-  params,
-}: {
-  params: { clipRQId: string };
-}) {
-  const { clipRQId } = await params;
+export default async function Page(
+  {
+    // params,
+  }: {
+    // params: { clipRQId: string };
+  },
+) {
+  // const { clipRQId } = await params;
   // [* todo] clipRQId로 clipList 가져오기
 
   // const clipList: ClipList = [
@@ -25,23 +26,18 @@ export default async function Page({
   //   '/videos/playground.mp4',
   // ];
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${clipRQId}`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Cookie: cookies().toString(),
-      },
-    },
-  );
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/clip/list/${clipRQId}`,
+  //   { method: 'GET', credentials: 'include' },
+  // );
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch data, status: ${response.status}`);
-  }
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch data, status: ${response.status}`);
+  // }
 
-  const result = await response.json();
-  const clipList = result.data.clipList;
+  // const result = await response.json();
+  // const clipList = result.data.clipList;
+  const clipList = []
 
   return (
     <div className={`${style.container}`}>

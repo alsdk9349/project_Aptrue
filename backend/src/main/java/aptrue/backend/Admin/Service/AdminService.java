@@ -15,6 +15,7 @@ public interface AdminService {
     LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse);
     SignupResponseDto signup(SignupRequestDto adminIn, HttpServletRequest signupRequestDto);
     List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest, int page, int limit);
+    List<AdminListResponseDto> getAdminListv1(int page, int limit);
     void deleteAdmin(HttpServletRequest httpServletRequest, int adminId);
     boolean checkPassword(CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest);
 }

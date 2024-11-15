@@ -96,7 +96,7 @@ export default function TableInput() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`, // accessToken을 Authorization 헤더에 추가
+                    // 'Authorization': `Bearer ${accessToken}`, // accessToken을 Authorization 헤더에 추가
                 },
                 body: JSON.stringify(newAdmin),
                 credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)

@@ -200,6 +200,7 @@ import { useEffect, useState } from 'react';
 import { cctvDetailApi, requestDoneAPI } from '@/api/cctvAPI';
 import Cookies from 'js-cookie';
 import PenTrue from '../common/loadingSpinner/penTrue';
+import CCTVOrigin from './cctvOriginal';
 
 // const response = {
 //   status: 200,
@@ -268,9 +269,9 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
     cctvDetailApi(setDetailInfo, clipRQId);
   }, []);
 
-  useEffect(() => {
-    console.log('[*] detailInfo', detailInfo);
-  }, [detailInfo]);
+  // useEffect(() => {
+  //   console.log('[*] detailInfo', detailInfo);
+  // }, [detailInfo]);
 
   const handleDone = () => {
     // [* todo] 완료 처리 api 연결
@@ -358,8 +359,12 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
             {!detailInfo.photoStatus && (
               <CCTVUploadLink detailInfo={detailInfo} />
             )}
+            {/* <CCTVOrigin detailInfo={detailInfo} /> */}
             {detailInfo.clipList.length > 0 && (
-              <CCTVVideoLink detailInfo={detailInfo} />
+              <>
+                <CCTVOrigin detailInfo={detailInfo} />
+                <CCTVVideoLink detailInfo={detailInfo} />
+              </>
             )}
           </div>
           <div className={style.buttons}>

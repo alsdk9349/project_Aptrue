@@ -62,6 +62,13 @@ public class AdminController {
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
+    @GetMapping("/admin/list/{page}/{limit}/v1")
+    public ResponseEntity<?> adminListv1(@PathVariable int page, @PathVariable int limit) {
+        List<AdminListResponseDto> adminListResponseDtos =adminService.getAdminListv1(page, limit);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_ADMIN_LIST, adminListResponseDtos);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
+
     @DeleteMapping("/admin/{admin_id}")
     public ResponseEntity<?> deleteAdmin(HttpServletRequest httpServletRequest, @PathVariable int admin_id) {
         adminService.deleteAdmin(httpServletRequest, admin_id);

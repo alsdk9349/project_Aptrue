@@ -4,17 +4,17 @@ import aptrue.backend.Clip.Entity.ClipRQ;
 import aptrue.backend.Clip.Repository.ClipRQRepository;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
-import aptrue.backend.Sse.Controller.SseController;
 import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import aptrue.backend.Sse.Repository.SseRepository;
 import aptrue.backend.Sse.Service.SseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -29,11 +29,12 @@ public class S3Controller {
     private final SseRepository sseRepository;
     private final SseService sseService;
 
+    @Transactional
     @PostMapping("/picture/upload")
     public String pictureUpload(
             @RequestParam("clipRQId") int clipRQId,
             @RequestParam("files") List<MultipartFile> photos) throws FileNotFoundException {
-        log.info("1111111111111111111111, {}, {}", clipRQId, photos);
+        List<String> images = new ArrayList<>();
         int len = photos.size();
         if (len > 9) {
             throw new IllegalArgumentException("You can upload a maximum of 9 photos.");
@@ -44,7 +45,7 @@ public class S3Controller {
             String fullPath = directoryPath + "/images/" + fileName;
 
             log.info("Received file: ClipRQ={}, Name={}, Size={}", clipRQId, fileName, photos.get(i).getSize());
-
+            images.add("https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/request/" + fullPath);
             bucketClient.uploadPhoto(photos.get(i), fullPath); // 파일을 경로 포함해서 업로드
         }
         log.info("222222222222222222222222, {}, {}", clipRQId, photos);
@@ -61,6 +62,10 @@ public class S3Controller {
                 .build();
 
         sseService.sendEvent("사람 사진 업로드 완료", responseDto);
+
+        optionalClipRQ.setPhotoStatus(true);
+        optionalClipRQ.setImages(images);
+        clipRQRepository.save(optionalClipRQ);
 
         return "success";
     }

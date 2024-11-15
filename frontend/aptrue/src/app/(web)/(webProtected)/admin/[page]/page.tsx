@@ -6,6 +6,7 @@ import ErrorHandler from "@/components/admin/ErrorHandler";
 import { cookies } from 'next/headers';
 import TableItem from "@/components/admin/TableItem";
 import DefaultTableItem from "@/components/admin/DefaultTableItem";
+import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 
 // params값만 받아서 활용하는 서버컴포넌트!
 async function fetchAdminList({
@@ -16,23 +17,25 @@ async function fetchAdminList({
 
     const cookieStore = cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
     console.log('getList-accessToken', accessToken)
+    console.log('getList-refreshToken', refreshToken)
 
     // api/admin/list/{page}/{limit}
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
         {
             method: 'GET',
             credentials: 'include', // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
-            // headers: {
-            //     'Authorization': `Bearer ${accessToken}`, // Authorization 헤더에 accessToken 추가
-            // },
+            headers: {
+                Cookie: cookies().toString(),
+            },
             // next: {tags: ['adminList']}
             cache: 'no-store'
         }
-    )
+    )   
 
     const result = await response.json();
-    console.log('getList-status', result.status)
+    console.log(response)
 
     if (!response.ok) {
         
@@ -50,6 +53,7 @@ export default async function Page({params}:{params: {page:string} }) {
     let admins: GetAdmin[] = [];
     let errorMessage = '';
 
+    console.log("시작?");
     try {
         admins = await fetchAdminList({pageNum : page});
     } catch (error: any) {

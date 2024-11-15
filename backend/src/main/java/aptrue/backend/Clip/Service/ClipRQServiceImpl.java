@@ -99,7 +99,10 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public ClipDetailResponseDto getDetail(int clip_id) {
+    public ClipDetailResponseDto getDetail(HttpServletRequest httpServletRequest, int clip_id) {
+        int adminId = cookieUtil.getAdminId(httpServletRequest);
+        Admin admin = adminRepository.findByAdminId(adminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         ClipRQ optionalClipRQ = clipRQRepository.findById(clip_id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
@@ -144,7 +147,10 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public ClipOnlyResponseDto getVideosOnly(int clip_id) {
+    public ClipOnlyResponseDto getVideosOnly(HttpServletRequest httpServletRequest, int clip_id) {
+        int adminId = cookieUtil.getAdminId(httpServletRequest);
+        Admin admin = adminRepository.findByAdminId(adminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         ClipRQ optionalClipRQ = clipRQRepository.findById(clip_id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.CLIP_RQ_FAIL));
@@ -157,7 +163,10 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public List<ClipListResponseDto> getClipList(int page, int limit) {
+    public List<ClipListResponseDto> getClipList(HttpServletRequest httpServletRequest, int page, int limit) {
+        int adminId = cookieUtil.getAdminId(httpServletRequest);
+        Admin admin = adminRepository.findByAdminId(adminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.ASC, "clipRQId"));
         Page<ClipRQ> clipRQS = clipRQRepository.findAll(pageable);
@@ -175,7 +184,10 @@ public class ClipRQServiceImpl implements ClipRQService {
     }
 
     @Transactional
-    public List<ClipListResponseDto> getClipAll() {
+    public List<ClipListResponseDto> getClipAll(HttpServletRequest httpServletRequest) {
+        int adminId = cookieUtil.getAdminId(httpServletRequest);
+        Admin admin = adminRepository.findByAdminId(adminId)
+                .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
         List<ClipRQ> clipRQS = clipRQRepository.findAll();
 

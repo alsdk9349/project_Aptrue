@@ -297,6 +297,9 @@ import AlertModal from './AlertModal';
 
 const moedelUrl = 'https://teachablemachine.withgoogle.com/models/MoKOK2ts6';
 
+const parkingModelUrl =
+  'https://teachablemachine.withgoogle.com/models/gQVB8y1B4';
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const cctvZone = [
@@ -312,9 +315,9 @@ const cctvZone = [
 ];
 
 const videoUrls = [
-  '/videos/entrance.mp4',
-  '/videos/park2.mp4',
-  '/videos/park.mp4',
+  'https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/videos/241115/around101/160450.mov',
+  'https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/videos/241115/around101/154038.mov',
+  'https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/videos/241115/101around/160134.mov',
 ];
 
 export default function CCTVHome() {
@@ -461,7 +464,7 @@ export default function CCTVHome() {
 
       try {
         const tokenResponse = await fetch(
-          `${baseUrl}/session/${sessionId}/connections`,
+          `${baseUrl}/session/${sessionId}/connection`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

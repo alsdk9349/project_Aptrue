@@ -12,6 +12,7 @@
 
 .isTableItem {
     background-color: colors.$white;
+    // background-color: transparent;
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
@@ -19,25 +20,27 @@
 }
 
 .isTableInput {
+    position: relative;
     background-color: colors.$gray1;
     font-family: 'regular';
     font-size: 12px;
     color: colors.$gray6;
     z-index: 5;
     min-height: 45px; // 최소 높이 설정
+
 }
 
 .container {
+    z-index: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: fit-content;
     height: 45px; // 높이를 고정
-    position: static;
     overflow: hidden; // 내부 요소가 높이를 넘어서지 않도록 설정
 
-    input {
+    .inputContainer {
         width: 137px;
         height: 20px;
         border-radius: 5px;
@@ -60,32 +63,29 @@
         }
     }
 
-    .password, .phoneNumber {
-        position: relative;
-        z-index: 6;
-    }
-
     .validation {
-        background-color: colors.$white;
+        // background-color: colors.$white;
+        background-color: transparent;
         border-radius: 5px;
         position: absolute;
-        top: 35px;
-        z-index: 10;
+        top: 26px;
+        z-index: 9999;
         box-sizing: border-box;
         padding: 7px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
+        width: 300px;
         color: colors.$red;
         border: solid 0;
         font-family: 'regular';
         font-size: 10px;
-        max-width: 150px;
-        word-wrap: break-word;
-        white-space: normal;
+        // max-width: 150px;
+        // word-wrap: break-word;
+        // white-space: normal;
         pointer-events: none; // `.validation`이 레이아웃에 영향 주지 않도록 설정
     }
+
 
 
     .buttonContainer {

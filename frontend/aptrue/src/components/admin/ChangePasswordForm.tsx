@@ -10,10 +10,12 @@ import ReactDOM from 'react-dom';
 
 
 export default function ChangePasswordForm({
+    adminID,
     account,
     onClose
 }:{
-    account:string
+    adminID:number;
+    account:string;
     onClose:()=>void
 }) {
 
@@ -72,7 +74,7 @@ export default function ChangePasswordForm({
                 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
-                id: account,
+                adminId: adminID,
                 password: password 
             }),
             credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)

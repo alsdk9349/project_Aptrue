@@ -30,7 +30,7 @@ export default function TableItem({
                 <DeleteButton adminId={adminID}/>
             </div>
             <div className={styles.blank}>
-                <ChangePasswordButton account={account} />
+                <ChangePasswordButton account={account} adminID={adminID} />
             </div>
         </div>
     )

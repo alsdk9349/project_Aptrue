@@ -17,7 +17,14 @@ export default function AlertModal({
     <div className={style.modalBackdrop} onClick={onClick}>
       <div className={style.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={style.title}>
-          <img src="/icons/fire_icon.png" alt="" />
+          <img
+            src={
+              category === '화재'
+                ? '/icons/fire_icon.png'
+                : '/icons/parkingIcon.png'
+            }
+            alt={category}
+          />
           <p>{category} 감지</p>
         </div>
         <img src={imgUrl} alt="alertImg" />

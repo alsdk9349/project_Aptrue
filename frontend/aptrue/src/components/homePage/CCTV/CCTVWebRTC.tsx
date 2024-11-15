@@ -86,7 +86,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const sessionId = 'aptrue';
+  const sessionId = `aptrue${new Date().getDate()}`;
 
   useEffect(() => {
     const OV = new OpenVidu();

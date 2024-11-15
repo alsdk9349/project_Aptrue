@@ -110,6 +110,16 @@ export default function CCTVHome() {
   };
 
   useEffect(() => {
+    if (model && addedVideoElement && streamReady) {
+      const detectionInterval = setInterval(() => {
+        startDetection(addedVideoElement);
+      }, 1000);
+
+      return () => clearInterval(detectionInterval);
+    }
+  }, [model, streamReady, addedVideoElement]);
+
+  useEffect(() => {
     const OV = new OpenVidu();
     const session = OV.initSession();
 

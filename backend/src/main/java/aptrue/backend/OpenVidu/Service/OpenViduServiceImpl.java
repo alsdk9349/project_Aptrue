@@ -37,19 +37,30 @@ public class OpenViduServiceImpl implements OpenViduService {
 
     @Override
     public String createConnection(String sessionId,Map<String, Object> params) {
+        log.info("토큰 만들어 보자ㅏㅏㅏ");
         try {
             Session session = openVidu.getActiveSession(sessionId);
             if (session == null) {
+                log.info("Session not found, creating new session with id: {}", sessionId);
                 SessionProperties properties = new SessionProperties.Builder()
                         .customSessionId(sessionId)
                         .build();
                 session = openVidu.createSession(properties);
+                log.info("Session created: {}", session.getSessionId());
             }
+            log.info("Session found or created: {}", session.getSessionId());
+
             ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
+            log.info("Connection properties created: {}", properties);
+
             Connection connection = session.createConnection(properties);
+            log.info("Connection created, token: {}", connection.getToken());
+
             return connection.getToken();
         } catch (OpenViduJavaClientException | OpenViduHttpException e) {
+            log.error("Error creating connection: {}", e.getMessage(), e);
             throw new BusinessException(ErrorCode.TOKEN_CREATION_FAILED);
         }
+
     }
 }

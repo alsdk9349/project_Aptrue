@@ -20,7 +20,6 @@ public class SseResponseDto {
     private String status;
     private LocalDateTime createdAt;
 
-    @Builder
     private SseResponseDto(long clipId, String name, String message, String status) {
         this.clipId = clipId;
         this.name = name;

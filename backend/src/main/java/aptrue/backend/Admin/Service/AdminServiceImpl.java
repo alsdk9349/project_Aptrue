@@ -1,6 +1,11 @@
 package aptrue.backend.Admin.Service;
 
-import aptrue.backend.Admin.Dto.*;
+import aptrue.backend.Admin.Dto.RequestDto.CheckPasswordRequestDto;
+import aptrue.backend.Admin.Dto.RequestDto.LoginRequestDto;
+import aptrue.backend.Admin.Dto.RequestDto.SignupRequestDto;
+import aptrue.backend.Admin.Dto.ResponseDto.AdminListResponseDto;
+import aptrue.backend.Admin.Dto.ResponseDto.LoginResponseDto;
+import aptrue.backend.Admin.Dto.ResponseDto.SignupResponseDto;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Admin.Entity.Admin;
@@ -142,7 +147,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Transactional
-    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest,int page, int limit) {
+    public List<AdminListResponseDto> getAdminList(HttpServletRequest httpServletRequest, int page, int limit) {
         int superAdminId = cookieUtil.getAdminId(httpServletRequest);
         log.info("SuperAdmin ID: {}", superAdminId);
         Admin superAdmin = adminRepository.findByAdminId(superAdminId)
@@ -189,5 +194,22 @@ public class AdminServiceImpl implements AdminService {
         } else {
             adminRepository.delete(admin.get());
         }
+    }
+
+    @Transactional
+    public boolean checkPassword(CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest) {
+         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+         String requestPassword = requestDto.getPassword();
+
+         int adminId = cookieUtil.getAdminId(httpServletRequest);
+         Optional<Admin> admin = adminRepository.findByAdminId(adminId);
+
+         if (admin.isEmpty()) {
+             throw new BusinessException(ErrorCode.ADMIN_NOT_FOUND);
+         }
+
+        String logInPassword = admin.get().getPassword();
+
+         return passwordEncoder.matches(requestPassword, logInPassword);
     }
 }

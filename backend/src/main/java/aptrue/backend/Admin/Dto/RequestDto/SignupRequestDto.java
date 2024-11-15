@@ -1,6 +1,5 @@
-package aptrue.backend.Admin.Dto;
+package aptrue.backend.Admin.Dto.RequestDto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

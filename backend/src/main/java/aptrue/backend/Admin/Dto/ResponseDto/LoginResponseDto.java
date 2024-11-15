@@ -1,4 +1,4 @@
-package aptrue.backend.Admin.Dto;
+package aptrue.backend.Admin.Dto.ResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

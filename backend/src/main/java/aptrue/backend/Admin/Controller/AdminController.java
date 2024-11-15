@@ -1,6 +1,12 @@
 package aptrue.backend.Admin.Controller;
 
-import aptrue.backend.Admin.Dto.*;
+import aptrue.backend.Admin.Dto.RequestDto.CheckPasswordRequestDto;
+import aptrue.backend.Admin.Dto.RequestDto.LoginRequestDto;
+import aptrue.backend.Admin.Dto.RequestDto.SignupRequestDto;
+import aptrue.backend.Admin.Dto.RequestDto.SuperAdminRequestDto;
+import aptrue.backend.Admin.Dto.ResponseDto.AdminListResponseDto;
+import aptrue.backend.Admin.Dto.ResponseDto.LoginResponseDto;
+import aptrue.backend.Admin.Dto.ResponseDto.SignupResponseDto;
 import aptrue.backend.Admin.Entity.Admin;
 import aptrue.backend.Admin.Repository.AdminRepository;
 import aptrue.backend.Admin.Service.AdminService;
@@ -63,6 +69,12 @@ public class AdminController {
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
+    @PostMapping("/checkPassword")
+    public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequestDto requestDto, HttpServletRequest httpServletRequest) {
+        boolean check = adminService.checkPassword(requestDto, httpServletRequest);
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.CHECK_PASSWORD, check);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
 
     @PostMapping("/superAdmin")
     @Operation(summary = "슈퍼 유저 회원가입 야호", description = "슈퍼 어드민 만드는 API")

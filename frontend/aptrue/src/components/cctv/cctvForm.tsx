@@ -335,7 +335,7 @@ export default function CCTVForm() {
   const [showDate, setShowDate] = useState<string>('');
   const [sections, setSections] = useState<string[]>(['101동 주변']);
   // 유효성검사 우선 풀기
-  const [activeSubmit, setActiveSubmit] = useState<boolean>(true);
+  const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
   const accessToken = Cookies.get('accessToken');
@@ -386,7 +386,7 @@ export default function CCTVForm() {
 
   // 입력 값이 변경될 때마다 activeSubmit 상태를 업데이트
   useEffect(() => {
-    // setActiveSubmit(isFormValid());
+    setActiveSubmit(isFormValid());
   }, [name, phone, email, address, password, startDate, endDate]);
 
   const reset = () => {

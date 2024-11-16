@@ -286,7 +286,11 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   };
 
   const handleShowPhoto = () => {
-    setShowPhtos((prev) => !prev);
+    setShowPhtos(true);
+  };
+  const handleClosePhoto = () => {
+    setShowPhtos(false);
+    console.log('닫기');
   };
 
   return (
@@ -298,99 +302,108 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
       )}
       {/* <PenTrue /> */}
       {detailInfo && (
-        <div className={style['cctv-form-container']}>
-          <div className={style.header}>CCTV 열람 요청</div>
-          <div className={style['input-container']}>
-            <div className={style.double}>
-              <GeneralInput
-                label="이름"
-                value={detailInfo.name}
-                placeholder="홍길동"
-                size="short"
-              />
-              <GeneralInput
-                label="전화번호"
-                value={detailInfo.phone}
-                placeholder="010-0000-0000"
-                size="short"
-              />
-            </div>
-            <div className={style.double}>
-              <GeneralInput
-                label="이메일"
-                value={detailInfo.email}
-                placeholder="xxxx1234@gmail.com"
-                size="short"
-              />
-              <GeneralInput
-                label="주소"
-                value={detailInfo.address}
-                placeholder="101동 101호"
-                size="short"
-              />
-            </div>
-            <div className="requestTime">
-              <GeneralInput
-                label="요청 시간"
-                size="long"
-                value={`${formatDate(detailInfo.startDate)} - ${formatDate(detailInfo.endDate)}`}
-              />
-            </div>
-            <div className={style['location-button-container']}>
-              <div className={style.label}>
-                {'요청위치'.split('').map((char, index) => (
-                  <span key={index}>{char}</span>
-                ))}
-              </div>
-              <div className={style['location-button']}>
-                {detailInfo.sections.map((section, index) => (
-                  <Button
-                    key={index}
-                    color="lightBlue" // 활성 상태에 따라 색상 변경
-                    size="webSmall"
-                  >
-                    {section}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            <div className={style.photoStatus}>
-              <div>사진 업로드 현황</div>
-              <div className={detailInfo.photoStatus ? style.green : style.red}>
-                {detailInfo.photoStatus ? (
-                  <div onClick={handleShowPhoto}>
-                    사진이 업로드 되었습니다. 확인을 원하신다면 클릭하세요.
+        <>
+          {!showPhotos ? (
+            <div className={style['cctv-form-container']}>
+              <div className={style.header}>CCTV 열람 요청</div>
+              <div className={style['input-container']}>
+                <div className={style.double}>
+                  <GeneralInput
+                    label="이름"
+                    value={detailInfo.name}
+                    placeholder="홍길동"
+                    size="short"
+                  />
+                  <GeneralInput
+                    label="전화번호"
+                    value={detailInfo.phone}
+                    placeholder="010-0000-0000"
+                    size="short"
+                  />
+                </div>
+                <div className={style.double}>
+                  <GeneralInput
+                    label="이메일"
+                    value={detailInfo.email}
+                    placeholder="xxxx1234@gmail.com"
+                    size="short"
+                  />
+                  <GeneralInput
+                    label="주소"
+                    value={detailInfo.address}
+                    placeholder="101동 101호"
+                    size="short"
+                  />
+                </div>
+                <div className="requestTime">
+                  <GeneralInput
+                    label="요청 시간"
+                    size="long"
+                    value={`${formatDate(detailInfo.startDate)} - ${formatDate(detailInfo.endDate)}`}
+                  />
+                </div>
+                <div className={style['location-button-container']}>
+                  <div className={style.label}>
+                    {'요청위치'.split('').map((char, index) => (
+                      <span key={index}>{char}</span>
+                    ))}
                   </div>
-                ) : (
-                  <div>사진이 아직 등록되지 않았습니다.</div>
+                  <div className={style['location-button']}>
+                    {detailInfo.sections.map((section, index) => (
+                      <Button
+                        key={index}
+                        color="lightBlue" // 활성 상태에 따라 색상 변경
+                        size="webSmall"
+                      >
+                        {section}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <div className={style.photoStatus}>
+                  <div>사진 업로드 현황</div>
+                  <div
+                    className={detailInfo.photoStatus ? style.green : style.red}
+                  >
+                    {detailInfo.photoStatus ? (
+                      <div onClick={handleShowPhoto}>
+                        사진이 업로드 되었습니다. 확인을 원하신다면 클릭하세요.
+                      </div>
+                    ) : (
+                      <div>사진이 아직 등록되지 않았습니다.</div>
+                    )}
+                  </div>
+                </div>
+                {!detailInfo.photoStatus && (
+                  <CCTVUploadLink detailInfo={detailInfo} />
+                )}
+                {/* <CCTVOrigin detailInfo={detailInfo} /> */}
+                {detailInfo.clipList.length > 0 && (
+                  <>
+                    <CCTVOrigin detailInfo={detailInfo} />
+                    <CCTVVideoLink detailInfo={detailInfo} />
+                  </>
+                )}
+              </div>
+              <div className={style.buttons}>
+                <Button size="webRegular" color="gray" onClick={handleClose}>
+                  닫기
+                </Button>
+                {detailInfo.status !== '민원 완료' && (
+                  <Button size="webRegular" color="blue" onClick={handleDone}>
+                    민원 처리 완료
+                  </Button>
                 )}
               </div>
             </div>
-            {!detailInfo.photoStatus && (
-              <CCTVUploadLink detailInfo={detailInfo} />
-            )}
-            {/* <CCTVOrigin detailInfo={detailInfo} /> */}
-            {detailInfo.clipList.length > 0 && (
-              <>
-                <CCTVOrigin detailInfo={detailInfo} />
-                <CCTVVideoLink detailInfo={detailInfo} />
-              </>
-            )}
-          </div>
-          <div className={style.buttons}>
-            <Button size="webRegular" color="gray" onClick={handleClose}>
-              닫기
-            </Button>
-            {detailInfo.status !== '민원 완료' && (
-              <Button size="webRegular" color="blue" onClick={handleDone}>
-                민원 처리 완료
-              </Button>
-            )}
-          </div>
-        </div>
+          ) : (
+            <CCTVPhoto
+              detailInfo={detailInfo}
+              handleClosePhoto={handleClosePhoto}
+            />
+          )}
+        </>
       )}
-
-      {showPhotos && <CCTVPhoto detailInfo={detailInfo}/>}
     </>
   );
 }

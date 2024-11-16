@@ -201,6 +201,7 @@ import { cctvDetailApi, requestDoneAPI } from '@/api/cctvAPI';
 import Cookies from 'js-cookie';
 import PenTrue from '../common/loadingSpinner/penTrue';
 import CCTVOrigin from './cctvOriginal';
+import CCTVPhoto from './cctvPhoto';
 
 // const response = {
 //   status: 200,
@@ -237,6 +238,7 @@ function formatDate(dateString: string) {
 
 export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   const [detailInfo, setDetailInfo] = useState<requestDetailInfo | null>(null);
+  const [showPhotos, setShowPhtos] = useState<boolean>(false);
 
   const router = useRouter();
   // const cookiesObj = cookies();
@@ -281,6 +283,10 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
   const handleClose = () => {
     router.push('/cctv/form');
     router.refresh();
+  };
+
+  const handleShowPhoto = () => {
+    setShowPhtos((prev) => !prev);
   };
 
   return (
@@ -351,9 +357,13 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
             <div className={style.photoStatus}>
               <div>사진 업로드 현황</div>
               <div className={detailInfo.photoStatus ? style.green : style.red}>
-                {detailInfo.photoStatus
-                  ? '사진이 업로드 되었습니다.'
-                  : '사진이 아직 등록되지 않았습니다.'}
+                {detailInfo.photoStatus ? (
+                  <div onClick={handleShowPhoto}>
+                    사진이 업로드 되었습니다. 확인을 원하신다면 클릭하세요.
+                  </div>
+                ) : (
+                  <div>사진이 아직 등록되지 않았습니다.</div>
+                )}
               </div>
             </div>
             {!detailInfo.photoStatus && (
@@ -379,6 +389,8 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
           </div>
         </div>
       )}
+
+      {showPhotos && <CCTVPhoto detailInfo={detailInfo}/>}
     </>
   );
 }

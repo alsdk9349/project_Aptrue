@@ -12,7 +12,7 @@ export default function CCTVOriginal({
 }) {
   const accessToken = Cookies.get('accessToken');
   const [password, setPassword] = useState<string>('');
-  const [showOrigin, setShowOrigin] = useState<boolean>(false);
+  const [originVideos, setoriginVideos] = useState<string[]>([]);
   const handleInputPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     // 추가적인 동작, 예: 서버 요청이나 실시간 검증
@@ -22,11 +22,15 @@ export default function CCTVOriginal({
     // 비밀번호 입력 후 return이 맞으면 받아오기
     try {
       // 비밀번호 입력 후 결과를 받아오기
-      const result = await confirmPassword(detailInfo.clipRQId,accessToken,password);
+      const result = await confirmPassword(
+        detailInfo.clipRQId,
+        accessToken,
+        password,
+      );
 
       console.log('[*] 관리자 비밀번호 확인', result);
       setPassword('');
-      setShowOrigin(result);
+      setoriginVideos(result);
     } catch (error) {
       console.error('비밀번호 확인 중 오류 발생:', error);
       // 필요하다면 에러 상태를 추가적으로 관리하거나 사용자에게 알림
@@ -34,14 +38,14 @@ export default function CCTVOriginal({
   };
 
   useEffect(() => {
-    console.log('[*] 관리자 비밀번호 확인 후 재렌더링', showOrigin);
-  }, [showOrigin]);
+    console.log('[*] 관리자 비밀번호 확인 후 재렌더링', originVideos);
+  }, [originVideos]);
 
   const label = '비밀번호 입력';
   return (
     <div className={style['cctv-video-box']}>
       <div>관리자용 영상</div>
-      {!showOrigin && (
+      {originVideos.length > 0 && (
         <div className={style.container}>
           <div className={style.label}>
             {label.split('').map((char, index) => (
@@ -61,7 +65,7 @@ export default function CCTVOriginal({
         </div>
       )}
 
-      {showOrigin && (
+      {originVideos.length < 0 && (
         <div className={style['real-blue']}>
           <a
             href={`${window.location.origin}/video/${detailInfo.clipRQId}`}

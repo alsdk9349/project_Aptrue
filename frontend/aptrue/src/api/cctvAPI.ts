@@ -185,5 +185,5 @@ export const confirmPassword = async (clipRQId, accessToken, password) => {
   const result = await response.json();
   console.log('[*] 관리자 비밀번호 확인', result.data);
 
-  return result.data as boolean;
+  return result.data.videos;
 };

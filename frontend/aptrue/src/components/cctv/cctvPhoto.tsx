@@ -5,8 +5,10 @@ import Image from 'next/image';
 
 export default function CCTVPhoto({
   detailInfo,
+  handleClosePhoto,
 }: {
   detailInfo: requestDetailInfo;
+  handleClosePhoto: () => void;
 }) {
   const images = detailInfo.images;
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -22,6 +24,9 @@ export default function CCTVPhoto({
   return (
     <div className={style.modal}>
       <div className={style.container}>
+        <div className={style.xbutton}>
+          <img src="/icons/xbutton.png" onClick={handleClosePhoto} />
+        </div>
         <div className={style.title}>업로드된 사진</div>
         <div className={style.content}>
           CCTV AI 영상 처리를 위해 {detailInfo.address}의 {detailInfo.name}님이

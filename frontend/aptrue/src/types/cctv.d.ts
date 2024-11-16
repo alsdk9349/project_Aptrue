@@ -21,5 +21,6 @@ interface requestDetailInfo {
   password: string;
   clipList: ClipList;
   status: string;
+  images:string[]
 }
 

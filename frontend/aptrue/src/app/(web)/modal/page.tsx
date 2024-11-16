@@ -1,4 +1,6 @@
+'use client';
 import CCTVPhoto from '@/components/cctv/cctvPhoto';
+import { useState } from 'react';
 
 export default function Modal() {
   const detailInfo = {
@@ -16,6 +18,14 @@ export default function Modal() {
     status: '처리 대기',
     images: ['/images/pentrue.png', '/images/cctv_ex.png'],
   };
+  const [showPhotos, setShowPhtos] = useState<boolean>(false);
 
-  return <CCTVPhoto detailInfo={detailInfo} />;
+  const handleClosePhoto = () => {
+    setShowPhtos(false);
+    console.log('닫기');
+  };
+
+  return (
+    <CCTVPhoto detailInfo={detailInfo} handleClosePhoto={handleClosePhoto} />
+  );
 }

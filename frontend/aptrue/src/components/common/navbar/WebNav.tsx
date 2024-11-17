@@ -29,6 +29,9 @@ export default function WebNav() {
       // 로그아웃 API 호출로 쿠키 제거
       const response = await fetch('/api/logout', {
           method: 'POST',
+          headers: {
+            'Content-Type':'application/json',
+          },
           credentials: 'include', // 쿠키 포함 설정
       });
 

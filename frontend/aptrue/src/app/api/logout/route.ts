@@ -14,6 +14,15 @@ export async function POST() {
     response.cookies.set('accessToken', '', {maxAge:-1})
     response.cookies.set('refreshToken', '', {maxAge:-1})
 
+    return response;
+}
+
+
+
+
+
+
+
     // const cookies = [
     //     'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=k11c101.p.ssafy.io; Secure; HttpOnly; SameSite=None;',
     //     'refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=k11c101.p.ssafy.io; Secure; HttpOnly; SameSite=None;',
@@ -22,8 +31,3 @@ export async function POST() {
     // cookies.forEach((cookie) => {
     //     response.headers.append('Set-Cookie', cookie);
     // });
-
-    return response;
-}
-
-

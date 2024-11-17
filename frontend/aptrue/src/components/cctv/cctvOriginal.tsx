@@ -45,7 +45,7 @@ export default function CCTVOriginal({
   return (
     <div className={style['cctv-video-box']}>
       <div>관리자용 영상</div>
-      {originVideos.length > 0 && (
+      {originVideos.length < 0 && (
         <div className={style.container}>
           <div className={style.label}>
             {label.split('').map((char, index) => (
@@ -65,7 +65,7 @@ export default function CCTVOriginal({
         </div>
       )}
 
-      {originVideos.length < 0 && (
+      {originVideos.length > 0 && (
         <div className={style['real-blue']}>
           <a
             href={`${window.location.origin}/video/${detailInfo.clipRQId}`}

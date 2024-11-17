@@ -11,8 +11,17 @@ export async function POST() {
         { status: 200 }
     );
 
-    response.cookies.set('accessToken', '', {maxAge:-1, path:'/'})
-    response.cookies.set('refreshToken', '', {maxAge:-1, path:'/'})
+    // response.cookies.set('accessToken', '', {maxAge:-1, path:'/'})
+    // response.cookies.set('refreshToken', '', {maxAge:-1, path:'/'})
+
+      // Set-Cookie 헤더를 사용하여 쿠키 삭제
+      response.headers.set(
+        'Set-Cookie',
+        [
+            'accessToken=; Max-Age=0; path=/; HttpOnly; Secure; SameSite=None',
+            'refreshToken=; Max-Age=0; path=/; HttpOnly; Secure; SameSite=None',
+        ].join(', ')
+    );
 
     return response;
 }

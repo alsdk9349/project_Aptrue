@@ -1,4 +1,4 @@
-package aptrue.backend.Password.Dto;
+package aptrue.backend.Clip.Dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PWVerifyResponseDto {
-    private int clipId;
+public class CompleteResponseDto {
+
+    private int clipRQId;
+    
 }

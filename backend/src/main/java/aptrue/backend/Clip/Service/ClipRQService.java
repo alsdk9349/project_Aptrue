@@ -1,7 +1,7 @@
 package aptrue.backend.Clip.Service;
 
-import aptrue.backend.Clip.Dto.*;
 import aptrue.backend.Clip.Dto.Request.ClipRQRequestDto;
+import aptrue.backend.Clip.Dto.Response.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;

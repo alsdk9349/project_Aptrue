@@ -93,18 +93,16 @@ export default function Upload() {
             </div>
           </div>
         ))}
-        {previews.length < 9 && ( // 9개 미만일 때만 업로드 버튼 표시
-          <div
-            className={previews.length === 0 ? style.upload : style.uploadSmall}
-            onClick={handleClick}
-          >
-            <img
-              src="/icons/camera.png"
-              alt="Upload"
-              className={style.uploadIcon}
-            />
-          </div>
-        )}
+        <div
+          className={previews.length === 0 ? style.upload : style.uploadSmall}
+          onClick={handleClick}
+        >
+          <img
+            src="/icons/camera.png"
+            alt="Upload"
+            className={style.uploadIcon}
+          />
+        </div>
       </div>
       <input
         type="file"

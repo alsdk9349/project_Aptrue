@@ -25,21 +25,23 @@ export default function WebNav() {
 
   const handleLogout = async () => {
     try {
-      resetAdminState(); // 로컬스토리지 비우기
-      localStorage.removeItem('recoil-persist'); // persist된 데이터 삭제
 
       // 로그아웃 API 호출로 쿠키 제거
       const response = await fetch('/api/logout', {
           method: 'POST',
-          credentials: 'include', // 쿠키 포함 설정
+          // credentials: 'include', // 쿠키 포함 설정
       });
 
       console.log('응답 상태 코드:', response.status); // 상태 코드 확인
       console.log('응답 데이터:', await response.json());
 
       if (response.ok) {
-          console.log('로그아웃 성공');
-          router.push('/login'); // 로그인 페이지로 이동
+
+        console.log('로그아웃 성공');
+        resetAdminState(); // 로컬스토리지 비우기
+        localStorage.removeItem('recoil-persist'); // persist된 데이터 삭제
+
+        router.push('/login'); // 로그인 페이지로 이동
       } else {
           console.log('로그아웃 실패');
       }

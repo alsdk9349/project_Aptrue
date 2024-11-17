@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -90,7 +91,8 @@ public class ClipRQServiceImpl implements ClipRQService {
                                                 .build();
 
         log.info("sdjfhsakjlfhaslkjdhfaksjldfhaskjldhf");
-        sseService.sendEvent("CCTV 요청처리 완료", responseDto);
+        sseRepository.save(clipRQ.getName(), new SseEmitter());
+        sseService.send(responseDto, "CCTV 요청처리 완료");
         log.info("waeilukhrfeajklghjklfdshglkjsdfhgkjldfshg");
 
         return clipRQResponseDto;

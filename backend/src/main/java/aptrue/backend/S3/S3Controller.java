@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -57,7 +58,8 @@ public class S3Controller {
                 .status(optionalClipRQ.getStatus())
                 .build();
 
-        sseService.sendEvent("사람 사진 업로드 완료", responseDto);
+        sseRepository.save(optionalClipRQ.getName(), new SseEmitter());
+        sseService.send(responseDto, "사람 사진 업로드 완료");
 
         optionalClipRQ.setPhotoStatus(true);
         optionalClipRQ.setImages(images);

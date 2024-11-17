@@ -57,6 +57,7 @@ export default function ChangePasswordForm({
     const submitPassword = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼이 제출될 때 페이지가 새로고침되는 것을 방지하기위해 사용
 
+        // 비어있다는걸 알리는 메세지가 있다면
         if (message && remessage) {
             return
         }

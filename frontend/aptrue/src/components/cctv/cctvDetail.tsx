@@ -366,7 +366,7 @@ export default function CCTVDetail({ clipRQId }: { clipRQId: string }) {
                     className={detailInfo.photoStatus ? style.green : style.red}
                   >
                     {detailInfo.photoStatus ? (
-                      <div onClick={handleShowPhoto}>
+                      <div onClick={handleShowPhoto} className={style.uploadView}>
                         사진이 업로드 되었습니다. 확인을 원하신다면 클릭하세요.
                       </div>
                     ) : (

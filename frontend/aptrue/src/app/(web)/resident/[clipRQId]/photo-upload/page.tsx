@@ -12,7 +12,7 @@ export default function Page() {
         <div className={style.title}>사진 업로드</div>
         <div className={style.description}>
           <div>CCTV 처리를 위하여 원하는 신청인의</div>
-          <div>정면 사진을 최소 5개 이상 업로드 해주시길 바랍니다.</div>
+          <div>정면 사진을 최소 6개 이상 업로드 해주시길 바랍니다.</div>
         </div>
         <Upload />
       </div>

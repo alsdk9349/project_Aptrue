@@ -66,7 +66,7 @@ export default function CCTVOriginal({
       ) : (
         <div className={style['real-blue']}>
           <a
-            href={`${window.location.origin}/video/${detailInfo.clipRQId}`}
+            href={`${window.location.origin}/video/admin`}
             target="_blank"
             rel="noopener noreferrer"
             className={style['real-blue']}

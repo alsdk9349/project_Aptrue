@@ -1,5 +1,3 @@
-"use server"
-
 import Pagination from "@/components/common/pagination/Pagination";
 import styles from './page.module.scss';
 import ErrorHandler from "@/components/admin/ErrorHandler";

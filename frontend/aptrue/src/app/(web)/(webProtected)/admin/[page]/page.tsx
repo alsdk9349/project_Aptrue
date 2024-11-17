@@ -12,10 +12,6 @@ async function fetchAdminList({
     pageNum:string;
 }) {
 
-    const cookieStore = cookies();
-    const accessToken = cookieStore.get('accessToken')?.value;
-    console.log('getList-accessToken', accessToken)
-
     // api/admin/list/{page}/{limit}
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/list/${pageNum}/10`,
         {

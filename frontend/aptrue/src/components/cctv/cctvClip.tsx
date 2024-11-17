@@ -7,6 +7,8 @@ interface CCTVClipProps {
 }
 
 export default function CCTVClip({ clipList }: CCTVClipProps) {
+  console.log('[*] clipList', clipList);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const thumbnailContainerRef = useRef<HTMLDivElement>(null);
 

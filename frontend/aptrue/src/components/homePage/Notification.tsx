@@ -78,14 +78,14 @@ export default function Notification() {
   //   };
   // }, []);
 
-  const getDetectionStateFromLocalStorage = () => {
-    const persistedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (persistedData) {
-      const parsedData = JSON.parse(persistedData);
-      return parsedData.detectionState || []; // detectionState가 없으면 빈 배열 반환
-    }
-    return []; // localStorage에 값이 없을 경우 빈 배열 반환
-  };
+  // const getDetectionStateFromLocalStorage = () => {
+  //   const persistedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+  //   if (persistedData) {
+  //     const parsedData = JSON.parse(persistedData);
+  //     return parsedData.detectionState || []; // detectionState가 없으면 빈 배열 반환
+  //   }
+  //   return []; // localStorage에 값이 없을 경우 빈 배열 반환
+  // };
 
   // useEffect(() => {
   //   // localStorage에서 detectionList 초기화
@@ -94,8 +94,8 @@ export default function Notification() {
   // }, []);
 
   useEffect(() => {
-    const detectionState = getDetectionStateFromLocalStorage();
-    const formattedAlarms = detectionState.map((item: any, index: number) => ({
+    // const detectionState = getDetectionStateFromLocalStorage();
+    const formattedAlarms = detectionList.map((item: any, index: number) => ({
       notificationId: data.length + index + 1, // ID는 기존 알람 이후로 설정
       message: `${item.activeZone} ${item.category} 발생`,
       category: item.category,

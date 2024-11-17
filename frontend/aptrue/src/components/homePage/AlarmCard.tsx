@@ -17,7 +17,7 @@ export default function AlarmCard({
   const categoryClass =
     category === '화재'
       ? style.fire
-      : category === '불법주차'
+      : category === '불법 주차'
         ? style.parking
         : category === 'cctv 요청 처리'
           ? style.request

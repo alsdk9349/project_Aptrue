@@ -1,4 +1,4 @@
-package aptrue.backend.Password.Dto;
+package aptrue.backend.Password.Dto.Request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

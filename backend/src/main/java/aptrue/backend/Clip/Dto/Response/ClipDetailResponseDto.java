@@ -1,4 +1,4 @@
-package aptrue.backend.Clip.Dto;
+package aptrue.backend.Clip.Dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,5 +37,7 @@ public class ClipDetailResponseDto {
     private List<String> clipList;
 
     private String status;
+
+    private List<String> images;
 
 }

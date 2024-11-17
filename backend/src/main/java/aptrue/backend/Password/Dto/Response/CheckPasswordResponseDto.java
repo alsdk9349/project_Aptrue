@@ -1,4 +1,4 @@
-package aptrue.backend.Clip.Dto;
+package aptrue.backend.Password.Dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClipOnlyResponseDto {
+public class CheckPasswordResponseDto {
 
-    private List<String> clipList;
+    private List<String> videos;
 
 }

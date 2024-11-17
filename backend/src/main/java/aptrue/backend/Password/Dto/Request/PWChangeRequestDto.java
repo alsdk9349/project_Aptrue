@@ -1,4 +1,4 @@
-package aptrue.backend.Admin.Dto;
+package aptrue.backend.Password.Dto.Request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class LoginRequestDto {
+public class PWChangeRequestDto {
 
     @NotNull
-    private String account;
+    private int adminId;
 
     @NotNull
     private String password;

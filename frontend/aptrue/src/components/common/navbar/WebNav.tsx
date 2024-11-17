@@ -29,7 +29,7 @@ export default function WebNav() {
       // 로그아웃 API 호출로 쿠키 제거
       const response = await fetch('/api/logout', {
           method: 'POST',
-          // credentials: 'include', // 쿠키 포함 설정
+          credentials: 'include', // 쿠키 포함 설정
       });
 
       console.log('응답 상태 코드:', response.status); // 상태 코드 확인

@@ -26,14 +26,11 @@ export default function WebNav() {
   const handleLogout = async () => {
     try {
 
-      const cookies = document.cookie; // 현재 쿠키 가져오기
-
       // 로그아웃 API 호출로 쿠키 제거
       const response = await fetch('/api/logout', {
           method: 'POST',
           headers: {
             'Content-Type':'application/json',
-            Cookie: cookies, // 쿠키를 명시적으로 추가
           },
           credentials: 'include', // 쿠키 포함 설정
       });

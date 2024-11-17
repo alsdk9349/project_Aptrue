@@ -11,8 +11,8 @@ export async function POST() {
         { status: 200 }
     );
 
-    response.cookies.set('accessToken', '', {maxAge:-1})
-    response.cookies.set('refreshToken', '', {maxAge:-1})
+    response.cookies.set('accessToken', '', {maxAge:-1, path:'/'})
+    response.cookies.set('refreshToken', '', {maxAge:-1, path:'/'})
 
     return response;
 }

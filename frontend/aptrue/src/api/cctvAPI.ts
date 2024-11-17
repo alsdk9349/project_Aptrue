@@ -1,4 +1,5 @@
-// 'use server';
+import { headers } from 'next/headers';
+
 // import { revalidateTag } from 'next/cache';
 
 // const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -161,4 +162,28 @@ export const requestDoneAPI = async (clipRQId, accessToken) => {
   const result = await response.json();
   console.log('[*] result', result);
   console.log(`[*] detail 민원처리 완료 ${clipRQId}`, result);
+};
+
+export const confirmPassword = async (clipRQId, accessToken, password) => {
+  const response = await fetch(`${url}/checkPassword`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      clipRQId,
+      password,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch data, status: ${response.status}`);
+  }
+
+  const result = await response.json();
+  console.log('[*] 관리자 비밀번호 확인', result.data);
+
+  return result.data.videos;
 };

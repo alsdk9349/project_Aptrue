@@ -22,7 +22,6 @@ export default async function middleware(request: NextRequest) {
   return res; // 인증 성공시 요청을 계속 진행
 }
 
-
 // 인증이 필요한 페이지 목록
 // const matchersForAuth = ['/', '/cctv/:page', '/admin/:page'];
 

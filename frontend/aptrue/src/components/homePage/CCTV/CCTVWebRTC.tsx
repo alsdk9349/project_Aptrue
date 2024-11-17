@@ -240,7 +240,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
       try {
         // Token 생성 요청
         const tokenResponse = await fetch(
-          `${baseUrl}/session/${sessionId}/connections`,
+          `${baseUrl}/session/${sessionId}/connection`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

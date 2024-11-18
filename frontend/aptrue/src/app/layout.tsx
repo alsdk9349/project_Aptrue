@@ -5,6 +5,9 @@ import RecoilRootProvider from '@/utils/RecoilRootProvider';
 export const metadata: Metadata = {
   title: 'APTrue',
   description: '아파트의 진실을 알고 싶다면, 아파트루(APTrue.)!',
+  icons: {
+    icon:'/images/pentrue.png'
+  }
 };
 
 export default function RootLayout({

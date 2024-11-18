@@ -280,7 +280,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
 
     return () => {
       if (sessionRef.current) {
-        sessionRef.current.disconnect();
+        // sessionRef.current.disconnect();
       }
       setPublisher(null);
     };

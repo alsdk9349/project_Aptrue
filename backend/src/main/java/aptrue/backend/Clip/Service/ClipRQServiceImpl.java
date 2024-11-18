@@ -169,7 +169,7 @@ public class ClipRQServiceImpl implements ClipRQService {
         Admin admin = adminRepository.findByAdminId(adminId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.ADMIN_NOT_FOUND));
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.ASC, "clipRQId"));
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "clipRQId"));
         Page<ClipRQ> clipRQS = clipRQRepository.findAll(pageable);
 
 

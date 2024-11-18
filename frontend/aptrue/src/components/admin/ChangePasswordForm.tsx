@@ -54,16 +54,28 @@ export default function ChangePasswordForm({
         }
     }
 
+    const isPasswordValid = !message && password.trim();
+    const isRepasswordValid = !remessage && repassword.trim();
+    const arePasswordsMatching = password.trim() === repassword.trim();
+
+    const canClick = isPasswordValid && isRepasswordValid && arePasswordsMatching;
+
+
     const submitPassword = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼이 제출될 때 페이지가 새로고침되는 것을 방지하기위해 사용
 
-        // 비어있다는걸 알리는 메세지가 있다면
-        if (message && remessage) {
+        // 혹시 모르는 상황 클릭할수없을때 들어오면 return
+        if (!canClick) {
             return
         }
         
-        if (!password.trim() && !repassword.trim()) {
+        if (!password.trim()) {
             setMessage('비밀번호를 입력해주세요')
+            return
+        }
+
+        if (!repassword.trim()) {
+            setMessage('비밀번호를 한번 더 입력해주세요')
             return
         }
 
@@ -136,7 +148,7 @@ export default function ChangePasswordForm({
                 }
                 <div className={styles.buttonContainer}>
                     <button type="button" className={styles.closeButton} onClick={onClose}>닫기</button>
-                    <button type="submit" className={styles.changeButton}>저장</button>
+                    <button type="submit" className={styles.changeButton} disabled={!canClick}>저장</button>
                 </div>
                 {message && openErrorModal && <ErrorModal message={resultMessage} onClose={handleErrorModal} isOpen={!!message} />}
             </form>

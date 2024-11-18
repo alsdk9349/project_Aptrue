@@ -679,7 +679,7 @@ export default function CCTVHome() {
   const [detectionList, setDetectionList] = useRecoilState(detectionState);
   const [sessionId, setSessionId] = useState<string>(null);
 
-  const fireTargetCount = 3;
+  const fireTargetCount = 2;
   const parkingTargetCount = 5;
   let isSubscribed = false;
   let addedVideoElement: HTMLVideoElement | null = null;

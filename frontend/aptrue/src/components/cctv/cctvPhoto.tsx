@@ -11,6 +11,8 @@ export default function CCTVPhoto({
   handleClosePhoto: () => void;
 }) {
   const images = detailInfo.images;
+  console.log('[*] 이미지 링크', detailInfo.images);
+
   const [selectedImage, setSelectedImage] = useState<string>('');
 
   const handleImageClick = (image: string) => {
@@ -33,20 +35,23 @@ export default function CCTVPhoto({
           업로드한 사진입니다.
         </div>
         <div className={style.photos}>
-          {images.map((image, index) => (
-            <div
-              key={`${image}-${index}`}
-              onClick={() => handleImageClick(image)}
-            >
-              <Image
-                className={style.image}
-                src={image}
-                width={100}
-                height={100}
-                alt="업로드된 사진"
-              />
-            </div>
-          ))}
+          {images.map((image, index) => {
+            const encodedImage = encodeURI(image); // 이 부분에서 URL을 인코딩
+            return (
+              <div
+                key={`${image}-${index}`}
+                onClick={() => handleImageClick(image)}
+              >
+                <Image
+                  className={style.image}
+                  src={encodedImage} // 여기서 인코딩된 URL 사용
+                  width={100}
+                  height={100}
+                  alt="업로드된 사진"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 

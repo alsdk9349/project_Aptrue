@@ -9,7 +9,6 @@ export default function CCTVPhoto({
   detailInfo: requestDetailInfo;
   handleClosePhoto: () => void;
 }) {
-  const images = detailInfo.images;
   console.log('[*] 이미지 링크', detailInfo.images);
 
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -34,7 +33,7 @@ export default function CCTVPhoto({
           업로드한 사진입니다.
         </div>
         <div className={style.photos}>
-          {images.map((image, index) => {
+          {detailInfo.images.map((image, index) => {
             return (
               <div
                 key={`${image}-${index}`}
@@ -54,7 +53,7 @@ export default function CCTVPhoto({
       {selectedImage && (
         <div className={style.overlay} onClick={closeModal}>
           <div className={style.largePhoto}>
-            <Image src={selectedImage} alt="확대된 사진" />
+            <img src={selectedImage} alt="확대된 사진" />
           </div>
         </div>
       )}

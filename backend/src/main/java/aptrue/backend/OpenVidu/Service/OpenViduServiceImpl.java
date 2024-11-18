@@ -67,7 +67,6 @@ public class OpenViduServiceImpl implements OpenViduService {
                                     .openviduId(sessions.getLast().getOpenviduId())
                                             .build();
 
-            openviduRepository.delete(openvidu);
             return responseDto;
 
         } else {

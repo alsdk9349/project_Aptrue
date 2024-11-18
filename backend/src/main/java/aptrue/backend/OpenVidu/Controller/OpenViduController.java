@@ -44,10 +44,10 @@ public class OpenViduController {
         }
     }
 
-    @GetMapping("get/session")
-    public ResponseEntity<?> getSession() {
-
-    }
+//    @GetMapping("get/session")
+//    public ResponseEntity<?> getSession() {
+//
+//    }
 
     @PostMapping("session/{sessionId}/connection")
     @ApiResponses(value = {

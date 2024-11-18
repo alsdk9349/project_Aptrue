@@ -85,6 +85,7 @@ public class SecurityConfig {
                             .requestMatchers("/api/**").permitAll()
                             .requestMatchers("/jenkins/**").permitAll()
                             .requestMatchers("/api/clip/upload/**").permitAll()
+                            .requestMatchers("api/get/session").permitAll()
                             .anyRequest().authenticated(); // 그 외 경로는 인증 필요
                 });
 

@@ -46,14 +46,16 @@ public class OpenViduController {
         }
     }
 
-    @GetMapping("get/session")
+    @GetMapping("/get/session")
     public ResponseEntity<?> getSession() {
+        log.info("get session 시작");
         GetSessionResponseDto responseDto = openViduService.getSession();
+        log.info("sessionId : {}", responseDto);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_SESSION_ID, responseDto);
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 
-    @PostMapping("session/{sessionId}/connection")
+    @PostMapping("/session/{sessionId}/connection")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Token 생성 성공",
                     content = @Content(mediaType = "application/json",

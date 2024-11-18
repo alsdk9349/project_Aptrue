@@ -240,6 +240,18 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
       sessionRef.current = OV.initSession();
 
       try {
+        const createSessionRes = await fetch(`${baseUrl}/session`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        if (!createSessionRes.ok) {
+          throw new Error('Session 생성 실패');
+        }
+
         // Step 1: `GET /get/session` API 호출로 sessionId 가져오기
         const sessionRes = await fetch(`${baseUrl}/get/session`, {
           method: 'GET',

@@ -323,7 +323,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
       }
       setPublisher(null);
     };
-  }, [role, setPublisher, baseUrl, sessionId]);
+  }, []);
 
   const startRecording = (stream: MediaStream, place: string) => {
     const recorder = new MediaRecorder(stream, {

@@ -37,7 +37,10 @@ export default async function Page(
 
   // const result = await response.json();
   // const clipList = result.data.clipList;
-  const clipList = []
+  const clipList = [
+    'https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/request/request_3/originalVideos/original_1.mp4',
+    'https://aptrue-s3-bucket.s3.ap-northeast-2.amazonaws.com/request/request_3/originalVideos/original_2.mp4',
+  ];
 
   return (
     <div className={`${style.container}`}>

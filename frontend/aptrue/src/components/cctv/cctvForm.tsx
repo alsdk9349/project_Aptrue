@@ -344,8 +344,9 @@ export default function CCTVForm() {
   // 유효성 검증 함수
   const isFormValid = () => {
     // 비밀번호 검증: 특수문자, 대문자, 숫자를 포함한 8자 이상
-    const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    // const passwordRegex =
+    //   /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const passwordRegex = /^\d{6}$/;
     // 이메일 검증: @ 포함
     const emailRegex = /@/;
     // 주소 검증: '숫자 + 동 + 공백 + 숫자 + 호' 형식
@@ -532,7 +533,7 @@ export default function CCTVForm() {
           <GeneralInput
             label="비밀 번호"
             value={password}
-            placeholder="대문자, 특수문자, 숫자를 포함한 8자 이상"
+            placeholder="숫자 6자리 이상"
             size="long"
             onChange={handleInputPassword}
           />

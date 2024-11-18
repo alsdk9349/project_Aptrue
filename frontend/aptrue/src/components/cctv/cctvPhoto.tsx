@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import style from './cctvPhto.module.scss';
-import Image from 'next/image';
 
 export default function CCTVPhoto({
   detailInfo,
@@ -10,7 +9,6 @@ export default function CCTVPhoto({
   detailInfo: requestDetailInfo;
   handleClosePhoto: () => void;
 }) {
-  const images = detailInfo.images;
   console.log('[*] 이미지 링크', detailInfo.images);
 
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -35,18 +33,15 @@ export default function CCTVPhoto({
           업로드한 사진입니다.
         </div>
         <div className={style.photos}>
-          {images.map((image, index) => {
-            const encodedImage = encodeURI(image); // 이 부분에서 URL을 인코딩
+          {detailInfo.images.map((image, index) => {
             return (
               <div
                 key={`${image}-${index}`}
                 onClick={() => handleImageClick(image)}
               >
-                <Image
+                <img
                   className={style.image}
-                  src={encodedImage} // 여기서 인코딩된 URL 사용
-                  width={100}
-                  height={100}
+                  src={image} // 여기서 인코딩된 URL 사용
                   alt="업로드된 사진"
                 />
               </div>
@@ -58,12 +53,7 @@ export default function CCTVPhoto({
       {selectedImage && (
         <div className={style.overlay} onClick={closeModal}>
           <div className={style.largePhoto}>
-            <Image
-              src={selectedImage}
-              width={350}
-              height={350}
-              alt="확대된 사진"
-            />
+            <img src={selectedImage} alt="확대된 사진" />
           </div>
         </div>
       )}

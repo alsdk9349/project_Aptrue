@@ -217,7 +217,7 @@
 
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { OpenVidu, Session, Publisher } from 'openvidu-browser';
 import { useRecoilState } from 'recoil';
 import { publisherState } from '@/state/atoms/webrtcAtoms';
@@ -226,21 +226,43 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
   const [newPublisher, setPublisher] = useRecoilState(publisherState);
   const sessionRef = useRef<Session | null>(null);
+  const [sessionId, setSessionId] = useState<string>(null);
 
   const now = new Date();
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const sessionId = `aptrue${now.getDate()}`;
+  // const sessionId = `aptrue${now.getDate()}`;
+  // const sessionId = 'aptrue1';
 
   useEffect(() => {
-    const OV = new OpenVidu();
-    sessionRef.current = OV.initSession();
-
     const initializeSession = async () => {
+      const OV = new OpenVidu();
+      sessionRef.current = OV.initSession();
+
       try {
-        // Token 생성 요청
+        // Step 1: `GET /get/session` API 호출로 sessionId 가져오기
+        const sessionRes = await fetch(`${baseUrl}/get/session`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (!sessionRes.ok) {
+          throw new Error('Session 가져오기 실패');
+        }
+
+        const sessionData = await sessionRes.json();
+        const Id = sessionData?.data?.sessionId;
+
+        if (!Id) {
+          throw new Error('유효한 sessionId를 가져오지 못했습니다.');
+        }
+
+        setSessionId(Id); // 상태에 저장
+        console.log('sessionId:', Id);
+
+        // Step 2: `POST /session/:sessionId/connection` API 호출로 토큰 생성
         const tokenResponse = await fetch(
-          `${baseUrl}/session/${sessionId}/connection`,
+          `${baseUrl}/session/${Id}/connection`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -248,10 +270,17 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
           },
         );
 
+        if (!tokenResponse.ok) {
+          throw new Error('Token 생성 실패');
+        }
+
         const { token } = await tokenResponse.json();
+        console.log('Token:', token);
+
+        // Step 3: OpenVidu Session 연결
         await sessionRef.current?.connect(token);
 
-        // PUBLISHER 역할일 경우
+        // Step 4: PUBLISHER 역할일 경우, 스트림을 퍼블리싱
         if (role === 'PUBLISHER') {
           const publisher = OV.initPublisher(undefined, {
             videoSource: undefined,
@@ -267,20 +296,18 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
           const mediaStream = publisher.stream?.getMediaStream();
           if (mediaStream && localVideoRef.current) {
             localVideoRef.current.srcObject = mediaStream;
-
             startRecording(mediaStream, 'around101'); // 녹화 시작
           }
         }
       } catch (error) {
-        console.error(`Error initializing ${role}:`, error);
+        console.error(`Error initializing session for role "${role}":`, error);
       }
     };
-
     initializeSession();
 
     return () => {
       if (sessionRef.current) {
-        // sessionRef.current.disconnect();
+        sessionRef.current.disconnect();
       }
       setPublisher(null);
     };

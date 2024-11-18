@@ -2,8 +2,13 @@ package aptrue.backend.OpenVidu.Service;
 
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
+import aptrue.backend.OpenVidu.Entity.Openvidu;
+import aptrue.backend.OpenVidu.Repository.OpenviduRepository;
 import io.openvidu.java.client.*;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +16,18 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@Transactional
 public class OpenViduServiceImpl implements OpenViduService {
 
-    private OpenVidu openVidu;
+    private final OpenVidu openVidu;
+    private final OpenviduRepository openviduRepository;
 
+    @Autowired  // 명시적으로 의존성 주입을 처리
     public OpenViduServiceImpl(@Value("${openvidu.url}") String openviduUrl,
-                               @Value("${openvidu.secret}") String secret) {
-
+                               @Value("${openvidu.secret}") String secret,
+                               OpenviduRepository openviduRepository) {
         this.openVidu = new OpenVidu(openviduUrl, secret);
+        this.openviduRepository = openviduRepository;
     }
 
     @Override
@@ -28,6 +37,10 @@ public class OpenViduServiceImpl implements OpenViduService {
             SessionProperties properties = SessionProperties.fromJson(params).build();
             log.info("dddddddddddddddddddddddddddd");
             Session session = openVidu.createSession(properties);
+            Openvidu openvidu = Openvidu.builder()
+                    .sessionId(session.getSessionId())
+                    .build();
+            openviduRepository.save(openvidu);
             return session.getSessionId();
         } catch (OpenViduJavaClientException | OpenViduHttpException e) {
             log.error(e.getMessage());
@@ -40,6 +53,7 @@ public class OpenViduServiceImpl implements OpenViduService {
         log.info("토큰 만들어 보자ㅏㅏㅏ");
         try {
             Session session = openVidu.getActiveSession(sessionId);
+            log.info("Session state 있냐없냐: {}", session != null ? "Active" : "Not found");
             if (session == null) {
                 log.info("Session not found, creating new session with id: {}", sessionId);
                 SessionProperties properties = new SessionProperties.Builder()
@@ -58,7 +72,7 @@ public class OpenViduServiceImpl implements OpenViduService {
 
             return connection.getToken();
         } catch (OpenViduJavaClientException | OpenViduHttpException e) {
-            log.error("Error creating connection: {}", e.getMessage(), e);
+            log.error("Error creating connection 에러에러: {}", e.getMessage(), e);
             throw new BusinessException(ErrorCode.TOKEN_CREATION_FAILED);
         }
 

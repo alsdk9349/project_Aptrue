@@ -43,6 +43,7 @@ public class OpenViduController {
         }
     }
 
+
     @PostMapping("session/{sessionId}/connection")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Token 생성 성공",

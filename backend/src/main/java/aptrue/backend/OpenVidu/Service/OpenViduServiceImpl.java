@@ -2,6 +2,7 @@ package aptrue.backend.OpenVidu.Service;
 
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
+import aptrue.backend.OpenVidu.Dto.ResponseDto.GetSessionResponseDto;
 import aptrue.backend.OpenVidu.Entity.Openvidu;
 import aptrue.backend.OpenVidu.Repository.OpenviduRepository;
 import io.openvidu.java.client.*;
@@ -53,7 +54,7 @@ public class OpenViduServiceImpl implements OpenViduService {
         }
     }
 
-    public String getSession() {
+    public GetSessionResponseDto getSession() {
         List<Openvidu> sessions = openviduRepository.findAll();
 
         if (!sessions.isEmpty()) {
@@ -61,8 +62,13 @@ public class OpenViduServiceImpl implements OpenViduService {
             Openvidu openvidu = openviduRepository.findBySessionId(sessionId)
                     .orElseThrow(() -> new BusinessException(ErrorCode.SESSION_NOT_FOUND));
 
+            GetSessionResponseDto responseDto = GetSessionResponseDto.builder()
+                            .sessionId(sessionId)
+                                    .openviduId(sessions.getLast().getOpenviduId())
+                                            .build();
+
             openviduRepository.delete(openvidu);
-            return sessionId;
+            return responseDto;
 
         } else {
             throw new BusinessException(ErrorCode.SESSION_NOT_FOUND);

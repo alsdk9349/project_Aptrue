@@ -32,7 +32,10 @@ public enum SuccessCode {
 
     // PW
     PW_OK(HttpStatus.OK, "P001", "비밀번호가 확인되었습니다."),
-    PW_CHANGE_OK(HttpStatus.OK, "P002", "비밀번호가 변경되었습니다.");
+    PW_CHANGE_OK(HttpStatus.OK, "P002", "비밀번호가 변경되었습니다."),
+
+    // OpenVidu
+    GET_SESSION_ID(HttpStatus.OK, "O001", "SessionId 조회 성공했습니다.");
 
     private final HttpStatus status;
     private final String code;

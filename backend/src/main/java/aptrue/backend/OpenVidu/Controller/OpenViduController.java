@@ -1,8 +1,10 @@
 package aptrue.backend.OpenVidu.Controller;
 
+import aptrue.backend.Global.Code.SuccessCode;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
 import aptrue.backend.Global.ResultResponse;
+import aptrue.backend.OpenVidu.Dto.ResponseDto.GetSessionResponseDto;
 import aptrue.backend.OpenVidu.Service.OpenViduService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -44,10 +46,12 @@ public class OpenViduController {
         }
     }
 
-//    @GetMapping("get/session")
-//    public ResponseEntity<?> getSession() {
-//
-//    }
+    @GetMapping("get/session")
+    public ResponseEntity<?> getSession() {
+        GetSessionResponseDto responseDto = openViduService.getSession();
+        ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_SESSION_ID, responseDto);
+        return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
+    }
 
     @PostMapping("session/{sessionId}/connection")
     @ApiResponses(value = {

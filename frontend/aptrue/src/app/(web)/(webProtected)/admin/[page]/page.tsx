@@ -43,11 +43,14 @@ export default async function Page({ params }: { params: { page: string } }) {
     errorMessage = error.message;
   }
 
+  // adminId가 1번인 데이터를 제외
+  const filteredAdmins = admins.filter((admin) => admin.adminID !== 1);
+
   // 10개씩 자르는데 10개 보다 적으면 뒤에 남은 수 배열로 붙여주기
-  const remainsNum: number = 10 - admins.length;
+  const remainsNum: number = 10 - filteredAdmins.length;
   const remains = Array.from(
     { length: remainsNum },
-    (_, i) => i + 1 + admins.length + (Number(page) - 1) * 10,
+    (_, i) => i + 1 + filteredAdmins.length + (Number(page) - 1) * 10,
   );
 
   // 관리자 목록 전체 조회 API 불러오기

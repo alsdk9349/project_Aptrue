@@ -6,6 +6,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "Openvidu")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)

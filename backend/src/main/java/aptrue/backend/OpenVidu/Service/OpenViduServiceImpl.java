@@ -8,11 +8,14 @@ import io.openvidu.java.client.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -40,11 +43,29 @@ public class OpenViduServiceImpl implements OpenViduService {
             Openvidu openvidu = Openvidu.builder()
                     .sessionId(session.getSessionId())
                     .build();
+
             openviduRepository.save(openvidu);
+
             return session.getSessionId();
         } catch (OpenViduJavaClientException | OpenViduHttpException e) {
             log.error(e.getMessage());
             throw new BusinessException(ErrorCode.SESSION_CREATION_FAILED);
+        }
+    }
+
+    public String getSession() {
+        List<Openvidu> sessions = openviduRepository.findAll();
+
+        if (!sessions.isEmpty()) {
+            String sessionId = sessions.getLast().getSessionId();
+            Openvidu openvidu = openviduRepository.findBySessionId(sessionId)
+                    .orElseThrow(() -> new BusinessException(ErrorCode.SESSION_NOT_FOUND));
+
+            openviduRepository.delete(openvidu);
+            return sessionId;
+
+        } else {
+            throw new BusinessException(ErrorCode.SESSION_NOT_FOUND);
         }
     }
 

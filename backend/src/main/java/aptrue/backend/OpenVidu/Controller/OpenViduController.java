@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -43,6 +44,10 @@ public class OpenViduController {
         }
     }
 
+    @GetMapping("get/session")
+    public ResponseEntity<?> getSession() {
+
+    }
 
     @PostMapping("session/{sessionId}/connection")
     @ApiResponses(value = {

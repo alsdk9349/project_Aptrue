@@ -52,6 +52,8 @@
   .image{
     border: 2px solid transparent;
    transition: border-color 0.3s ease; 
+   width: 100px;
+   height: 100px;
     &:hover{
       border-color: colors.$blue5;
     }
@@ -73,6 +75,11 @@
 
   .largePhoto{
     background-color: colors.$white;
+
+    img {
+      width: 350px;
+      height: 350px;
+    }
   }
 }
 
@@ -87,3 +94,4 @@
     cursor: pointer;
   }
 }
+

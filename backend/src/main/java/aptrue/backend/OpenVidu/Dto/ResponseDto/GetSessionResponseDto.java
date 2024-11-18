@@ -1,9 +1,11 @@
 package aptrue.backend.OpenVidu.Dto.ResponseDto;
 
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 @Builder
 public class GetSessionResponseDto {
-    int openviduId;
-    String sessionId;
+    private int openviduId;
+    private String sessionId;
 }

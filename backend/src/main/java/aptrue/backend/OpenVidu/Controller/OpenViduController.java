@@ -52,6 +52,7 @@ public class OpenViduController {
         GetSessionResponseDto responseDto = openViduService.getSession();
         log.info("sessionId : {}", responseDto);
         ResultResponse resultResponse = ResultResponse.of(SuccessCode.GET_SESSION_ID, responseDto);
+        log.info("왜 안돼 왜안돼 왜 안돼");
         return ResponseEntity.status(resultResponse.getStatus()).body(resultResponse);
     }
 

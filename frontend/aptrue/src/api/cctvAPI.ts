@@ -187,3 +187,24 @@ export const confirmPassword = async (clipRQId, accessToken, password) => {
 
   return result.data.videos;
 };
+
+export const aiPost = async () => {
+  const response = await fetch(`https://k11c101.p.ssafy.io/api/ai`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    console.log('[*] ai 서버 요청을 위한 post 실패');
+
+    throw new Error(`Failed to fetch data, status: ${response.status}`);
+  }
+
+  // const result = await response.json();
+  console.log('[*] ai 서버를 위한 응답 api', response);
+
+  // return result.data.videos;
+};

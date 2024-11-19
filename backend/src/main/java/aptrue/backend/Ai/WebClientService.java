@@ -35,7 +35,7 @@ public class WebClientService {
 
 
         this.webClient = builder
-                .baseUrl("http://70.12.130.111:8888")
+                .baseUrl("http://70.12.130.111:6101")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
 

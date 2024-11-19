@@ -544,7 +544,9 @@ export default function CCTVForm() {
         });
 
         if (!aiResponse.ok) {
-          throw new Error('AI 요청 실패');
+          const errorData = await aiResponse.json();
+          console.error('AI 요청 실패:', errorData);
+          throw new Error(`AI 요청 실패: ${errorData.error}`);
         }
         // 성공하면 요청 완료
         reset(); // 폼 초기화

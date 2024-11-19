@@ -138,10 +138,10 @@ export const cctvDetailApi = async (setDetailInfo, clipRQId) => {
 
   const result = await response.json();
   if (result) {
-    console.log('[*] result', result);
+    // console.log('[*] result', result);
 
     setDetailInfo(result.data);
-    console.log(`[*] detail [Page] 페이지네이션 ${clipRQId}`, result);
+    // console.log(`[*] detail [Page] 페이지네이션 ${clipRQId}`, result);
   }
 };
 
@@ -160,8 +160,8 @@ export const requestDoneAPI = async (clipRQId, accessToken) => {
   }
 
   const result = await response.json();
-  console.log('[*] result', result);
-  console.log(`[*] detail 민원처리 완료 ${clipRQId}`, result);
+  // console.log('[*] result', result);
+  // console.log(`[*] detail 민원처리 완료 ${clipRQId}`, result);
 };
 
 export const confirmPassword = async (clipRQId, accessToken, password) => {
@@ -183,7 +183,7 @@ export const confirmPassword = async (clipRQId, accessToken, password) => {
   }
 
   const result = await response.json();
-  console.log('[*] 관리자 비밀번호 확인', result.data);
+  // console.log('[*] 관리자 비밀번호 확인', result.data);
 
   return result.data.videos;
 };

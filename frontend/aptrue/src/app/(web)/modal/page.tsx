@@ -22,7 +22,7 @@ export default function Modal() {
 
   const handleClosePhoto = () => {
     setShowPhtos(false);
-    console.log('닫기');
+    // console.log('닫기');
   };
 
   return (

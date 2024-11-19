@@ -26,11 +26,11 @@ export default async (prevState : {message: string | null}, formData: FormData) 
                 }),
                 credentials: 'include'
                 })
-                console.log('로그인 성공 반환', await response.json() )
+                // console.log('로그인 성공 반환', await response.json() )
                 shouldRedirect=true;
     } catch (error) {
-        console.log('로그인 실패')
-        console.error(error)
+        // console.log('로그인 실패')
+        // console.error(error)
         return;
     }
 

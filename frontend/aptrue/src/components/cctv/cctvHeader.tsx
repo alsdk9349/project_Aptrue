@@ -14,7 +14,7 @@ export default function CCTVHeader() {
     }
   };
   const handleSearch = () => {
-    console.log('검색하기');
+    // console.log('검색하기');
   };
   const handleShowForm = () => {
     router.push(`/cctv/form`);

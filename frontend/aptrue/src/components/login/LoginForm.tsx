@@ -33,7 +33,7 @@ export default function LoginPage() {
             return
         }
 
-        console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
+        // console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
             method: 'POST',
             headers: {
@@ -52,11 +52,11 @@ export default function LoginPage() {
 
         if (result.status === 200) {
             // 로그인 성공 시 관리자 페이지로 이동
-            console.log('로그인 성공')
+            // console.log('로그인 성공')
             router.push('/');
         } else {
             // alert(result.message); // 실패 메시지 표시
-            console.log('로그인 실패', result.message)
+            // console.log('로그인 실패', result.message)
         }
     };
 

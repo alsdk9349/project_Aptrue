@@ -270,7 +270,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
         }
 
         setSessionId(Id); // 상태에 저장
-        console.log('sessionId:', Id);
+        // console.log('sessionId:', Id);
 
         // Step 2: `POST /session/:sessionId/connection` API 호출로 토큰 생성
         const tokenResponse = await fetch(
@@ -287,7 +287,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
         }
 
         const { token } = await tokenResponse.json();
-        console.log('Token:', token);
+        // console.log('Token:', token);
 
         // Step 3: OpenVidu Session 연결
         await sessionRef.current?.connect(token);
@@ -312,7 +312,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
           }
         }
       } catch (error) {
-        console.error(`Error initializing session for role "${role}":`, error);
+        // console.error(`Error initializing session for role "${role}":`, error);
       }
     };
     initializeSession();
@@ -334,7 +334,7 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
 
     recorder.ondataavailable = async (event) => {
       if (event.data.size > 0) {
-        console.log('데이터 청크 수집:', event.data.size);
+        // console.log('데이터 청크 수집:', event.data.size);
 
         // 날짜와 시간 생성
         const now = new Date();
@@ -361,18 +361,18 @@ export default function CCTVWebRTC({ role }: { role?: string }) {
           });
 
           if (response.ok) {
-            console.log('비디오 업로드 성공:', filename);
+            // console.log('비디오 업로드 성공:', filename);
           } else {
-            console.error('비디오 업로드 실패:', response.statusText);
+            // console.error('비디오 업로드 실패:', response.statusText);
           }
         } catch (error) {
-          console.error('비디오 업로드 중 에러 발생:', error);
+          // console.error('비디오 업로드 중 에러 발생:', error);
         }
       }
     };
 
     recorder.onerror = (event: ErrorEvent) => {
-      console.error('녹화 중 에러 발생:', event.error);
+      // console.error('녹화 중 에러 발생:', event.error);
     };
   };
 

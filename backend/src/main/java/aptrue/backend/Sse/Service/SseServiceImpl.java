@@ -5,6 +5,7 @@ import aptrue.backend.Sse.Dto.SseResponseDto.SseResponseDto;
 import aptrue.backend.Sse.Repository.SseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -88,6 +89,13 @@ public class SseServiceImpl implements SseService {
                 sseRepository.cacheEvent(key, responseDto);
             }
         };
+    }
+
+    @Scheduled(fixedRate = 25000)
+    public void sendDummyData() {
+        SseResponseDto responseDto = new SseResponseDto();
+        send(responseDto, "빈 데이터 전송");
+        log.info("Sending dummy data to keep connections alive");
     }
 //
 //    @Override

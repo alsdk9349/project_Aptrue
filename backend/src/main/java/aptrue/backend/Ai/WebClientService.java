@@ -32,10 +32,10 @@ public class WebClientService {
         this.objectMapper = objectMapper;
         // Reactor Netty HttpClient 설정
         HttpClient httpClient = HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000)
                 .doOnConnected(conn -> conn
-                        .addHandlerLast(new ReadTimeoutHandler(10))
-                        .addHandlerLast(new WriteTimeoutHandler(10)));
+                        .addHandlerLast(new ReadTimeoutHandler(60))
+                        .addHandlerLast(new WriteTimeoutHandler(60)));
 
         objectMapper.registerModule(new JavaTimeModule());
 

@@ -128,7 +128,7 @@ export default async function Page({ params }: { params: { page: string } }) {
 
   const result = await response.json();
 
-  console.log(`[*] detail [Page] 페이지네이션 ${page}`, result);
+  // console.log(`[*] detail [Page] 페이지네이션 ${page}`, result);
 
   return (
     <>

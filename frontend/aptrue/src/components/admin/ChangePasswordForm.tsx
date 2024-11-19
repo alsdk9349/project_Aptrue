@@ -79,7 +79,7 @@ export default function ChangePasswordForm({
             return
         }
 
-        console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
+        // console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/change/password`, {
             method: 'POST',
             headers: {
@@ -97,14 +97,14 @@ export default function ChangePasswordForm({
 
         if (result.status === 200) {
 
-            console.log('비밀번호 변경 성공')
+            // console.log('비밀번호 변경 성공')
             router.refresh();
             setResultMessage(result.message)
             onClose();
 
         } else {
 
-            console.log('비밀번호 변경 실패', result.message)
+            // console.log('비밀번호 변경 실패', result.message)
         }
     };
 

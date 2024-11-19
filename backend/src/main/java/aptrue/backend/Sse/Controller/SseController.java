@@ -34,9 +34,9 @@ public class SseController {
 //    }
 
     @GetMapping(path = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ResponseEntity<SseEmitter> connect(@AuthenticationPrincipal CustomAdminDetails customAdminDetails                                            ) {
+    public ResponseEntity<SseEmitter> connect(HttpServletRequest request) {
 
-        SseEmitter emitter = sseService.connect(customAdminDetails.getAccount());
+        SseEmitter emitter = sseService.connect(request.getSession().getId());
         return ResponseEntity.ok(emitter);
     }
 }

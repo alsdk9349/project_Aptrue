@@ -4,7 +4,6 @@ import aptrue.backend.Clip.Entity.ClipRQ;
 import aptrue.backend.Clip.Repository.ClipRQRepository;
 import aptrue.backend.Global.Error.BusinessException;
 import aptrue.backend.Global.Error.ErrorCode;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -14,7 +13,6 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +23,9 @@ public class WebClientService {
 
     private final WebClient webClient;
     private final ClipRQRepository clipRQRepository;
-    private final ObjectMapper objectMapper;
-
     @Autowired
-    public WebClientService(WebClient.Builder builder, ClipRQRepository clipRQRepository, ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public WebClientService(WebClient.Builder builder, ClipRQRepository clipRQRepository) {
+
         // Reactor Netty HttpClient 설정
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000)
@@ -37,7 +33,6 @@ public class WebClientService {
                         .addHandlerLast(new ReadTimeoutHandler(60))
                         .addHandlerLast(new WriteTimeoutHandler(60)));
 
-        objectMapper.registerModule(new JavaTimeModule());
 
         this.webClient = builder
                 .baseUrl("http://70.12.130.111:8888")

@@ -695,7 +695,7 @@ export default function CCTVHome() {
           fireMetadataURL,
         );
         setFireModel(loadedFireModel);
-        console.log('화재 모델 로딩 완료');
+        // console.log('화재 모델 로딩 완료');
 
         const parkingModelURL = `${parkingModelUrl}/model.json`;
         const parkingMetadataURL = `${parkingModelUrl}/metadata.json`;
@@ -704,9 +704,9 @@ export default function CCTVHome() {
           parkingMetadataURL,
         );
         setParkingModel(loadedParkingModel);
-        console.log('불법 주차 모델 로딩 완료');
+        // console.log('불법 주차 모델 로딩 완료');
       } catch (error) {
-        console.error('모델 로딩 오류:', error);
+        // console.error('모델 로딩 오류:', error);
       }
     }
     loadModels();
@@ -725,13 +725,13 @@ export default function CCTVHome() {
       session.on('streamCreated', (event) => {
         if (isSubscribed) return;
 
-        console.log('새 스트림이 생성되었습니다.');
+        // console.log('새 스트림이 생성되었습니다.');
         const subscriber = session.subscribe(event.stream, undefined);
         isSubscribed = true;
 
         setTimeout(() => {
           const mediaStream = subscriber.stream?.getMediaStream();
-          console.log('MediaStream:', mediaStream);
+          // console.log('MediaStream:', mediaStream);
 
           if (mediaStream && videoContainerRef.current) {
             //     if (
@@ -767,9 +767,9 @@ export default function CCTVHome() {
             videoContainerRef.current.appendChild(videoElement);
             webrtcVideoRef.current = videoElement;
             setStreamReady(true);
-            console.log('WebRTC 비디오가 추가되었습니다:', videoElement);
+            // console.log('WebRTC 비디오가 추가되었습니다:', videoElement);
           } else {
-            console.error('MediaStream을 가져오는 데 실패했습니다.');
+            // console.error('MediaStream을 가져오는 데 실패했습니다.');
           }
         }, 1000);
       });
@@ -790,7 +790,7 @@ export default function CCTVHome() {
         }
 
         const sessionData = await sessionRes.json();
-        console.log(sessionData);
+        // console.log(sessionData);
         const Id = sessionData.data.sessionId;
         setSessionId(Id);
         // const Id = await sessionData.sessionId;
@@ -806,9 +806,9 @@ export default function CCTVHome() {
 
         const { token } = await tokenResponse.json();
         await session.connect(token);
-        console.log('WebRTC 세션에 연결되었습니다.');
+        // console.log('WebRTC 세션에 연결되었습니다.');
       } catch (error) {
-        console.error('WebRTC 연결 오류:', error);
+        // console.error('WebRTC 연결 오류:', error);
       }
     };
 
@@ -822,19 +822,19 @@ export default function CCTVHome() {
       // ) {
       //   videoContainerRef.current.removeChild(addedVideoElement);
       // }
-      console.log('WebRTC 세션이 종료되었습니다.');
+      // console.log('WebRTC 세션이 종료되었습니다.');
     };
   }, []);
 
   // 감지 시작
   useEffect(() => {
-    console.log(fireModel);
-    console.log(webrtcVideoRef);
+    // console.log(fireModel);
+    // console.log(webrtcVideoRef);
     if (!fireModel || firePaused) return;
 
     const detectFire = async () => {
       const predictions = await fireModel.predict(webrtcVideoRef.current!);
-      console.log('화재감지 결과:', predictions);
+      // console.log('화재감지 결과:', predictions);
       const isDetected = predictions.some(
         (p) => p.className === 'Fire' && p.probability >= 0.9,
       );
@@ -879,7 +879,7 @@ export default function CCTVHome() {
 
       const detectParking = async () => {
         const predictions = await parkingModel.predict(videoRef);
-        console.log(`불법 주차 감지 결과 (영상 ${index + 1}):`, predictions);
+        // console.log(`불법 주차 감지 결과 (영상 ${index + 1}):`, predictions);
         const isDetected = predictions.some(
           (p) => p.className === '불법 주차' && p.probability >= 0.9,
         );
@@ -889,7 +889,7 @@ export default function CCTVHome() {
             const newCounts = [...prevCounts];
             newCounts[index] += 1;
 
-            console.log('횟수', newCounts[index]);
+            // console.log('횟수', newCounts[index]);
 
             if (newCounts[index] >= parkingTargetCount) {
               const image = captureImage(videoRef);

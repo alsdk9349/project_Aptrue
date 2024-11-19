@@ -53,7 +53,7 @@ export default function Upload() {
 
     // FormData에 추가된 파일 확인
     for (let [key, value] of formData.entries()) {
-      console.log(key, value);
+      // console.log(key, value);
     }
 
     //[todo] 입주민 이미지 업로드 api 호출 로직 작성
@@ -72,7 +72,7 @@ export default function Upload() {
       router.push(`/resident/${clipRQId}/complete`);
     }
     const data = await response.json();
-    console.log(previews);
+    // console.log(previews);
   };
 
   return (

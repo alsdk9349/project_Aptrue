@@ -28,17 +28,17 @@ export default function CCTVOriginal({
         password,
       );
 
-      console.log('[*] 관리자 비밀번호 확인', result);
+      // console.log('[*] 관리자 비밀번호 확인', result);
       setPassword('');
       setoriginVideos(result);
     } catch (error) {
-      console.error('비밀번호 확인 중 오류 발생:', error);
+      // console.error('비밀번호 확인 중 오류 발생:', error);
       // 필요하다면 에러 상태를 추가적으로 관리하거나 사용자에게 알림
     }
   };
 
   useEffect(() => {
-    console.log('[*] 관리자 비밀번호 확인 후 재렌더링', originVideos);
+    // console.log('[*] 관리자 비밀번호 확인 후 재렌더링', originVideos);
   }, [originVideos]);
 
   const label = '비밀번호 입력';

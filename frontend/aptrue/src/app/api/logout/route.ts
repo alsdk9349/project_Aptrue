@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST() {
 
-    console.log('로그아웃 route.ts 도착')
+    // console.log('로그아웃 route.ts 도착')
 
     const response = NextResponse.json(
         { message: '로그아웃 성공' },

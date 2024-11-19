@@ -22,10 +22,10 @@ async function fetchAdminList({ pageNum }: { pageNum: string }) {
   );
 
   const result = await response.json();
-  console.log('getList-status', result.status);
+  // console.log('getList-status', result.status);
 
   if (!response.ok) {
-    console.error('getList-errorResponse:', result.message);
+    // console.error('getList-errorResponse:', result.message);
     throw new Error(result.message || '오류가 발생했습니다.');
   }
 

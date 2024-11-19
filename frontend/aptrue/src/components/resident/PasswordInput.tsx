@@ -13,11 +13,11 @@ export default function PasswordInput({clipRQId}:{clipRQId:string}) {
 
   const changePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const onSubmit = async () => {
-    console.log('제출 폼')
+    // console.log('제출 폼')
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/clip/upload/${clipRQId}/link?clipRQId=${clipRQId}`, {
@@ -47,7 +47,7 @@ export default function PasswordInput({clipRQId}:{clipRQId:string}) {
 
     } catch (error) {
       setMessage('예기치 않은 오류가 발생했습니다.');
-      console.error('서버 오류:', error);
+      // console.error('서버 오류:', error);
     }
   }
 

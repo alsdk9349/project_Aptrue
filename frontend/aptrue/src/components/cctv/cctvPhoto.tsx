@@ -9,7 +9,7 @@ export default function CCTVPhoto({
   detailInfo: requestDetailInfo;
   handleClosePhoto: () => void;
 }) {
-  console.log('[*] 이미지 링크', detailInfo.images);
+  // console.log('[*] 이미지 링크', detailInfo.images);
 
   const [selectedImage, setSelectedImage] = useState<string>('');
 

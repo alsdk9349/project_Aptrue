@@ -39,7 +39,7 @@ export async function deleteAdminAction ({
             return { success:false, message:result.message}
             // setMessage(result.message)
             // setOpenErrorModal(true);
-            console.log('존재하지 않는 관리자입니다')
+            // console.log('존재하지 않는 관리자입니다')
 
         } else {
 

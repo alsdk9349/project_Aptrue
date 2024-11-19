@@ -497,7 +497,7 @@ export default function CCTVForm() {
       endDate,
       sections,
     };
-    console.log('[*]', requestBody);
+    // console.log('[*]', requestBody);
 
     try {
       console.log('[*] backend에 post 요청');
@@ -556,7 +556,7 @@ export default function CCTVForm() {
         setMessage('AI 서버 요청에 실패했습니다.');
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      // console.error('Error submitting form:', error);
       setMessage('제출에 실패했습니다. 다시 시도해 주세요.');
     }
   };

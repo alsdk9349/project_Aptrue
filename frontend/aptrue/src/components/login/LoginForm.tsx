@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import styles from './LoginForm.module.scss';
 import { useRecoilState } from 'recoil';
 import { adminState } from '@/state/atoms/admins';
-import Link from 'next/link';
 
 export default function LoginPage() {
 
@@ -34,7 +33,7 @@ export default function LoginPage() {
             return
         }
 
-        console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
+        // console.log('process.env.NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL)
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
             method: 'POST',
             headers: {
@@ -53,11 +52,11 @@ export default function LoginPage() {
 
         if (result.status === 200) {
             // 로그인 성공 시 관리자 페이지로 이동
-            console.log('로그인 성공')
+            // console.log('로그인 성공')
             router.push('/');
         } else {
             // alert(result.message); // 실패 메시지 표시
-            console.log('로그인 실패', result.message)
+            // console.log('로그인 실패', result.message)
         }
     };
 
@@ -85,8 +84,6 @@ export default function LoginPage() {
                 // required
             />
             <button type="submit">로그인</button>
-            <Link href={'/login/changePassword'} className={styles.password}>비밀번호 변경</Link>
-
             <div className={styles.error}>
                 {message}
             </div>

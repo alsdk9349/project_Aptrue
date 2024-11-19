@@ -25,27 +25,32 @@ export default function WebNav() {
 
   const handleLogout = async () => {
     try {
-      resetAdminState(); // 로컬스토리지 비우기
-      localStorage.removeItem('recoil-persist'); // persist된 데이터 삭제
 
       // 로그아웃 API 호출로 쿠키 제거
       const response = await fetch('/api/logout', {
           method: 'POST',
+          headers: {
+            'Content-Type':'application/json',
+          },
           credentials: 'include', // 쿠키 포함 설정
       });
 
-      console.log('응답 상태 코드:', response.status); // 상태 코드 확인
-      console.log('응답 데이터:', await response.json());
+      // console.log('응답 상태 코드:', response.status); // 상태 코드 확인
+      // console.log('응답 데이터:', await response.json());
 
       if (response.ok) {
-          console.log('로그아웃 성공');
-          router.push('/login'); // 로그인 페이지로 이동
+
+        // console.log('로그아웃 성공');
+        resetAdminState(); // 로컬스토리지 비우기
+        localStorage.removeItem('recoil-persist'); // persist된 데이터 삭제
+
+        router.push('/login'); // 로그인 페이지로 이동
       } else {
-          console.log('로그아웃 실패');
+          // console.log('로그아웃 실패');
       }
 
     } catch (error) {
-      console.log('로그아웃 에러', error);
+      // console.log('로그아웃 에러', error);
     }
   };
 
@@ -123,7 +128,7 @@ export default function WebNav() {
           <div className={style.iconWrapper}>
             <img src="/icons/logout.png" alt="" className={style.icon} />
           </div>
-          <span className={style.text}>로그아웃</span>
+          <span className={style.logoutText}>로그아웃</span>
         </div>
       </div>
     </div>

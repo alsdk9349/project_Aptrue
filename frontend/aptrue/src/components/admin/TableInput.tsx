@@ -35,39 +35,33 @@ export default function TableInput() {
     })
 
     // 필수 입력값이 모두 비어있지 않고 오류 메시지가 없는 경우
-    const canCreate = newAdmin.name.trim() && newAdmin.account.trim() && !passwordErrorMessage && !phoneErrorMessage;
+    const canCreate = newAdmin.name.trim() && newAdmin.account.trim() && newAdmin.password.trim()  && newAdmin.phone.trim() && !passwordErrorMessage && !phoneErrorMessage;
 
     // 비밀번호 전화번호 유효성검사
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 
-        setpasswordErrorMessage('')
-        setPhoneErrorMessage('')
+        // setpasswordErrorMessage('')
+        // setPhoneErrorMessage('')
         const {name, value} = event.target;
 
-        if (value === '') {
-            if (name === 'password') setpasswordErrorMessage('');
-            if (name === 'phone') setPhoneErrorMessage('');
-            
-        } else {
 
-            if (name==='password') {
-                if (!isValidPassword(value)) {
-                    setpasswordErrorMessage('특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
-                } else {
-                    setpasswordErrorMessage('')
-                }
+        if (name==='password') {
+            if (value && !isValidPassword(value)) {
+                setpasswordErrorMessage('특수문자, 알파벳, 숫자를 포함하여 8자 이상이어야 합니다')
+            } else {
+                setpasswordErrorMessage('')
             }
-
-            if (name==='phone') {
-                if (!isValidPhoneNumber(value)) {
-                    setPhoneErrorMessage('010-0000-0000 형식이어야 합니다')
-                } else {
-                    setPhoneErrorMessage('')
-                }
-            }
-
         }
 
+        if (value && name==='phone') {
+            if (!isValidPhoneNumber(value)) {
+                setPhoneErrorMessage('010-0000-0000 형식이어야 합니다')
+            } else {
+                setPhoneErrorMessage('')
+            }
+        }
+
+        
         setNewAdmin((prevData) => ({
             ...prevData,
             [name]: name === 'phone' ? formatPhoneNumber(value) : value
@@ -96,7 +90,7 @@ export default function TableInput() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`, // accessToken을 Authorization 헤더에 추가
+                    // 'Authorization': `Bearer ${accessToken}`, // accessToken을 Authorization 헤더에 추가
                 },
                 body: JSON.stringify(newAdmin),
                 credentials: 'include' // 쿠키를 포함해 서버와 통신(서버와의 인증을 위한 설정)
@@ -153,6 +147,7 @@ export default function TableInput() {
                 value={newAdmin.name}
                 placeholder='이름' 
                 onChange={handleChange}
+                className={styles.inputContainer}
                 required
                 />
             </div>
@@ -163,6 +158,7 @@ export default function TableInput() {
                 value={newAdmin.account}
                 placeholder='아이디' 
                 onChange={handleChange}
+                className={styles.inputContainer}
                 required
                 />
             </div>
@@ -173,9 +169,10 @@ export default function TableInput() {
                 value={newAdmin.password}
                 placeholder='비밀번호' 
                 onChange={handleChange}
+                className={styles.inputContainer}
                 required
                 />
-                { passwordErrorMessage && <div className={styles.validation}>{passwordErrorMessage}</div>}
+            { passwordErrorMessage && <div className={styles.validation}>{passwordErrorMessage}</div>}
             </div>
             <div className={styles.phoneNumber}>
                 <input 
@@ -184,15 +181,17 @@ export default function TableInput() {
                 value={newAdmin.phone}
                 placeholder='전화번호' 
                 onChange={handleChange}
+                className={styles.inputContainer}
                 required
                 />
-                {phoneErrorMessage && <div className={styles.validation}>{phoneErrorMessage}</div>}
-            </div>
+            {phoneErrorMessage && <div className={styles.validation}>{phoneErrorMessage}</div>}
+            </div> 
             <div className={styles.date}>
                 <input 
                 type="text" 
                 placeholder='등록일' 
                 value={format( new Date(), "yyyy-MM-dd", {locale:ko})}
+                className={styles.inputContainer}
                 readOnly
                 />
             </div>
@@ -205,6 +204,7 @@ export default function TableInput() {
                     등록
                 </button>
             </div>
+            <div className={styles.blank}><span></span></div>
             {isOpenErrorModal && 
             <ErrorModal message={message} isOpen={isOpenErrorModal} onClose={closeModal}/>
             }

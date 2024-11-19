@@ -1,26 +1,57 @@
 @use './../../styles/constants/colors.scss' as colors;
 
+.isColumnName {
+    background-color: colors.$gray2;
+    font-family: 'semibold';
+    font-size: 16px;
+    color: colors.$gray7;
+    border-bottom: solid 1px colors.$gray5;
+    z-index: 0;
+    min-height: 45px; // 최소 높이 설정
+}
+
+.isTableItem {
+    background-color: colors.$white;
+    // background-color: transparent;
+    font-family: 'regular';
+    font-size: 12px;
+    color: colors.$gray6;
+    z-index: 0;
+    min-height: 45px; // 최소 높이 설정
+}
+
+.isTableInput {
+    position: relative;
+    background-color: colors.$gray1;
+    font-family: 'regular';
+    font-size: 12px;
+    color: colors.$gray6;
+    z-index: 5;
+    min-height: 45px; // 최소 높이 설정
+
+}
+
 .container {
+    z-index: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: fit-content;
-    z-index: 1;
-    height: 45px;
-    position: relative; //
+    height: 45px; // 높이를 고정
+    overflow: hidden; // 내부 요소가 높이를 넘어서지 않도록 설정
 
-    input {
+    .inputContainer {
         width: 137px;
         height: 20px;
         border-radius: 5px;
         border: 0;
         background-color: colors.$white;
-        display: flex;
         text-align: center;
         font-size: 12px;
         font-family: 'regular';
         color: colors.$gray6;
+        z-index: 1;
 
         &::placeholder {
             font-size: 12px;
@@ -34,29 +65,29 @@
     }
 
     .validation {
-        background-color: colors.$white;
+        // background-color: colors.$white;
+        background-color: transparent;
         border-radius: 5px;
-        position:absolute;//
-        top:33px; //
-        box-sizing: border-box;
+        position: absolute;
+        top: 26px;
         z-index: 9999;
+        box-sizing: border-box;
         padding: 7px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        color:colors.$red;
+        width: 300px;
+        color: colors.$red;
         border: solid 0;
         font-family: 'regular';
         font-size: 10px;
-        max-width: 150px;
-        word-wrap: break-word; // Enable text wrapping within the box
-        white-space: normal;
+        // max-width: 150px;
+        // word-wrap: break-word;
+        // white-space: normal;
+        pointer-events: none; // `.validation`이 레이아웃에 영향 주지 않도록 설정
     }
 
-    .password, .phoneNumber {
-        position: relative;
-    }
+
 
     .buttonContainer {
         button {
@@ -68,10 +99,14 @@
             color: colors.$white;
             font-family: 'medium';
             font-size: 12px;
+
+            &:hover {
+                opacity: 0.8;
+            }
         }
 
         .blue {
-            background-color: colors.$blue4;
+            background-color: colors.$blue5;
         }
 
         .gray {
@@ -86,153 +121,26 @@
         align-items: center;
         box-sizing: border-box;
         border: solid 1px colors.$gray4;
+        z-index: 0;
     }
 
-    .no {
-        width: 52px;
-        height: 100%;
-    }
+    // 기본 너비 설정
+    .no { width: 52px; height: 100%; }
+    .name { width: 150px; height: 100%; }
+    .id { width: 170px; height: 100%; }
+    .password { width: 185px; height: 100%; }
+    .phoneNumber { width: 190px; height: 100%; }
+    .date { width: 170px; height: 100%; }
+    .blank { width: 90px; height: 100%; }
 
-    .name {
-        width: 150px;
-        height: 100%;
-    }
-
-    .id {
-        width: 170px;
-        height: 100%;
-    }
-
-    .password {
-        width: 185px;
-        height: 100%;
-    }
-
-    .phoneNumber {
-        width: 190px;
-        height: 100%;
-    }
-
-    .date {
-        width: 170px;
-        height: 100%;
-        .validation {
-    display: flex;
-    align-items: center;
-    color:colors.$red;
-    border: solid 0;
-    background-color: transparent;
-}
-    }
-
-    .blank {
-        width: 90px;
-        height: 100%;
-    }
-
-    @media (max-width: 1200px) {
-
-        input {
-            width: 110px;
-        }
-        .no {
-            width: 40px;
-        }
-        .name {
-            width: 120px;
-        }
-        .id {
-            width: 140px;
-        }
-        .password {
-            width: 150px;
-        }
-        .phoneNumber {
-            width: 160px;
-        }
-        .date {
-            width: 140px;
-        }
-        .blank {
-            width: 70px;
-        }
-    }
-
+    // 화면 크기가 768px 이하로 줄어들 때 반응형 설정
     @media (max-width: 768px) {
-        input {
-            width: 90px;
-        }
-        .no {
-            width: 35px;
-        }
-        .name {
-            width: 100px;
-        }
-        .id {
-            width: 120px;
-        }
-        .password {
-            width: 130px;
-        }
-        .phoneNumber {
-            width: 140px;
-        }
-        .date {
-            width: 120px;
-        }
-        .blank {
-            width: 60px;
-        }
+        .no { width: 45px; }
+        .name { width: 120px; }
+        .id { width: 140px; }
+        .password { width: 150px; }
+        .phoneNumber { width: 160px; }
+        .date { width: 140px; }
+        .blank { width: 70px; }
     }
-
-    @media (max-width: 480px) {
-        input {
-            width: 90px;
-        }
-        .no {
-            width: 30px;
-        }
-        .name {
-            width: 80px;
-        }
-        .id {
-            width: 100px;
-        }
-        .password {
-            width: 110px;
-        }
-        .phoneNumber {
-            width: 120px;
-        }
-        .date {
-            width: 100px;
-        }
-        .blank {
-            width: 50px;
-        }
-    }
-}
-
-.isColumnName {
-    background-color: colors.$gray2;
-    font-family: 'semibold';
-    font-size: 16px;
-    color: colors.$gray7;
-    border-bottom: solid 1px colors.$gray5;
-}
-
-.isTableItem {
-    background-color: colors.$white;
-    font-family: 'regular';
-    font-size: 12px;
-    color: colors.$gray6;
-    z-index: 10;
-}
-
-.isTableInput {
-    background-color: colors.$gray1;
-    font-family: 'regular';
-    font-size: 12px;
-    color: colors.$gray6;
-    z-index: 15;
 }

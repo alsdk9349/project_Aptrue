@@ -1,14 +1,18 @@
 
 
-
-
-
-.pagination {
-    // position: fixed;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 20px;
-    // left: 45%;
-    // bottom: 70px;
+.container {
+    z-index: 0;
+    background-color: transparent;
+    
+    .pagination {
+        // position: fixed;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: 20px 0px;
+        // left: 45%;
+        // bottom: 70px;
+    }
 }
+
+

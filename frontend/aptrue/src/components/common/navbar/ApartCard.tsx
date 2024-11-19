@@ -1,31 +1,38 @@
+'use client';
+
 import { notFound } from 'next/navigation';
 import style from './ApartCard.module.scss';
+import Cookies from 'js-cookie';
 
 const aptId = 1;
 
-const data = {
-  aptname: 'SSAFY Apt',
-  aptImg: 'https://picsum.photos/200/300', // 이미지 크기 지정
-  location: '광주광역시 하남산단로 133',
-  block: 2,
-  household: 10,
-};
+// const data = {
+//   aptname: 'SSAFY Apt',
+//   aptImg: 'https://picsum.photos/200/300', // 이미지 크기 지정
+//   location: '광주광역시 하남산단로 133',
+//   block: 2,
+//   household: 10,
+// };
 
 export default async function ApartCard() {
-  // // [todo]아파트 카드 API 호출 로직 작성
-  // const response = await fetch(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/apart/?aptId=${aptId}`,
-  //   {
-  //     method: 'GET',
-  //     credentials: 'include',
-  //   },
-  // );
-  // if (!response.ok) {
-  //   notFound();
-  // }
+  const accessToken = Cookies.get('accessToken');
+  // [todo]아파트 카드 API 호출 로직 작성
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/apart?aptId=${aptId}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+  if (!response.ok) {
+    notFound();
+  }
 
-  // const res = await response.json();
-  // const data = res.data;
+  const res = await response.json();
+  const data = res.data;
   // location을 분리하는 로직
   const [city, ...rest] = data.location.split(' ');
   const restLocation = rest.join(' ');

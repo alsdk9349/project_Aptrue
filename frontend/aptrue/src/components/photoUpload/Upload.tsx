@@ -53,7 +53,7 @@ export default function Upload() {
 
     // FormData에 추가된 파일 확인
     for (let [key, value] of formData.entries()) {
-      console.log(key, value);
+      // console.log(key, value);
     }
 
     //[todo] 입주민 이미지 업로드 api 호출 로직 작성
@@ -72,7 +72,7 @@ export default function Upload() {
       router.push(`/resident/${clipRQId}/complete`);
     }
     const data = await response.json();
-    console.log(previews);
+    // console.log(previews);
   };
 
   return (
@@ -93,18 +93,16 @@ export default function Upload() {
             </div>
           </div>
         ))}
-        {previews.length < 9 && ( // 9개 미만일 때만 업로드 버튼 표시
-          <div
-            className={previews.length === 0 ? style.upload : style.uploadSmall}
-            onClick={handleClick}
-          >
-            <img
-              src="/icons/camera.png"
-              alt="Upload"
-              className={style.uploadIcon}
-            />
-          </div>
-        )}
+        <div
+          className={previews.length === 0 ? style.upload : style.uploadSmall}
+          onClick={handleClick}
+        >
+          <img
+            src="/icons/camera.png"
+            alt="Upload"
+            className={style.uploadIcon}
+          />
+        </div>
       </div>
       <input
         type="file"

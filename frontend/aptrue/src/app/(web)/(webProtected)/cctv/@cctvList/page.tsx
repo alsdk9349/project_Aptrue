@@ -115,7 +115,7 @@ export default async function Page() {
   // const cookiesObj = cookies();
   // const accessToken = cookiesObj.get('accessToken')?.value;
   // console.log('[*] acessToken, cctvList 기본 page', accessToken);
-  console.log('[*] NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL);
+  // console.log('[*] NEXT_PUBLIC_BASE_URL', process.env.NEXT_PUBLIC_BASE_URL);
 
   // API에서 데이터를 가져옵니다.
   // api/clip/list/{page}/{limit}
@@ -133,16 +133,16 @@ export default async function Page() {
   );
 
   if (!response.ok) {
-    console.error(
-      `Failed to fetch data, status: ${response.status}`,
-      await response.text(),
-    );
+    // console.error(
+    //   `Failed to fetch data, status: ${response.status}`,
+    //   await response.text(),
+    // );
     throw new Error(`Failed to fetch data, status: ${response.status}`);
   }
 
   const result = await response.json();
 
-  console.log('[*] cctv page', result);
+  // console.log('[*] cctv page', result);
 
   return (
     <>

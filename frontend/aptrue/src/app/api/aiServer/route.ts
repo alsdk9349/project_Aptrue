@@ -11,7 +11,6 @@ export async function POST(req: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: req.headers.get('Authorization') || '', // 필요한 헤더 전달
       },
       body: JSON.stringify(body), // 요청 본문 전달
     });

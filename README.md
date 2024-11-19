@@ -2,11 +2,11 @@
 
 ![main](images/main.PNG)
 ## Index
-#### &emsp; [➤ 프로젝트 소개](##-프로젝트-소개)<br>
-#### &emsp; [➤ 개발 환경](##-개발-환경)<br>
-#### &emsp; [➤ 기능 소개](##-기능-소개)<br>
-#### &emsp; [➤ 산출물](##-산출물)<br>
-#### &emsp; [➤ 팀 소개](##-팀-소개)<br>
+#### &emsp; [➤ 프로젝트 소개](#프로젝트-소개)<br>
+#### &emsp; [➤ 개발 환경](#개발-환경)<br>
+#### &emsp; [➤ 기능 소개](#기능-소개)<br>
+#### &emsp; [➤ 산출물](#산출물)<br>
+#### &emsp; [➤ 팀 소개](#팀-소개)<br>
 
 ## 프로젝트 소개
 **AI를 활용한 아파트 CCTV 관리 서비스입니다.**
@@ -32,7 +32,7 @@
 
 ### 로그인
 - **로그인 화면**: 관리자 자신의 계정으로 로그인을 할 수 있습니다.
-|![Home](images/login/로그인.png)|
+![Home](images/login/로그인.png)
 
 
 ### 홈
@@ -41,9 +41,9 @@
 - **불법 주차 감지**: 불법 주차된 차량과 킥보드 등을 감지하여 알림을 보내 받을 수 있습니다.
 
 
-|![Home](images/home/home1.png)|
-|![Home](images/home/alarm_car.png)|
-|![Home](images/home/alarm_fire.png)|
+![Home](images/home/home1.png)
+![Home](images/home/alarm_car.png)
+![Home](images/home/alarm_fire.png)
 
 ### CCTV 요청
 - **요청 메인 페이지**: CCTV 민원 요청된 기록들을 볼 수 있습니다.
@@ -51,10 +51,10 @@
 - **요청 완료**: 요청이 완료된 후 처리된 영상을 볼 수 있습니다.
 
 
-|![crew_1](images/cctv/cctv_list.png)|
-|![crew_1](images/cctv/cctv_form.png)|
-|![crew_1](images/cctv/블러처리영상.png)|
-|![crew_1](images/cctv/원본영상.png)|
+![crew_1](images/cctv/cctv_list.png)
+![crew_1](images/cctv/cctv_form.png)
+![crew_1](images/cctv/블러처리영상.png)
+![crew_1](images/cctv/원본영상.png)
 
 ### 관리자 계정
 
@@ -63,9 +63,9 @@
 - **비밀번호 변경**: 해당 관리자를 클릭하여 비밀번호를 변경할 수 있습니다.
 
 
-|![battle_1](images/admin/admin_list.PNG)
-|![battle_2](images/admin/admin_create.PNG)
-|![battle_3](images/admin/admin_chagnePassword1.PNG)|
+![battle_1](images/admin/admin_list.PNG)
+![battle_2](images/admin/admin_create.PNG)
+![battle_3](images/admin/admin_chagnePassword1.PNG)
 
 
 

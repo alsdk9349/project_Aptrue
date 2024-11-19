@@ -402,6 +402,57 @@ export default function CCTVForm() {
     setActiveSubmit(false);
   };
 
+  const handleSubmitClick = async () => {
+    const requestBody = {
+      name,
+      phone,
+      email,
+      address,
+      password,
+      startDate,
+      endDate,
+      sections,
+    };
+    console.log('[*]', requestBody);
+
+    try {
+      console.log('[*] backend에 post 요청');
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/clipRQ/new`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(requestBody), // JSON 문자열로 변환하여 전송
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        console.log('[*] 에러임');
+        throw new Error('Failed to submit form');
+      }
+
+      console.log('[*] result', response);
+
+      const result = await response.json();
+      console.log('[*] result', result);
+
+      console.log('Form submitted successfully:', result);
+      setMessage('제출이 완료되었습니다!');
+
+      reset(); // 제출 후 폼 리셋
+      router.push('/cctv');
+      router.refresh();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setMessage('제출에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
   // const handleSubmitClick = async () => {
   //   const requestBody = {
   //     name,
@@ -486,82 +537,82 @@ export default function CCTVForm() {
   //   }
   // };
 
-  const handleSubmitClick = async () => {
-    const requestBody = {
-      name,
-      phone,
-      email,
-      address,
-      password,
-      startDate,
-      endDate,
-      sections,
-    };
-    // console.log('[*]', requestBody);
+  // const handleSubmitClick = async () => {
+  //   const requestBody = {
+  //     name,
+  //     phone,
+  //     email,
+  //     address,
+  //     password,
+  //     startDate,
+  //     endDate,
+  //     sections,
+  //   };
+  //   // console.log('[*]', requestBody);
 
-    try {
-      console.log('[*] backend에 post 요청');
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/clipRQ/new`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(requestBody),
-          credentials: 'include',
-        },
-      );
+  //   try {
+  //     console.log('[*] backend에 post 요청');
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/clipRQ/new`,
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //         body: JSON.stringify(requestBody),
+  //         credentials: 'include',
+  //       },
+  //     );
 
-      if (!response.ok) {
-        console.log('[*] 에러임');
-        throw new Error('Failed to submit form');
-      }
+  //     if (!response.ok) {
+  //       console.log('[*] 에러임');
+  //       throw new Error('Failed to submit form');
+  //     }
 
-      const result = await response.json();
-      console.log('[*] 백엔드 요청 성공:', result);
-      setMessage('제출이 완료되었습니다!');
+  //     const result = await response.json();
+  //     console.log('[*] 백엔드 요청 성공:', result);
+  //     setMessage('제출이 완료되었습니다!');
 
-      // AI 서버 호출
-      try {
-        console.log('[*] AI 서버에 POST 요청');
-        const aiRequestBody = {
-          ClipRQId: '1000',
-          adminID: '200',
-          imgNames: ['test', 'test'],
-          cctvNames: ['A1'],
-          createdAt: '2024-11-15T14:30:00',
-        };
+  //     // AI 서버 호출
+  //     try {
+  //       console.log('[*] AI 서버에 POST 요청');
+  //       const aiRequestBody = {
+  //         ClipRQId: '1000',
+  //         adminID: '200',
+  //         imgNames: ['test', 'test'],
+  //         cctvNames: ['A1'],
+  //         createdAt: '2024-11-15T14:30:00',
+  //       };
 
-        const aiResponse = await fetch('/api/proxy-ai-upload', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(aiRequestBody),
-        });
+  //       const aiResponse = await fetch('/api/proxy-ai-upload', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           // Authorization: `Bearer ${accessToken}`,
+  //         },
+  //         body: JSON.stringify(aiRequestBody),
+  //       });
 
-        if (!aiResponse.ok) {
-          const errorData = await aiResponse.json();
-          console.error('AI 요청 실패:', errorData);
-          throw new Error(`AI 요청 실패: ${errorData.error}`);
-        }
-        // 성공하면 요청 완료
-        reset(); // 폼 초기화
-        router.push('/cctv');
-        router.refresh();
-        console.log('[*] AI 요청 성공');
-      } catch (error) {
-        console.error('AI 서버 요청 중 에러:', error);
-        setMessage('AI 서버 요청에 실패했습니다.');
-      }
-    } catch (error) {
-      // console.error('Error submitting form:', error);
-      setMessage('제출에 실패했습니다. 다시 시도해 주세요.');
-    }
-  };
+  //       if (!aiResponse.ok) {
+  //         const errorData = await aiResponse.json();
+  //         console.error('AI 요청 실패:', errorData);
+  //         throw new Error(`AI 요청 실패: ${errorData.error}`);
+  //       }
+  //       // 성공하면 요청 완료
+  //       reset(); // 폼 초기화
+  //       router.push('/cctv');
+  //       router.refresh();
+  //       console.log('[*] AI 요청 성공');
+  //     } catch (error) {
+  //       console.error('AI 서버 요청 중 에러:', error);
+  //       setMessage('AI 서버 요청에 실패했습니다.');
+  //     }
+  //   } catch (error) {
+  //     // console.error('Error submitting form:', error);
+  //     setMessage('제출에 실패했습니다. 다시 시도해 주세요.');
+  //   }
+  // };
 
   const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);

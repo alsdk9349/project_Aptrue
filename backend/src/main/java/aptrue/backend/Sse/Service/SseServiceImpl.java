@@ -22,7 +22,7 @@ public class SseServiceImpl implements SseService {
     private final SseRepository sseRepository;
 
     public SseEmitter connect(String email) {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(30 * 60 * 1000L);
 
         sseRepository.save(email, emitter);
 
